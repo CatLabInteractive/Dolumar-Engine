@@ -37,13 +37,18 @@ class Neuron_Core_Text
 
 	public function __construct ($language = null, $baseText = 'en', $pathname = null)
 	{
+		if (!isset ($language) && defined ('LANGUAGE_TAG'))
+		{
+			$language = LANGUAGE_TAG;
+		}
+
 		if (!isset ($pathname))
 		{
 			$pathname = LANGUAGE_DIR;
 			$this->backup = new Neuron_Core_Text ($language, $baseText, CATLAB_LANGUAGE_PATH);
 		}
 
-		else if ($baseText && $baseText !== $language)
+		else if ($baseText && $baseText != $language)
 		{
 			$this->backup = new Neuron_Core_Text ($baseText, false);
 		}
@@ -53,12 +58,6 @@ class Neuron_Core_Text
 		{
 			$this->root_dir = $pathname.$language;
 			$this->tag = $language;
-		}
-		
-		elseif (defined ('LANGUAGE_TAG')) 
-		{
-			$this->root_dir = $pathname.LANGUAGE_TAG;
-			$this->tag = LANGUAGE_TAG;
 		}
 
 		else 
@@ -215,6 +214,8 @@ class Neuron_Core_Text
 	protected function load_file ($file)
 	{
 		$f = $this->root_dir.'/'.$file.'.lng';
+
+		echo $f . "\n";
 		
 		if (is_readable ($f)) 
 		{
@@ -260,5 +261,3 @@ class Neuron_Core_Text
 		return $this->tag;
 	}
 }
-
-?>
