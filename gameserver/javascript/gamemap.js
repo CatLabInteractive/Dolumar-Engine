@@ -599,7 +599,7 @@ Game.map =
 				{
 					var imgdetails = images[region['tiles'][x][y][i]];
 			
-					if (typeof (imgdetails) != 'undefined')
+					if (typeof (imgdetails) != 'undefined' && imgdetails)
 					{
 						var f = function ()
 						{
