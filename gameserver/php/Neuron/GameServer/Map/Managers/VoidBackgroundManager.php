@@ -7,7 +7,7 @@ class Neuron_GameServer_Map_Managers_VoidBackgroundManager
 	*/
 	public function getLocation (Neuron_GameServer_Map_Location $location, $objectcount = 0)
 	{
-		return null;
+		return array ();
 	}
 	
 	public function getTileSize ()
