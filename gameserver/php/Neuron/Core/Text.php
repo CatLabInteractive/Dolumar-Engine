@@ -8,6 +8,7 @@ class Neuron_Core_Text
 	protected $backup = false;
 	protected $inFile, $inSection;
 	protected $tag;
+	private $pathname;
 
 	/*
 		Return an instance
@@ -34,9 +35,15 @@ class Neuron_Core_Text
 		return self::__getInstance ();
 	}
 
-	public function __construct ($language = null, $baseText = 'en')
+	public function __construct ($language = null, $baseText = 'en', $pathname = null)
 	{
-		if ($baseText && defined ('LANGUAGE_DIR'))
+		if (!isset ($pathname))
+		{
+			$pathname = LANGUAGE_DIR;
+			$this->backup = new Neuron_Core_Text ($language, $baseText, CATLAB_LANGUAGE_PATH);
+		}
+
+		else if ($baseText && $baseText !== $language)
 		{
 			$this->backup = new Neuron_Core_Text ($baseText, false);
 		}
@@ -44,13 +51,13 @@ class Neuron_Core_Text
 		// Take text
 		if (isset ($language))
 		{
-			$this->root_dir = LANGUAGE_DIR.$language;
+			$this->root_dir = $pathname.$language;
 			$this->tag = $language;
 		}
 		
-		elseif (defined ('LANGUAGE_DIR') && defined ('LANGUAGE_TAG')) 
+		elseif (defined ('LANGUAGE_TAG')) 
 		{
-			$this->root_dir = LANGUAGE_DIR.LANGUAGE_TAG;
+			$this->root_dir = $pathname.LANGUAGE_TAG;
 			$this->tag = LANGUAGE_TAG;
 		}
 

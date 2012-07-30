@@ -1,0 +1,245 @@
+[main]
+noPremium = "This feature is only available for premium users."
+validateEmail = "In order to use this feature, you must first confirm your email address. Please check your mailbox and click the link in the confirmation mail. If you have not received this email, click the My Account menu to resend it."
+validateEmail_short = "In order to use this feature, you must first confirm your email address. Please check your mailbox and click the link in the confirmation mail."
+
+[tos]
+register = "By registering you confirm that you are at least 13 years old and that you accept our @@pp and @@tos."
+pp = "privacy policy"
+tos = "terms of service"
+
+[login]
+welcome = "Welcome!"
+login = "I'm afraid you'll have to login first."
+username = "Username"
+password = "Password"
+submit = "Login"
+toRegister = "to register a new account."
+toRequest = "if you forgot your password."
+login_title = "Login details"
+openid = "Login using OpenID login"
+gambic = "Login with Gambic Games account"
+
+[register]
+about = "Prepare yourself to enter the World of Dolumar!"
+register = "Please complete this form."
+submit = "Register Account"
+username = "Username"
+email = "E-mail"
+password = "Password"
+password2 = "Repeat Password"
+done = "Your account has been created."
+login = "You can login now."
+accept = "I accept the @@terms."
+terms = "Terms of Service"
+
+[locked]
+locked = "At the moment we only allow invited players. Do you know someone who has registered? Ask him for an invitation code."
+invitation = "So if you have received an invitation code, proceed with caution!"
+code = "Invitation Code"
+submit = "Next Step"
+invNotFound = "I can't find that invitation code: "
+legend = "Invitation"
+
+[selectRace]
+submit = "Next Step"
+select = "Welcome! Now choose a race and a starting position. Each race has its benefits."
+joinClan = "Join a clan"
+location = "Or select a starting position"
+selectRace = "Select race"
+selectLocation = "Starting Position"
+clanLocked = "locked"
+clanFull = "full"
+
+[clanPassword]
+about = "This clan is password protected. If you know the password, proceed."
+back = "Go back"
+joinClan = "Join @@clan"
+password = "Password"
+submit = "Join clan"
+wrongPass = "You provided a wrong password. Please try again."
+
+[language]
+language = "Select your language"
+submit = "Change Language"
+
+[errors]
+usernameFormat = "Wrong Input Format: Username."
+emailFound = "This E-mail address is already used."
+userFound = "This username is already in use. Please choose another one."
+passwordMismatch = "Your passwords don't match."
+passwordFormat = "Your password must be at least 3 characters long."
+emailFormat = "Wrong Input Format: E-mail."
+user_not_found = "Wrong username / password combination. Please try again."
+server_not_online = "The server is temporary offline due to configuration issues."
+clan_is_full = "The clan you've selected is full and can't accept anymore members. Please select another clan."
+no_location_found = "No suitable location close to your clan has been found. Please select another clan."
+
+[preferences]
+openBuilding = "Open Building Options"
+singleClick = "Single Mouse Click"
+doubleClick = "Double Mouse Click"
+minimap = "Minimap Position"
+bottomLeft = "Bottom Left"
+upperLeft = "Upper Left"
+bottomRight = "Bottom Right"
+upperRight = "Upper Right"
+change = "Apply Preferences"
+dragable = "Dragable"
+advertisement = "Advertisement"
+showAdvertisement = "Show advertisement"
+hideAdvertisement = "Hide advertisement"
+preferences = "Preferences"
+
+[nickname]
+welcome = "Welcome to Dolumar!"
+chooseName = "Before you can start playing you must choose a player name. Your nickname must be unique."
+username = "Nickname"
+submit = "Choose Nickname"
+error_username = "The syntax of your username is wrong. Your username should have at least 3 characters and only letters are allowed."
+user_found = "This nickname is already taken. Please choose another nickname."
+
+[profile]
+villages = "Villages"
+village = "Village"
+creation = "Join date"
+lastRef = "Last online"
+removal = "Removal date"
+onlineNow = "Online now"
+playerProfile = "Player profile"
+onlineAgo = "@@0 ago."
+clans = "Clans"
+status = "Status:"
+removed = "Abandoned"
+online = "Online"
+offline = "Offline"
+vacation = "On vacation"
+
+[choosemail]
+email_title = "E-mail verification"
+email = "E-mail"
+submit = "Validate E-mail address"
+about = "Your account has not been linked to an E-mail address yet. Some features might not be available."
+welcome = "Welcome, @@0!"
+certification = "We have received your E-mail address, but it hasn't been verified yet. We did sent you an e-mail with a secret link."
+toCertAgain = "to send the verification mail again."
+mail_subject = "Dolumar E-mail verification"
+email_exists = "That E-mail address has been used on this server before. You can only have one account per server."
+toReturn = "to return to the overview."
+invalid_syntax = "This is not a valid E-mail address."
+
+[myAccount]
+welcome = "Welcome, @@0."
+setEmail = "Confirm email address"
+todo = "Things to do:"
+logout = "Logout"
+premium = "Premium account"
+notPremium = "Your premium account has expired."
+toPremium = "to extend your premium account."
+premiumLast = "Your premium account is active. It will expire at @@0."
+changePass = "Change password"
+account = "Account Options"
+resetAccount = "Reset account"
+vacationMode = "Vacation mode"
+
+[changepass]
+changePass = "Change your password"
+pass1 = "Password"
+pass2 = "Repeat password"
+submit = "Change password"
+back = "Return to overview"
+password_mismatch = "Your passwords did not match."
+changed = "Your password has been changed."
+
+[resetaccount]
+about = "Sometimes, it's better to reset your account and start over. Instead of making a new account, you can reset your account here."
+emailcert = "You must validate your E-mail address before you can reset your account."
+confirm = "to reset your account. This action cannot be undone!"
+done = "We have initialized the Reset Account procedure. You have received an E-mail containing a link. Click this link to reset your account."
+msubject = "Dolumar Reset Account"
+yousure = "Are you sure you want to reset your account? You will respawn on a new location."
+instadone = "Your account has been reset."
+
+[premium]
+credits = "You have @@0 credits."
+toUseCredit = "to extend your premium account for 15 days."
+toBuyCredit = "to buy more credits."
+not_enough_credits = "You don't have enough credits."
+about_buy = "Please choose an amount and the currency you want to use. A safe checkout script will popup."
+currency = "Currency"
+amount = "Amount"
+perPiece = "p.p."
+proceed = "Proceed to checkout"
+unsufficient_credits = "I'm sorry, it looks like you don't have enough credits left."
+isoptional = "A premium account is @@optional. You can play this game for free."
+optional = "optional"
+validateEmail = "You must verify your E-mail address first."
+
+[premiumbenefits]
+about = "Dolumar is free to play. In order to keep it free for everyone, we have introduce premium accounts, offering these features:"
+bqueue = "Place build & upgrade actions in a queue, so they are executed while you are offline."
+uinfo = "Automatically calculate the amount of troops you can train."
+searchtool = "Advanced player and village search tool."
+tqueue = "Queue train units actions."
+
+[serverOffline]
+title = "Server temporary locked"
+about = "The server is temporary offline due to server issues. We hope to get the game back up and running as soon as possible."
+error = "Debug error:"
+daily_cron_failed = "It seems like the daily server cleanup failed."
+not_installed = "This server isn't installed yet. The daily cronjob has to be run first."
+
+[lostPassword]
+loggedIn = "You are already logged in."
+about = "This form allows you to reset your password. Please take in mind that this feature only works if you did provide a valid E-mail address."
+email = "Your E-mail address"
+submit = "Reset password"
+mail_subject = "Dolumar Lost Password"
+done = "We have sent you a new password."
+
+[openid]
+title = "OpenID Login"
+about = "Do you have an OpenID? Then why not use it in Dolumar?"
+legend = "OpenID Account"
+url = "OpenID Identity URL"
+submit = "Login"
+loginFail = "Login failed. Please provide a valid OpenID identity."
+whatIs = "What is OpenID?"
+popular = "Popular Providers"
+specify = "Specify Provider"
+toReturn = "to return to the login form."
+
+[vacationMode]
+title = "Vacation mode"
+about = "Going on holiday and don't want to lose your village? Put your account in vacation mode and be spared of total destruction."
+rules = "However, when you put your account in vacation mode, you can not reactive your account for at least seven days."
+activate = "Activate vacation mode"
+confirm = "Are you sure you want to activate vacation mode?"
+done = "Your account has been set in vacation mode. In seven days you can play again. Have a good time!"
+active = "Your account is in vacation mode. It has been so since @@since. Please note that when you leave vacation mode, you cannot enter it again for 14 days."
+disable = "Leave vacation mode"
+disabled = "Welcome back! We've missed you!"
+too_early = "It's too early to get back. You can only reactivate your account after 7 days."
+vacation_limit = "You cannot enter vacation mode at this time. You have been in vacation mode within the last 14 days."
+vacation_disabled = "Vacation mode is disabled at the moment. I'm afraid you can't leave now."
+
+[logbook]
+title = "Logbook"
+nologs = "Nothing happened yet. Look for some action and I'll tell you what happened here."
+
+[invite]
+invite = "Invite your friends to play Dolumar and earn free runes. For every friend you refer, you will receive one random rune."
+legend = "Send this URL to your friends to receive the bonus:"
+url = "Personal referal URL"
+
+[ignorelist]
+about = "Here you can manage the players that you are currently ignoring. When you ignore someone, he cannot contact you using private messages and you don't see his chat messages."
+ignoring = "People you are ignoring"
+notIgnoring = "You are not ignoring anyone."
+ignore = "Ignore player"
+nickname = "Player nickname"
+button = "Ignore"
+unignore = "stop ignoring"
+player_not_found = "The player you are trying to ignore could not be found. Please check your spelling."
+ignore_yourself = "You cannot ignore yourself."
+validateEmail = "You must verify your E-mail address first."

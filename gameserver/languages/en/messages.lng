@@ -1,0 +1,38 @@
+[inbox]
+toNewMsg = "to send a new message."
+
+[read]
+msg_from = "From"
+msg_to = "To"
+toInbox = "to return to your inbox."
+toOutbox = "to return to your outbox."
+reply = "reply"
+remove = "remove"
+
+[write]
+write = "Write new message"
+sent = "Your message has been sent."
+toInbox = "to return to your inbox."
+player_not_found = "Your target could not be found. Please check your input."
+yourMessage = "Your message"
+to = "To"
+subject = "Subject"
+message = "Message"
+sendMessage = "Send your message"
+
+[messages]
+from = "From"
+to = "To"
+date = "Date"
+toInbox = "To inbox"
+toOutbox = "To outbox"
+subject = "Subject"
+inbox = "Inbox"
+outbox = "Outbox"
+noSubject = "No Subject"
+banned = "You have been banned from the messages system. You can use this feature again in @@duration."
+read = "Read this message"
+remove = "Remove this message"
+confirmremove = "Are you sure you want to remove this message?"
+message = "Message"
+nomessages = "You have not received any messages yet."

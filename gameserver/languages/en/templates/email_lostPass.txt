@@ -1,0 +1,17 @@
+Hello @@nickname!
+
+We have received a Lost Password request for Dolumar.
+
+You can use this password to login at Dolumar:
+
+Username:
+@@nickname
+
+Password:
+@@password
+
+Please bear in mind that you can only use this password once.
+When you have logged in, change your password as soon as possible.
+
+Have fun!
+Dolumar.

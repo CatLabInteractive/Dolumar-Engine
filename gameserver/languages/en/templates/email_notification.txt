@@ -1,0 +1,12 @@
+Hi @@nickname,
+
+Your village needs you!
+@@message
+
+Quickly login to Dolumar now:
+@@loginurl
+
+Greetings!
+
+(Don't want to receive any emails anymore? 
+Unsubscribe: @@unsubsribe)

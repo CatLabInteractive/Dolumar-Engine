@@ -1,0 +1,11 @@
+Hey @@0!
+
+You have activated the Reset Account procedure.
+This is your final chance to go back and save your village.
+
+However, if you do want to reset your account, click this link:
+
+@@1
+
+Have fun!
+The Dolumar team.

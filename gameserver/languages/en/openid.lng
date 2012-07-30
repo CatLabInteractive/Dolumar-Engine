@@ -1,0 +1,12 @@
+[register]
+about = "Dolumar is a persistent browser based game. You will battle against thousands of players, fighting for your spot in the world."
+btnRegister = "Create new character"
+btnLogin = "Load existing character"
+register = "New Character"
+aboutRegister = "If you already have a character on this server, you can login in now. Otherwise, click create."
+register = "Create a character"
+login = "Load Character"
+wrongLogin = "Your username and password are not found. Please try again."
+username = "Username:"
+password = "Password:"
+doLogin = "Login"

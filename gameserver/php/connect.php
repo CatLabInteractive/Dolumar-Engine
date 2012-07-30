@@ -14,6 +14,7 @@ ini_set ('session.use_cookies', 0);
 ini_set ('session.use_only_cookies', 0);
 
 define ('CATLAB_BASEPATH', dirname (dirname (__FILE__)) . '/');
+define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
 define ('PEAR_BASEPATH', dirname (dirname (dirname (__FILE__))) . '/pear/');
 
 // Define cookie path

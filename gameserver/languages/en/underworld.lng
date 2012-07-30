@@ -1,0 +1,20 @@
+[squad]
+squads = "Regiments"
+players = "Players"
+promote = "promote"
+demote = "demote"
+actions = "Commands"
+move = "Move army"
+movepoints = "(@@0 movepoints left)"
+merge = "Are you sure you want to merge this army with @@0? You might lose leadership."
+attack = "Are you sure you want to attack this army with @@0? It might take a while."
+split = "Split up army"
+
+[status]
+normal = "soldier"
+leader = "leader"
+
+[errors]
+cannot_promote = "You are not authorized to promote that player."
+cannot_demote = "You are not authorized to demote that player."
+move_not_authorized = "You are not authorized to command this army."

@@ -1,0 +1,10 @@
+[chat]
+chat = "Chat"
+send = "Send"
+login = "You have to login before you can start sending messages."
+tos = "terms of service"
+rules = "The use of this chat is subject to our @@tos. Please behave."
+channel = "You are now talking in @@channel."
+banned = "You have been banned. You can chat again in @@duration."
+registerfirst = "Please register first before chatting."
+oldermessages = "Load older messages"

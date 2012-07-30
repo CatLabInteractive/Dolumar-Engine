@@ -1,0 +1,18 @@
+[login]
+login = "Please login"
+submit = "Login"
+username = "Username"
+password = "Password"
+user_not_found = "Username or password mismatch."
+
+[clearmultis]
+title = "Clear multis"
+about = "Select the multi accounts to clear. Every selected account will be cleared with every selected account. For example, if you select account A, B and C, following connections will be cleared: A-B, B-C, A-C."
+clear = "Select accounts to clear"
+submit = "Clear accounts"
+clearances = "Current clearances"
+newclearances = "Add new clearance"
+noclearances = "No clearances"
+remove = "remove"
+reason = "User relation:"
+suspected = "Suspicious transactions"

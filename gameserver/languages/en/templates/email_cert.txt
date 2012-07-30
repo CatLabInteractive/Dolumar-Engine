@@ -1,0 +1,10 @@
+Hey @@0!
+
+You have given up this E-mail address in Dolumar.
+If you didn't, please ignore this E-mail.
+
+If you did, however, click this link to verify your E-mail address:
+@@1
+
+Have fun!
+The Dolumar team.
