@@ -12,6 +12,6 @@ class Neuron_GameServer_Map_Managers_VoidBackgroundManager
 	
 	public function getTileSize ()
 	{
-		return array (200, 100, 0);
+		return array (2000, 2000, 2000);
 	}
 }
