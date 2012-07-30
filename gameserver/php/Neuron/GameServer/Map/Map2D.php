@@ -6,7 +6,7 @@ class Neuron_GameServer_Map_Map2D
 	private $mapobjectloader;
 	
 	/**
-		Use these methods to declare the loaders.
+	*	Use these methods to declare the loaders.
 	*/
 	public function setBackgroundManager (Neuron_GameServer_Map_Managers_BackgroundManager $loader)
 	{
@@ -19,14 +19,14 @@ class Neuron_GameServer_Map_Map2D
 	}
 	
 	/**
-		Getters (as defined in the interface)
+	*	Getters (as defined in the interface)
 	*/
 	
 	/**
-		Return a list of all images to preload
-		(DisplayObject objects)
-		
-		(overload to use!)	
+	*	Return a list of all images to preload
+	*	(DisplayObject objects)
+	*	
+	*	(overload to use!)	
 	*/
 	public function getPreloadDisplayObjects ()
 	{
@@ -35,11 +35,21 @@ class Neuron_GameServer_Map_Map2D
 	
 	public function getBackgroundManager ()
 	{
+		if (!isset ($this->backgroundloader))
+		{
+			$this->backgroundloader = new Neuron_GameServer_Map_Managers_VoidBackgroundManager ();
+		}
+
 		return $this->backgroundloader;
 	}
 	
 	public function getMapObjectManager ()
 	{
+		if (!isset ($this->mapobjectloader))
+		{
+			$this->mapobjectloader = new Neuron_GameServer_Map_Managers_VoidObjectManager ();
+		}
+
 		return $this->mapobjectloader;
 	}
 	
