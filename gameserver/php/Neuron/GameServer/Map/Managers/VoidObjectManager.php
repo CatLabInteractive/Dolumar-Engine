@@ -1,6 +1,6 @@
 <?php
 class Neuron_GameServer_Map_Managers_VoidObjectManager
-	implements Neuron_GameServer_Map_Managers_BackgroundManager
+	extends Neuron_GameServer_Map_Managers_MapObjectManager
 {
 	/**
 	*	Return all display objects that are within $radius
