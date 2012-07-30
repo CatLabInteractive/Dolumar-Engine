@@ -449,6 +449,12 @@ Game.map =
 		}
 		
 		Game.core.sSessionId = json['session_id'];
+
+		if (json['images'].length === 0)
+		{
+			Game.map.startDrawingRegions (json);
+			return;
+		}
 		
 		Game.map.loadJustInTimeImages 
 		(
