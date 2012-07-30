@@ -1,0 +1,532 @@
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+a,
+a:visited
+{
+	color: #ee0000;
+}
+
+body
+{
+	background: #eee;
+	font-family: Verdana, sans-serif;
+	font-size: 10px;
+}
+
+h1
+{
+	text-align: center;
+	font-family: serif;
+	padding: 20px 0px 10px 0px;
+	font-size: 30px;
+	font-weight: normal;
+}
+
+#container
+{
+	margin: 0px auto;
+	background: white;
+	border: 1px solid black;
+	width: 900px;
+}
+
+#navigation
+{
+	width: 20%;
+	float: left;
+}
+
+#navigation div
+{
+	margin: 5px;
+	border: 1px solid gray;
+	padding: 5px;
+}
+
+#navigation div li
+{
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+#navigation div p
+{
+	padding: 5px;
+}
+
+#content
+{
+	width: 80%;
+	float: left;
+}
+
+#content div
+{
+	margin: 5px;
+	border: 1px solid gray;
+	padding: 5px;
+	margin-left: 0px;
+}
+
+ul
+{
+	list-style-type: none;
+}
+
+li
+{
+	margin: 2px 6px 2px 6px;
+}
+
+/* Tables */
+table
+{
+	border-collapse: collapse;
+	width: 100%;
+	border-bottom: 2px solid gray;
+	margin-bottom: 15px;
+}
+
+table td
+{
+	border: 1px solid gray;
+	padding: 2px 5px;
+	font-family: Verdana, sans-serif;
+	font-size: 10px;
+}
+
+table tr.first td
+{
+	border-top: 2px solid gray;
+}
+
+table td.ip
+{
+	width: 150px;
+	text-align: center;
+}
+
+table td.date
+{
+	width: 125px;
+	text-align: center;
+}
+
+table td.actions
+{
+	width: 150px;
+	text-align: center;
+}
+
+table td.action
+{
+	width: 100px;
+	text-align: center;
+}
+
+table td.reason
+{
+	text-align: center;
+}
+
+table td.status
+{
+	width: 50px;
+	text-align: center;
+}
+
+table td.player
+{
+	width: 120px;
+	text-align: center;
+}
+
+table tr.diff td
+{
+	background: #ffc;
+}
+
+table tr.important td
+{
+
+}
+
+table tr.important td.log
+{
+	padding-left: 22px;
+	background-image: url('../icons/admin/warning.gif');
+	background-repeat: no-repeat;
+	background-position: 2px center;
+}
+
+/*
+	Forms
+*/
+form
+{
+	margin-top: 5px;
+}
+
+label,
+input,
+textarea
+{
+	display: block;
+}
+
+input
+{
+	width: 200px;
+	border: 1px solid gray;
+}
+
+input.checkbox
+{
+	width: auto;
+	float: left;
+	margin-right: 5px;
+}
+
+textarea
+{
+	width: 500px;
+	border: 1px solid gray;
+	height: 200px;
+}
+
+textarea.small
+{
+	height: 50px;
+}
+
+legend
+{
+	margin: 0px 5px;
+	font-size: 11px;
+	padding-right: 10px;
+	padding-left: 5px;
+}
+
+fieldset
+{
+	border: 1px solid #ccc;
+	margin-bottom: 2px;
+}
+
+fieldset ol
+{
+	list-style-type: none;
+	padding: 2px 5px;
+	margin-bottom: 5px;
+}
+
+fieldset ol li
+{
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+fieldset p
+{
+	padding: 4px 15px;
+}
+
+.hidden
+{
+	display: none;
+}
+
+table.autowidth
+{
+	width: auto;
+}
+
+tr.types
+{
+	background: #FFFFE3;
+}
+
+tr.type0
+{
+	background: #E7FFDF;
+}
+
+tr.type1
+{
+	background: #E3FBE9;
+}
+
+tr.type2
+{
+	background: #CFFEF0;
+}
+
+tr.type3
+{
+	background: #E6FCFF;
+}
+
+tr.type4
+{
+	background: #EEEEFF;
+}
+
+tr.type5
+{
+	background: #DBF0F7;
+}
+
+tr.type6
+{
+	background: #EFEDFC;
+}
+
+tr.type7
+{
+	background: #F4D2F4;
+}
+
+tr.type8
+{
+	background: #F1ECFF;
+}
+
+tr.type9
+{
+	background: #FDF2FF;
+}
+
+tr.type10
+{
+	background: #FFECF5;
+}
+
+#content div.page-navigation
+{
+	height: 15px;
+	border: 0px none black;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.page-navigation p.next
+{
+	float: right;
+	width: 150px;
+	text-align: right;
+	padding: 1px;
+}
+
+div.page-navigation p.previous
+{
+	float: left;
+	width: 150px;
+	padding: 1px;
+}
+
+h3
+{
+	margin-top: 5px;
+	margin-bottom: 3px;
+}
+
+ul
+{
+	margin-bottom: 10px;
+}
+
+ul.actions li
+{
+	margin-bottom: 5px;
+}
+
+#navigation ul
+{
+	margin: 0px;
+}
+
+#content table td div.text
+{
+	margin: 0px;
+	padding: 1px;
+	border: 0px none black;
+}
+
+td.reason
+{
+	text-align: center;
+}
+
+td.action
+{
+	width: 16px;
+}
+
+td.action a span
+{
+	display: none;
+}
+
+td.action a.accept
+{
+	display: block;
+	background-image:url('../icons/admin/accept.png');
+	width: 16px;
+	height: 16px;
+}
+
+td.action a.deny
+{
+	display: block;
+	background-image:url('../icons/admin/delete.png');
+	width: 16px;
+	height: 16px;
+}
+
+td.bans
+{
+	width: 250px;
+	text-align: right;
+}
+
+/* Do not show cleared multis. */
+table#multihunter tr.cleared
+{
+	display: none;
+}
+
+table#multihunter tr.cleared td
+{
+	background:url('../images/background_green.png');
+}
+
+table#multihunter tr td.cleared
+{
+	background:url('../images/background_green.png');
+}
+
+p.information,
+div.information
+{
+	background:url('../images/background_blue.png');
+	border: 1px solid #004eff;
+	padding: 5px;
+	min-height: 30px;
+}
+
+p.information span.info-icon,
+div.information span.info-icon
+{
+	background:url('../images/information.png');
+	float: left;
+	width: 30px;
+	height: 30px;
+	display: block;
+	margin-right: 5px;
+}
+
+ul.clearances
+{
+	list-style-type: square;
+	margin-left: 15px;
+}
+
+ul.clearances li
+{
+	margin-bottom: 7px;
+}
+
+#mod_action_history tr.approved
+{
+	background: #e6ffbe;
+}
+
+#mod_action_history tr.declined
+{
+	background: #ffe0e0;
+}
+
+#mod_action_history tr.pending
+{
+	background: #fff9bc;
+}
+
+#mod_action_history tr.nextrecord,
+#mod_action_history tr.nextrecord td
+{
+	border-bottom: 1px solid black;
+}
+
+#overDiv table,
+#overDiv table *
+{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	border: 0px none black;
+}
+
+#overDiv table table td
+{
+	padding: 5px;
+	width: 100px;
+}
+
+#overDiv table a
+{
+	text-decoration: none;
+}
+
+form#login input
+{
+	width: 150px;
+}
+
+div#container.login
+{
+	padding: 10px;
+	width: 200px;
+	margin-top: 15px;
+}
+
+p.false
+{
+	border: 1px solid red;
+	padding: 5px;
+	color: red;
+	margin-top: 5px;
+}
+
+div.pagelist
+{
+	text-align: center;
+}
+
+div.pagelist span.current a
+{
+	font-weight: bold;
+	color: blue;
+}
+
+form#timeframe
+{
+	margin-top: 10px;
+}
+
+form#timeframe fieldset,
+form#timeframe fieldset ol
+{
+	border: 0px none black;
+	padding: 0px;
+	margin: 0px;
+	text-align: right;
+}
+
+form#timeframe li.buttons,
+form#timeframe legend
+{
+	display: none;
+}

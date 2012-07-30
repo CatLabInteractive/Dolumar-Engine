@@ -1,0 +1,40 @@
+body
+{
+	font-size: 12px;
+	direction: rtl;
+}
+
+table
+{
+	direction: ltr;
+}
+
+td
+{
+	direction: rtl;
+}
+
+span.resource
+{
+	font-size: 10px;
+}
+
+#menu ul
+{
+	direction: ltr;
+}
+
+#menu li
+{
+	direction: rtl;
+}
+
+td.date
+{
+	font-size: 10px;
+}
+
+.dolumar_title 
+{
+	float:right;
+}

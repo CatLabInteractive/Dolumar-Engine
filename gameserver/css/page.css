@@ -1,0 +1,333 @@
+*
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+a
+{
+	color: #ff0000;
+}
+
+a:visited
+{
+	color: #cc0000;
+}
+
+html
+{
+	height: 100%;
+}
+
+body
+{
+	font-family: Verdana, sans-serif;
+	font-size: 10px;
+}
+
+h1
+{
+	text-align: center;
+	font-family: serif;
+	padding: 20px 0px 10px 0px;
+	font-size: 30px;
+	font-weight: normal;
+}
+
+#container
+{
+	margin: 0px auto;
+}
+
+#content
+{
+	width: 100%;
+}
+
+#content div
+{
+	margin: 5px;
+	padding: 5px;
+	margin-left: 0px;
+}
+
+ul
+{
+	list-style-type: none;
+}
+
+li
+{
+	margin: 2px 6px 2px 6px;
+}
+
+/* Tables */
+table
+{
+	border-collapse: collapse;
+	width: 100%;
+	border-bottom: 2px solid gray;
+	margin-bottom: 15px;
+}
+
+table td
+{
+	border: 1px solid gray;
+	padding: 2px 5px;
+}
+
+table tr.first td
+{
+	border-top: 2px solid gray;
+}
+
+table td.ip
+{
+	width: 150px;
+	text-align: center;
+}
+
+table td.date
+{
+	width: 150px;
+	text-align: center;
+}
+
+table td.actions
+{
+	width: 150px;
+	text-align: center;
+}
+
+table td.player
+{
+	width: 120px;
+	text-align: center;
+}
+
+table tr.diff td
+{
+	background: #ffc;
+}
+
+table tr.important td
+{
+
+}
+
+table tr.important td.action
+{
+	padding-left: 22px;
+	background-image: url('../icons/admin/warning.gif');
+	background-repeat: no-repeat;
+	background-position: 2px center;
+}
+
+/*
+	Forms
+*/
+form
+{
+	margin-top: 5px;
+}
+
+label,
+input,
+textarea
+{
+	display: block;
+}
+
+input
+{
+	width: 100px;
+	border: 1px solid gray;
+}
+
+textarea
+{
+	width: 500px;
+	border: 1px solid gray;
+	height: 200px;
+}
+
+legend
+{
+	margin: 0px 15px;
+}
+
+fieldset ol
+{
+	list-style-type: none;
+	padding: 2px 2px;
+}
+
+fieldset p
+{
+	padding: 4px 15px;
+}
+
+.hidden
+{
+	display: none;
+}
+
+table.autowidth
+{
+	width: auto;
+}
+
+tr.types
+{
+	background: #fff2be;
+}
+
+tr.type0
+{
+	background: #e6ffbe;
+}
+
+tr.type1
+{
+	background: #befff8;
+}
+
+tr.type2
+{
+	background: #becfff;
+}
+
+tr.type3
+{
+	background: #ffbedb;
+}
+
+tr.type4
+{
+	background: #ffcdbe;
+}
+
+#content div.page-navigation
+{
+	height: 15px;
+	border: 0px none black;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.page-navigation p.next
+{
+	float: right;
+	width: 150px;
+	text-align: right;
+	padding: 1px;
+}
+
+div.page-navigation p.previous
+{
+	float: left;
+	width: 150px;
+	padding: 1px;
+}
+
+h3
+{
+	margin-top: 5px;
+	margin-bottom: 3px;
+}
+
+ul
+{
+	margin-bottom: 10px;
+}
+
+ul.actions li
+{
+	margin-bottom: 5px;
+}
+
+#navigation ul
+{
+	margin: 0px;
+}
+
+p.details
+{
+	padding: 5px;
+	border: 1px solid orange;
+	background: #fff2d9;
+}
+
+p.image
+{
+	margin-right: 5px;
+}
+
+div.fancybox
+{
+	border: 1px solid #FFCC00;
+	background:url('../images/background_yellow.png');
+}
+
+#content div.fancybox.unit
+{
+	padding: 5px 5px 5px 5px;
+}
+
+#content div.fancybox.unit table
+{
+	margin: 0px 0px 0px 0px;
+	border-bottom: 1px solid #FFCC00;
+	margin: 0px 2px 2px 0px;
+}
+
+#content div.fancybox.unit table,
+#content div.fancybox.unit table td,
+#content div.fancybox.unit table th
+{
+	border: 1px solid #FFCC00;
+}
+
+span.stat-frontage
+{
+}
+
+table.table-units tr.stats td
+{
+	text-align: center;
+}
+
+div.equipment-report
+{
+	width: 900px;
+}
+
+div.equipment-report div.equipment
+{
+	clear: left;
+}
+
+div.equipment-report div.equipment-level
+{
+	float: left;
+	width: 200px;
+	border: 1px solid gray;
+	background: white;
+}
+
+#content div.equipment-report div.equipment-level div.text
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+div.equipment-report h2
+{
+	clear: left;
+	font-size: 150%;
+}
+
+div.clearer
+{
+	clear: left;
+}

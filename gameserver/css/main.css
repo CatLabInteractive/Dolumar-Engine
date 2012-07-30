@@ -1,0 +1,484 @@
+html
+{
+	overflow: auto;
+}
+
+body
+{
+	width: 100%;
+	background: black;
+	font-size: 10px;
+	font-family: 'Verdana', serif;
+}
+
+* 
+{
+	margin: 0px; 
+	padding: 0px; 
+	font-size: inherit;
+}
+
+img
+{
+	border: none;
+}
+
+/*
+	GUI
+*/
+.panel
+{
+	/*
+	filter:alpha(opacity=80);
+	-moz-opacity: 0.8;
+	opacity: 0.8;
+	*/
+}
+
+.toolbar
+{
+	background: #ccbb88;
+}
+
+.status
+{
+	color: yellow;
+}
+
+.status a.speedup
+{
+	font-weight: bold;
+}
+
+p, h2, h3
+{
+	padding: 2px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.dialog table.table_window div.guiwindow table td
+{
+	vertical-align: top;
+}
+
+.dialog table.table_window div.guiwindow table p, 
+.dialog table.table_window div.guiwindow table h2, 
+.dialog table.table_window div.guiwindow table h3
+{
+	padding: 1px;
+}
+
+h2
+{
+	/*font-size: 12px;*/
+	font-size: 120%;
+}
+
+h3
+{
+	/*font-size: 11px;*/
+	font-size: 110%;
+	border-bottom: 1px solid black;
+}
+
+.fancybox-content h3
+{
+	border-bottom: 0px none black;
+}
+
+h4
+{
+	font-weight: bold;
+	font-size: 100%;
+}
+
+ul, ol
+{
+	margin-left: 5px;
+	list-style-type: none;
+}
+
+/*
+	Map
+*/
+#minimapViewport
+{
+	border: 1px solid white;
+}
+
+div#map, div#minimap
+{
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	overflow: hidden;
+	position: absolute;
+	background-image:url(../images/loading.gif);
+	background-repeat: repeat;
+	
+}
+
+img.clickable,
+div.clickable
+{
+	/*
+	background: white;
+	filter:alpha(opacity=20);
+	-moz-opacity: 0.2;
+	opacity: 0.2;
+	*/
+	cursor: pointer;
+}
+
+/*
+	Page list
+*/
+div.pagelist
+{
+	text-align: center;
+	margin: 0px;
+	border-top: 1px solid #FFCC00;
+	border-bottom: 1px solid #FFCC00;
+}
+
+div.pagelist span
+{
+	border: 1px solid #FFCC00;
+	margin: 1px;
+	padding: 2px;
+	display: inline;
+	background-color: #FFFFCC;
+}
+
+div.pagelist span.active a
+{
+	font-weight: bold;
+	color: red;
+}
+
+div.pagelist span a
+{
+	text-decoration: none;
+}
+
+div.pagelist.top
+{
+	margin-top: 5px;
+	margin-bottom: 2px;
+}
+
+div.pagelist.bottom
+{
+	margin-top: 2px;
+	margin-bottom: 5px;
+}
+
+div.pagelist span.next
+{
+	margin-left: 2px;
+}
+
+div.pagelist span.previous
+{
+	margin-right: 2px;
+}
+
+/*
+	Icons
+*/
+img.icon-building
+{
+
+}
+
+/*
+	My little text conversion
+*/
+div.text
+{
+	padding: 2px;
+}
+
+div.text ul
+{
+	list-style-type: square;
+	margin-left: 10px;
+	padding-left: 10px;
+	margin-bottom: 5px;
+}
+
+div.text img
+{
+	max-width: 100px;
+	margin: 5px;
+}
+
+div.text img.noresize
+{
+	max-width: 1500px;
+	margin: 5px;
+}
+
+div.text img.smiley,
+div.text img.bbcode_smiley
+{
+	margin: 0px;
+}
+
+div.text p
+{
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+/* 
+	QUOTES
+*/
+blockquote,
+div.bbcode_quote
+{
+	border: 1px solid gold;
+	margin: 5px;
+	padding: 5px;
+}
+
+blockquote h4
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+div.shaded
+{
+	opacity: 0.4;
+}
+
+#map_cancel_warning
+{
+	position: absolute;
+	z-index: 5001;
+	right: 15px;
+	top: 45px;
+	color: black;
+	padding: 0px;
+	margin: 0px;
+}
+
+#map_cancel_warning p
+{
+	padding: 5px 8px;
+	margin: 0px;
+}
+
+/*
+	Loading icons
+*/
+div#loading_signal
+{
+	background:url('../images/ajax-loader.gif');
+	position: absolute;
+	z-index: 502;
+	right: 30px;
+	top: 50px;
+	width: 43px;
+	height: 11px;
+}
+
+div#loading_signal span
+{
+	display: none;
+}
+
+div#bodyDiv.busy
+{
+	cursor: wait;
+}
+
+a.selected
+{
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+}
+
+.resize-corner
+{
+	width: 20px;
+	height: 20px;
+	background:url('../images/resize.gif');
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+}
+
+.resize-corner:hover
+{
+	cursor: ne-resize;
+}
+
+div.halfsize
+{
+	width: 50%;
+	float: left;
+}
+
+div.clearer
+{
+	clear: both;
+}
+
+.hidden-iframe
+{
+	position: absolute;
+}
+
+a.lightbox img
+{
+	background: white;
+	padding: 3px;
+	border: 1px solid gray;
+}
+
+/*
+	Lists
+*/
+ul.regular,
+ol.regular
+{
+	padding-left: 15px;
+	margin-bottom: 5px;
+}
+
+ul.regular li,
+ol.regular li
+{
+	padding-top: 2px;
+}
+
+ul.regular
+{
+	list-style-type: disc;
+}
+
+ol.regular
+{
+	list-style-type: decimal;
+}
+
+.dialog table.table_window div.guiwindow table
+{
+	border-collapse: collapse;
+}
+
+.dialog table.table_window div.guiwindow table td
+{
+	padding: 2px;
+}
+
+/**
+
+	Feedback
+*/
+#myotziv_box
+{
+	z-index: 90000;
+}
+
+/**
+* Chat window
+*/
+.chatwindow .header
+{
+	border-bottom: 1px solid black;
+}
+
+.chatwindow .chat-container
+{
+	height: 80%;
+	margin: 0;
+	padding: 0;
+}
+
+.chatwindow .messagecontainer
+{
+	height: 100%;
+	overflow: auto;
+}
+
+.chatwindow .send 
+{
+	background: white;
+	height: 20px;
+}
+
+.chatwindow .send form ol li
+{
+	clear: none;
+}
+
+.chatwindow .send form ol li.input
+{
+	float: left;
+	width: 75%;
+}
+
+.chatwindow .send form ol li.input input
+{
+	border: 0 none black;
+	padding: 5px 0;
+	margin: 0;
+	width: 100%;
+}
+
+.chatwindow .send form ol li.button
+{
+	float: left;
+	width: 25%;
+}
+
+.chatwindow .send form ol li.button button
+{
+	border: 0 none black;
+	padding: 5px 0;
+	margin: 0;
+	width: 100%;
+	text-align: center;
+}
+
+.chatwindow .message
+{
+	border-top: 1px solid gold;
+	background:url('../images/chatbackground.png');
+	background-position: center top;
+	background-repeat: repeat-x;
+}
+
+.chatwindow .message .from
+{
+	float: left;
+	padding-left: 3px;
+}
+
+.chatwindow .message .date
+{
+	float: right;
+	padding-right: 3px;
+}
+
+.chatwindow .message .text
+{
+	clear: both;
+	margin-bottom: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
+	overflow: hidden;
+}
+
+.chatwindow .older
+{
+	text-align: center;
+	padding: 10px;
+}

@@ -1,0 +1,70 @@
+.tiledImageViewer {
+	background: url(images/maploading.png);
+	position: relative;
+	overflow: hidden;
+}
+
+.tiledImageViewer div.image {
+	position: absolute;
+}
+
+.tiledImageViewer .rect {
+	position: absolute;
+	border: 1px solid #F00;
+	-moz-opacity: 0.5;
+}
+
+.tiledImageViewer .rect div {
+	background-color: #FFF;
+}
+
+.tiledImageViewer div.dpad {
+	position: absolute;
+	top: 14px;
+	left: 14px;
+	width: 44px;
+	height: 44px;
+	background: url(images/dpad.png) top left no-repeat;
+}
+
+.tiledImageViewer div.dpad div {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+	cursor: pointer;
+}
+
+.tiledImageViewer div.dpad div.up {
+	top: 0;
+	left: 14px;
+}
+
+.tiledImageViewer div.dpad div.right {
+	top: 14px;
+	left: 28px;
+}
+
+.tiledImageViewer div.dpad div.down {
+	top: 28px;
+	left: 14px;
+}
+
+.tiledImageViewer div.dpad div.left {
+	top: 14px;
+	left: 0;
+}
+
+/* THANK YOU IE!! */
+
+/* END OF CRUCIAL STUFF */
+#map map
+{
+	border: 0px solid blue;
+}
+
+div.minimap
+{
+	bottom: 0px;
+	left: 0px;
+	border: 1px solid black;
+}

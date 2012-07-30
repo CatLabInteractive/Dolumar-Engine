@@ -1,0 +1,273 @@
+/* Color stuff */
+button, input, textarea, select
+{
+	background: white;
+	/*font-size: 11px;*/
+	font-family: Verdana;
+	font-size: 10px;
+}
+
+button, input.submit
+{
+	padding: 5px 2px;
+}
+
+textarea.fullwidth, input.fullwidth
+{
+	width: 100%;
+}
+
+button
+{
+	clear: left;
+	display: block;
+	margin: 0px 5px 5px 5px;
+}
+
+input.hidden
+{
+	display: none;
+}
+
+fieldset
+{
+	border: 1px solid #cccccc;
+}
+
+.fancybox fieldset
+{
+	border: 0px none black;
+}
+
+label
+{
+	clear: both;
+	display: block;
+	/*font-size: 10px;*/
+	font-family: Verdana;
+	padding: 1px 5px;
+}
+
+legend
+{
+	/*font-size: 10px;*/
+	font-family: Verdana;
+	margin: 0px 4px;
+	padding: 0px 2px;
+	color: black;
+	font-weight: bold;
+}
+
+label.checkbox
+{
+	float: left;
+	display: block;
+	margin-left: 0px;
+	clear: none;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding: 0px;
+}
+
+input.checkbox
+{
+	float: left;
+	clear: left;
+	margin-top: 4px;
+	width: auto;
+	background: none;
+	border: 0px solid none;
+}
+
+input, textarea, select
+{
+	display: block;
+	margin: 0px 5px 5px 5px;
+	/*font-size: 11px;*/
+	clear: left;
+}
+
+select, input, button, textarea
+{
+	padding: 2px;
+	border: 1px solid #dddddd;
+}
+
+textarea
+{
+	/*font-size: 10px;*/
+}
+
+fieldset
+{
+	margin-bottom: 2px;
+}
+
+fieldset p
+{
+	margin: 5px;
+}
+
+fieldset ol
+{
+	margin: 0px;
+}
+
+fieldset ol li
+{
+	clear: both;
+	padding-top: 2px;
+}
+
+fieldset ol li label
+{
+	float: left;
+	width: 125px;
+	text-align: right;
+}
+
+fieldset.centered ol li label
+{
+	float: left;
+	width: 45%;
+	text-align: right;
+}
+
+fieldset.centered.long-labels ol li label
+{
+	width: 60%;
+}
+
+fieldset ol li label.checkbox
+{
+	padding: 0px 5px 0px 35px;
+	float: none;
+	text-align: left;
+	width: auto;
+}
+
+fieldset ol li input,
+fieldset ol li button
+{
+	clear: none;
+	float: left;
+}
+
+fieldset ol li input.checkbox
+{
+	margin-left: 15px;
+}
+
+fieldset ol li input
+{
+	width: 100px;
+}
+
+fieldset ol li select
+{
+	width: 100px;
+	float: left;
+	clear: none;
+}
+
+fieldset ol li select.large
+{
+	width: 250px;
+}
+
+fieldset.lines ol li label
+{
+	text-align: left;
+	clear: left;
+	float: none;
+	width: auto;
+}
+
+fieldset.lines ol li select
+{
+	clear: left;
+	float: none;
+	width: auto;
+}
+
+fieldset ol li div.buttons
+{
+	margin-top: 5px;
+	padding-left: 135px;
+}
+
+fieldset.centered ol li div.buttons
+{
+	text-align: center;
+	padding: 0px;
+}
+
+fieldset.centered ol li div.buttons button
+{
+	display: inline;
+	float: none;
+}
+
+/* Simple form */
+fieldset.nolegend
+{
+	padding-top: 5px;
+}
+
+fieldset.nolegend legend
+{
+	display: none;
+}
+
+fieldset.simpleform ol label
+{
+	float: none;
+	text-align: left;
+	width: auto;
+}
+
+fieldset ol li span
+{
+	font-size: 10px;
+	font-family: Arial, serif;
+	padding: 2px 0px;
+	display: block;
+	float: left;
+}
+
+fieldset ol li span.available
+{
+	color: green;
+}
+
+fieldset ol li button span
+{
+	display: inline;
+	font-family: inherit;
+	padding: inherit;
+	float: none;
+	font-size: inherit;
+}
+
+input.small.number
+{
+	width: 50px;
+}
+
+div.rightbutton button,
+li.rightbutton button
+{
+	float: right;
+	margin-right: 0px;
+	margin-top: 5px;
+}
+
+select.village
+{
+	width: 150px;
+}
+
+select.building
+{
+	width: 180px;
+}

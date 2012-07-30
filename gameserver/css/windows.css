@@ -1,0 +1,133 @@
+/*
+	This file contains window specific css rules
+*/
+.chat .chatcontainer
+{
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.chat div.chatdiv
+{
+	overflow: scroll;
+	overflow-x: hidden;
+	position: absolute;
+	top: 0px;
+	bottom: 35px;
+	width: 100%;
+}
+
+.chat div.chatdiv div.chat-message
+{
+	border: 1px solid #dddddd;
+	border-left: 2px solid #dddddd;
+	margin-bottom: 2px;
+}
+
+.chat div.chatdiv div.chat-message p.date
+{
+	float: right;
+}
+
+.chat div.chatdiv div.clan
+{
+	border-left: 2px solid #ff8b23;
+}
+
+.chat div.chatdiv div.clan div.text p
+{
+	color: #ff8b23;
+}
+
+.chat div.chatdiv div.me div.text p
+{
+	 font-style: italic;
+	 color: #777;
+}
+
+.chat div.chatdiv div.message
+{
+	border-left: 2px solid #3a00e1;
+}
+
+.chat div.chatdiv div.message.mine
+{
+	border-left: 2px solid #ebc700;
+}
+
+.chat div.chatdiv div.message div.text p
+{
+	color: #3a00e1;
+}
+
+.chat div.chatdiv div p
+{
+	padding: 1px 2px;
+	margin: 0px;
+}
+
+.chat div.chatdiv div.system p
+{
+	font-weight: bold;
+}
+
+.chatform
+{
+	position: absolute;
+	bottom: 1px;
+	width: 100%;
+}
+
+.chat form legend,
+.chat form label
+{
+	display: none;
+}
+
+.chat form fieldset
+{
+	border: none;
+	background: white;
+}
+
+.chat form input
+{
+	float: left;
+	margin: 0px;
+	width: 62%;
+	border: none;
+	background: white;
+}
+
+.chat form button
+{
+	clear: none;
+	float: right;
+	margin: 0px;
+	width: 35%;
+}
+
+input.openid
+{
+	background-image:url('../images/openid.gif');
+	background-repeat: no-repeat;
+	background-position: bottom left;
+	padding-left: 18px;
+}
+
+p.openid
+{
+	background-color: white;
+	background-image:url('../images/openid.gif');
+	background-repeat: no-repeat;
+	background-position: 2px 1px;
+	padding-left: 22px;
+	color: black;
+	border: 1px solid gray;
+}
+
+p.openid a
+{
+	color: black;
+}

@@ -1,0 +1,10 @@
+.dialog table.table_window div.guiwindow table
+{
+	width: 90%;
+	border: 0 none black;
+}
+
+#menu ul.right li div
+{
+	margin-left: -150px;
+}
