@@ -214,8 +214,6 @@ class Neuron_Core_Text
 	protected function load_file ($file)
 	{
 		$f = $this->root_dir.'/'.$file.'.lng';
-
-		echo $f . "\n";
 		
 		if (is_readable ($f)) 
 		{
