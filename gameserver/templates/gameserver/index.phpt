@@ -199,30 +199,5 @@
 			<?=$_SESSION['tracker_html']?>
 		<?php } ?>
 		
-		<!-- Feedback -->
-		<script type="text/javascript">
-			reformal_wdg_w    = "600";
-			reformal_wdg_h    = "490";
-			reformal_wdg_domain    = "dolumar";
-			reformal_wdg_mode    = 0;
-			reformal_wdg_title   = "Dolumar";
-			reformal_wdg_ltitle  = "Feedback";
-			reformal_wdg_lfont   = "Verdana, Geneva, sans-serif";
-			reformal_wdg_lsize   = "10px";
-			reformal_wdg_color   = "#1f0d00";
-			reformal_wdg_bcolor  = "#2e2711";
-			reformal_wdg_tcolor  = "#FFFFFF";
-			reformal_wdg_align   = "right";
-			reformal_wdg_waction = 0;
-			reformal_wdg_vcolor  = "#c7b768";
-			reformal_wdg_cmline  = "#E0E0E0";
-			reformal_wdg_glcolor  = "#5e3f24";
-			reformal_wdg_tbcolor  = "#FFFFFF";
-			 
-			reformal_wdg_bimage = "bea4c2c8eb82d05891ddd71584881b56.png";
-		 
-		</script>
-
-		<script type="text/javascript" language="JavaScript" src="http://idea.informer.com/tabn2v4.js?domain=dolumar"></script><noscript><a href="http://dolumar.idea.informer.com">Dolumar feedback</a> <a href="http://idea.informer.com"> Powered by <img src="http://widget.idea.informer.com/tmpl/images/widget_logo.jpg" /></a></noscript>
 	</body>
 </html>

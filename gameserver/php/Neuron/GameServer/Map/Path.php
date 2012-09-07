@@ -37,4 +37,16 @@ class Neuron_GameServer_Map_Path
 	
 		return $out;
 	}
+
+	public function serialize ()
+	{
+		$out = array ();
+
+		foreach ($this->path as $v)
+		{
+			$out[] = array ($v[0], $v[1]);
+		}
+
+		return json_encode ($out);
+	}
 }

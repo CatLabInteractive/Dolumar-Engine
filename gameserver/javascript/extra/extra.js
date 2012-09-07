@@ -5,6 +5,19 @@ Game.extra.fireworks =
 {
 	'isPrepared' : false,
 
+	'isHoliday' : function ()
+	{
+		var today = new Date();
+		
+		// new year
+		if (today.getDate () == 1 && today.getMonth () == 0)
+		{
+			return true;
+		}
+
+		return false;
+	},
+
 	'start' : function ()
 	{
 		if (!Game.extra.fireworks.isPrepared)
@@ -30,8 +43,8 @@ Game.extra.fireworks =
 	
 	'workfire' : function ()
 	{
-		JSFX.Fire(40, 100, 100);
-		//setTimeout("JSFX.Fire(40, 100, 100)", 1000);
+		//JSFX.Fire(40, 100, 100);
+		setTimeout("JSFX.Fire(40, 100, 100)", 1000);
 	},
 	
 	'stop' : function ()
@@ -40,4 +53,7 @@ Game.extra.fireworks =
 	}
 }
 
-//Game.core.observe ('mapLoad', Game.extra.fireworks.start);
+if (Game.extra.fireworks.isHoliday ())
+{
+	Game.core.observe ('mapLoad', Game.extra.fireworks.start);
+}

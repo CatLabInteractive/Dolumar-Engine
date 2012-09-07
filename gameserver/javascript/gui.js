@@ -35,6 +35,17 @@ Game.gui =
 	'oDialog' : null,
 	
 	'appname' : CONFIG_GAME_NAME,
+
+	// To replace the old system
+	'profiler' : {
+		'add' : function (string)
+		{
+			if ($('profiler'))
+			{
+				$('profiler').value = profiler;
+			}
+		}
+	},
 	
 	'initAnalytics' : function ()
 	{
@@ -407,10 +418,7 @@ Game.gui =
 		
 		// Profiler
 		var profiler = runtime.getElementsByTagName('profiler')[0].firstChild.data;
-		if ($('profiler'))
-		{
-			$('profiler').value = profiler;
-		}
+		Game.gui.profiler.add (profiler);
 		
 		try
 		{

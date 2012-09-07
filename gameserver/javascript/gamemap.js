@@ -464,6 +464,11 @@ Game.map =
 				Game.map.startDrawingRegions (json);
 			}
 		);
+
+		if (typeof (json.profiler) != 'undefined')
+		{
+			Game.gui.profiler.add (json.profiler);
+		}
 	},
 	
 	'startDrawingRegions' : function (json)
@@ -1106,7 +1111,7 @@ Game.map =
 	*/
 	'onObjectClick' : function (div, command)
 	{
-		console.log (div);
+		//console.log (div);
 		command ();
 	}
 }

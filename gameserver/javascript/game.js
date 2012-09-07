@@ -431,7 +431,7 @@ Game.core =
 		document.getElementsByTagName("head")[0].appendChild(e); 
 		*/
 		
-		LazyLoader.load (CONFIG_GAME_URL + 'client/javascript/' + filename, onload);
+		LazyLoader.load (CONFIG_GAME_URL + 'gameserver/javascript/' + filename, onload);
 	}
 }
 

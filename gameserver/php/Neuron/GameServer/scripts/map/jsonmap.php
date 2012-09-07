@@ -290,6 +290,8 @@ $output['parsetime'] = $pgen->gen (4);
 $output['servertime'] = date (API_DATE_FORMAT);
 $output['session_id'] = session_id ();
 
+$output['profiler'] = $profiler->getOutput ();
+
 // Output JSON
 $profiler->start ('Generating output');
 
@@ -311,4 +313,3 @@ switch ($sOutput)
 	break;
 }
 $profiler->stop ();
-?>

@@ -45,6 +45,11 @@ img
 	color: yellow;
 }
 
+.status a
+{
+	color: yellow;
+}
+
 .status a.speedup
 {
 	font-weight: bold;
