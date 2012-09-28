@@ -14,7 +14,7 @@ class Neuron_GameServer_Player_Guide
 			FROM
 				players 
 			WHERE
-				removalDate IS NOT NULL
+				removalDate IS NULL
 		");
 
 		foreach ($players as $v)
