@@ -1,6 +1,39 @@
 <?php
 class Neuron_GameServer_Player_Guide
 {
+	public function static addMessage ($template, $data, $character = 'guide', $mood = 'neutral', $highlight = '')
+	{
+		$db = Neuron_DB_Database::getInstance ();
+		
+		$data = Neuron_GameServer_LogSerializer::encode ($data);
+		
+		$players = $db->query
+		("
+			SELECT
+				plid
+			FROM
+				players 
+			WHERE
+				removalDate IS NOT NULL
+		");
+
+		foreach ($players as $v)
+		{
+			$db->query
+			("
+				INSERT INTO
+					n_players_guide
+				SET
+					plid = {$v['plid']},
+					pg_template = '{$db->escape ($template)}',
+					pg_character = '{$db->escape ($character)}',
+					pg_mood = '{$db->escape ($mood)}',
+					pg_data = '{$db->escape ($data)}',
+					pg_highlight = '{$db->escape ($highlight)}'
+			");
+		}
+	}
+
 	public function __construct (Neuron_GameServer_Player $profile)
 	{
 		$this->objProfile = $profile;
