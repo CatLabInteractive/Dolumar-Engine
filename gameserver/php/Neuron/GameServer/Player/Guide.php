@@ -1,7 +1,7 @@
 <?php
 class Neuron_GameServer_Player_Guide
 {
-	public function static addMessage ($template, $data, $character = 'guide', $mood = 'neutral', $highlight = '')
+	public function static addPublicMessage ($template, $data, $character = 'guide', $mood = 'neutral', $highlight = '')
 	{
 		$db = Neuron_DB_Database::getInstance ();
 		
