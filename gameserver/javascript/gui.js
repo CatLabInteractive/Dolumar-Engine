@@ -324,6 +324,29 @@ Game.gui =
 	{		
 		var data = transport.responseXML;
 		data = data.getElementsByTagName('root')[0];
+
+		console.log (data);
+
+		var commands = data.getElementsByTagName('command');
+		for (var i = 0; i < commands.length; i ++)
+		{
+			try
+			{
+				var command = commands[i].attributes.getNamedItem('command').value;
+				console.log (command);
+			
+				switch (command)
+				{
+					case 'refresh':
+						location.reload (true);
+					break;
+				}
+			}
+			catch (e)
+			{
+				//alert (e.message);
+			}
+		}
 		
 		// Fetch the new windows
 		var aNewWindows = data.getElementsByTagName('openwindow');

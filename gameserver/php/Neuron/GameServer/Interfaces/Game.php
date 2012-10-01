@@ -15,5 +15,10 @@ interface Neuron_GameServer_Interfaces_Game
 	public function getInitialWindows ($objServer);
 	
 	public function getMap ();
+
+	/**
+	* If this function returns content, the page will be reloaded & the output will be showed;
+	*/
+	public function getCustomOutput ();
 }
 ?>

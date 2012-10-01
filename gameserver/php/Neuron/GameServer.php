@@ -251,6 +251,18 @@ class Neuron_GameServer
 			break;
 
 			case 'dialog':
+
+				// A little overwrite 
+				$output = $this->objGame->getCustomOutput ();
+				if ($output)
+				{
+					header("Content-Type: text/xml; charset=utf-8;");
+					
+					echo '<?xml version="1.0" encoding="utf-8"?>';
+					echo '<root><command command="refresh"></command></root>';
+					return;	
+				}
+
 				require_once (self::SCRIPT_PATH.'dialog/dialog.php');
 			break;
 	
@@ -561,6 +573,14 @@ class Neuron_GameServer
 	
 	private function showIndexPage ()
 	{
+		// A little overwrite 
+		$output = $this->objGame->getCustomOutput ();
+		if ($output)
+		{
+			echo $output;
+			exit;
+		}
+
 		if (!$this->getRidOfSessionID ())
 		{
 			return;
