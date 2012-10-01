@@ -944,6 +944,9 @@ Game.gui =
 		right = right > 0 ? parseInt (right) : null;
 		left = left > 0 ? parseInt (left) : null;
 		top = top > 0 ? parseInt (top) : null;
+
+		var div;
+		var completeWindow;
 	
 		if (oWindowXML.attributes.getNamedItem('type').value == 'window')
 		{
@@ -981,6 +984,9 @@ Game.gui =
 			win = new Window (settings);
 			
 			div = $(win.getContent ());
+			completeWindow = $(win.element);
+
+
 			Game.gui.setHTMLFromXML (div, content);
 			
 			//div.update(content);
@@ -993,6 +999,7 @@ Game.gui =
 			div.style.display = 'none';
 			$('bodyDiv').appendChild (div);
 			win = null;
+			completeWindow = div;
 		}
 		
 		// Bar
@@ -1000,6 +1007,7 @@ Game.gui =
 		{
 			// Create new (extended) div
 			div = new Element('div');
+			completeWindow = div;
 
 			div.style.width = width;
 			div.style.height = height;
@@ -1025,6 +1033,7 @@ Game.gui =
 		if (className != null)
 		{
 			div.addClassName(className);
+			completeWindow.addClassName(className);
 		}
 		
 		var iPollInterval = parseInt(oWindowXML.attributes.getNamedItem('pollInterval').value);

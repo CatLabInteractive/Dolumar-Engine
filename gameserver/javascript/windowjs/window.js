@@ -594,7 +594,7 @@ Window.prototype = {
     if (this.options.url)
       content= "<iframe frameborder=\"0\" name=\"" + id + "_content\"  id=\"" + id + "_content\" src=\"" + this.options.url + "\"> </iframe>";
     else
-      content ="<div id=\"" + id + "_content\" class=\"" +className + "_content\"> </div>";
+      content ="<div id=\"" + id + "_content\" class=\""+ className +"_content_inner2\"> </div>";
 
     var closeDiv = this.options.closable ? "<div class=\""+ className +"_close\" id=\""+ id +"_close\" onclick=\"Windows.close('"+ id +"', event)\"> </div>" : "";
     var minDiv = this.options.minimizable ? "<div class=\""+ className + "_minimize\" id=\""+ id +"_minimize\" onclick=\"Windows.minimize('"+ id +"', event)\"> </div>" : "";
@@ -610,13 +610,11 @@ Window.prototype = {
           <td class=\""+ className +"_ne\"></td>\
         </tr>\
       </table>\
-      <table id=\""+ id +"_row2\" class=\"mid table_window\">\
-        <tr>\
-          <td class=\""+ className +"_w\"></td>\
-            <td id=\""+ id +"_table_content\" class=\""+ className +"_content\" valign=\"top\">" + content + "</td>\
-          <td class=\""+ className +"_e\"></td>\
-        </tr>\
-      </table>\
+      <div id=\""+ id +"_table_content\" class=\""+ className +"_content\">\
+        <div class=\""+ className +"_content_inner1\" id=\""+ id +"_content_inner1\">\
+          " + content + "\
+        </div>\
+      </div>\
         <table id=\""+ id +"_row3\" class=\"bot table_window\">\
         <tr>\
           <td class=\""+ className +"_sw\"></td>\
@@ -1086,13 +1084,19 @@ Window.prototype = {
     this.heightS = Element.getDimensions(div).height;    
     div.parentNode.removeChild(div)
 
+    /*
     var div = this._createHiddenDiv(this.options.className + "_e")
     this.widthE = Element.getDimensions(div).width;    
     div.parentNode.removeChild(div)
+    */
 
+    /*
     var div = this._createHiddenDiv(this.options.className + "_w")
     this.widthW = Element.getDimensions(div).width;
     div.parentNode.removeChild(div);
+    */
+    this.widthW = $(this.getId () + '_content_inner1').getStyle ('padding-left') || 0;
+    this.widthE = $(this.getId () + '_content_inner1').getStyle ('padding-right') || 0;
     
     var div = document.createElement("div");
     div.className = "overlay_" + this.options.className ;
