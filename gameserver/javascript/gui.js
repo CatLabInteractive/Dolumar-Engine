@@ -325,20 +325,28 @@ Game.gui =
 		var data = transport.responseXML;
 		data = data.getElementsByTagName('root')[0];
 
-		console.log (data);
-
 		var commands = data.getElementsByTagName('command');
 		for (var i = 0; i < commands.length; i ++)
 		{
 			try
 			{
 				var command = commands[i].attributes.getNamedItem('command').value;
-				console.log (command);
 			
 				switch (command)
 				{
 					case 'refresh':
-						location.reload (true);
+
+						$('bodyDiv').fade
+						(
+							{ 
+								duration: 5.0,
+								afterFinish : function ()
+								{
+									window.location.reload();
+								}
+							}
+						);
+
 					break;
 				}
 			}
