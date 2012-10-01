@@ -986,6 +986,12 @@ Game.gui =
 			div = $(win.getContent ());
 			completeWindow = $(win.element);
 
+			if (className != null)
+			{
+				completeWindow.addClassName(className);
+				win._getWindowBorderSize ();
+			}
+
 
 			Game.gui.setHTMLFromXML (div, content);
 			
@@ -1033,7 +1039,6 @@ Game.gui =
 		if (className != null)
 		{
 			div.addClassName(className);
-			completeWindow.addClassName(className);
 		}
 		
 		var iPollInterval = parseInt(oWindowXML.attributes.getNamedItem('pollInterval').value);
