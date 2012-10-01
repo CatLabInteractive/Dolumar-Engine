@@ -823,6 +823,7 @@ Window.prototype = {
     
     if (typeof left == "undefined")
       left = (pageSize.windowWidth - (this.width + this.widthW + this.widthE))/2;
+
     left += windowScroll.left      
     this.setLocation(top, left);
     this.toFront();
@@ -1095,8 +1096,8 @@ Window.prototype = {
     this.widthW = Element.getDimensions(div).width;
     div.parentNode.removeChild(div);
     */
-    this.widthW = $(this.getId () + '_content_inner1').getStyle ('padding-left') || 0;
-    this.widthE = $(this.getId () + '_content_inner1').getStyle ('padding-right') || 0;
+    this.widthW = parseFloat($(this.getId () + '_content_inner1').getStyle ('padding-left'));
+    this.widthE = parseFloat($(this.getId () + '_content_inner1').getStyle ('padding-right'));
     
     var div = document.createElement("div");
     div.className = "overlay_" + this.options.className ;
