@@ -14,6 +14,7 @@ class BBGS_Credits
 	//const PAYMENT_GATEWAY_URL = 'http://daedeloth.dyndns.org/bbgs/credits/default/spend/';
 	const PAYMENT_GATEWAY_URL = 'https://credits.catlab.eu/default/spend/';
 	const TRACKER_GATEWAY_URL = 'https://credits.catlab.eu/default/tracker/';
+	const NEWSLETTER_GATEWAY_URL = 'https://credits.catlab.eu/default/mail/';
 
 	public function __construct ($gametoken, $site = null)
 	{
@@ -293,6 +294,18 @@ class BBGS_Credits
 		
 		return $this->getSignedURL (self::PAYMENT_GATEWAY_URL.'buy/', $data);
 	}
+
+	public function sendNewsletter ($subject, $content, $text, $language)
+	{
+		$data = array ();
+
+		$data['newsletter_subject'] = $subject;
+		$data['newsletter_content'] = $content;
+		$data['newsletter_text'] = $text;
+		$data['newsletter_language'] = $language;
+
+		return $this->file_get_contents ($this->getSignedURL (self::NEWSLETTER_GATEWAY_URL.'send/', $data));
+	}
 	
 	/*
 		Request the URL to approve a credit transfer
@@ -548,4 +561,3 @@ class BBGS_Credits
 		return $data;
 	}
 }
-?>
