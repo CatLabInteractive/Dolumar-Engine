@@ -13,16 +13,20 @@ class Neuron_GameServer_Credits
 	private $objCredits;
 	
 	private $convertcache = array ();
+
+	public static function getPureCreditsObject ()
+	{
+		$out = new BBGS_Credits (PREMIUM_GAME_TOKEN);
+		$out->setPrivateKey (file_get_contents (BASE_PATH . 'gameserver/php/Neuron/GameServer/certificates/credits_private.cert'));
+
+		return $out;
+	}
 	
 	public function __construct (Neuron_GameServer_Player $objUser)
 	{
 		$this->objUser = $objUser;
 		
-		$this->objCredits = new BBGS_Credits (PREMIUM_GAME_TOKEN);
-		
-		// Load token
-		$this->objCredits->setPrivateKey (
-			file_get_contents (BASE_PATH . 'gameserver/php/Neuron/GameServer/certificates/credits_private.cert'));
+		$this->objCredits = self::getPureCreditsObject ();
 		
 		if ($this->objUser->isEmailCertified ())
 		{
@@ -259,4 +263,3 @@ class Neuron_GameServer_Credits
 		return $this->error;
 	}
 }
-?>
