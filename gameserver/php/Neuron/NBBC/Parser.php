@@ -145,7 +145,7 @@ class Neuron_NBBC_Parser
 			)
 		);
 		
-		return '<div class="text">'.$bbcode->Parse ($code).'</div>';
+		return '<div class="text">'.@$bbcode->Parse ($code).'</div>';
 	}
 	
 	// Format a [quote] tag.  This tag can come in a variety of flavors:

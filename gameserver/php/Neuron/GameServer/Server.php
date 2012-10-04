@@ -290,7 +290,7 @@ class Neuron_GameServer_Server
 		if ($clearMapCache)
 		{
 			$db = Neuron_Core_Database::__getInstance ();
-			$db->customQuery (" TRUNCATE TABLE `z_cache_tiles`  ");
+			//$db->customQuery (" TRUNCATE TABLE `z_cache_tiles`  ");
 		
 			$server = self::__getInstance ();
 			$server->setData ('prepRadD', 0);
