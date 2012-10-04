@@ -17,6 +17,8 @@
  * @author Brent R. Matzelle
  * @copyright 2001 - 2003 Brent R. Matzelle
  */
+require_once ('Neuron/Core/SMTP.php');
+
 class Neuron_Core_PHPMailer
 {
     /////////////////////////////////////////////////

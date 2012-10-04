@@ -214,7 +214,7 @@ function __autoload ($class_name)
 */
 function customMail ($target, $subject, $msg)
 {
-
+	require_once ('Neuron/Core/PHPMailer.php');
 	$mail = new Neuron_Core_PHPMailer ();
 
 	$mail->IsSMTP();                                   // send via SMTP
