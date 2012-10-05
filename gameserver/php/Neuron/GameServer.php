@@ -736,7 +736,6 @@ class Neuron_GameServer
 		
 		// The map updater will make sure the map is up to date.
 		$windows[] = $this->getWindow ('MapUpdater');
-		$windows[] = $this->getWindow ('ChatPopper');
 		
 		return $windows;
 	}
