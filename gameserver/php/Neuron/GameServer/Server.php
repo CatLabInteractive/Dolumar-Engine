@@ -237,13 +237,19 @@ class Neuron_GameServer_Server
 		return $out;
 	}
 
+	private static function getFilesToKeep ()
+	{
+		return array ('openid');
+	}
+
 	public static function removeDirRecursive ($dir, $emptyOnly = false)
 	{
 		$scanDir = scandir ($dir);
+		$filesToKeep = self::getFilesToKeep ();
 
 		foreach ($scanDir as $file)
 		{
-			if ($file != '.' && $file != '..')
+			if ($file != '.' && $file != '..' && array_search ($file, $filesToKeep) === false)
 			{
 				if (is_dir ($dir . '/' . $file))
 				{
