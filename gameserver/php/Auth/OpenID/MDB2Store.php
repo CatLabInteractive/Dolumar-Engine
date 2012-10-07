@@ -13,7 +13,7 @@
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
 
-//require_once 'MDB2.php';
+require_once 'MDB2.php';
 
 /**
  * @access private
