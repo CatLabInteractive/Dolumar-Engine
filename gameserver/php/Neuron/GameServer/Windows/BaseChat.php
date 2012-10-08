@@ -176,6 +176,7 @@ abstract class Neuron_GameServer_Windows_BaseChat
 	public function processInput ()
 	{	
 		$login = Neuron_Core_Login::getInstance ();
+		$text = Neuron_Core_Text::getInstance ();
 
 		$input = $this->getInputData ();
 		if ($login->isLogin ())
