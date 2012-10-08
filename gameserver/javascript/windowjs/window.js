@@ -315,11 +315,14 @@ Window.prototype = {
   
   setURL: function(url) {
     // Not an url content, change div to iframe
+
+    var className = this.options.className;
+
     if (this.options.url) 
       this.content.src = null;
     this.options.url = url;
-    var content= "<iframe frameborder='0' name='" + this.getId() + "_content'  id='" + this.getId() + "_content' src='" + url + "' width='" + this.width + "' height='" + this.height + "'> </iframe>";
-    $(this.getId() +"_table_content").innerHTML = content;
+    var content= "<div class=\""+ className +"_content_inner2\" id=\"" + this.getId() + "_iframe_container\"><iframe frameborder='0' name='" + this.getId() + "_content'  id='" + this.getId() + "_content' src='" + url + "' width='" + this.width + "' height='" + this.height + "'> </iframe></div>";
+    $(this.getId() +"_content_inner1").innerHTML = content;
     
     this.content = $(this.element.id + "_content");
   },
@@ -592,7 +595,7 @@ Window.prototype = {
 
     var content;
     if (this.options.url)
-      content= "<iframe frameborder=\"0\" name=\"" + id + "_content\"  id=\"" + id + "_content\" src=\"" + this.options.url + "\"> </iframe>";
+      content= "<div class=\""+ className +"_content_inner2\" id=\"" + id + "_iframe_container\"><iframe frameborder=\"0\" name=\"" + id + "_content\"  id=\"" + id + "_content\" src=\"" + this.options.url + "\"> </iframe></div>";
     else
       content ="<div id=\"" + id + "_content\" class=\""+ className +"_content_inner2\"> </div>";
 
@@ -712,6 +715,13 @@ Window.prototype = {
         var content = $(this.element.id + '_content');
         content.setStyle({height: height  + 'px'});
         content.setStyle({width: width  + 'px'});
+
+        var iframeContainer = $(this.element.id + '_content');
+        if (iframeContainer)
+        {
+          iframeContainer.setStyle({height: height  + 'px'});
+          iframeContainer.setStyle({width: width  + 'px'});
+        }
       }
     }
   },

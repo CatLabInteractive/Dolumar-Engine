@@ -590,24 +590,43 @@ Game.map =
 		
 		var offset = 0;
 
-		for (x = -3; x < (Game.map.iTilesPerRegion * 2) + 1; x ++)
-		//for (var x in region['tiles'])
+		// thze layers
+		var hasMoreLayers = true;
+		var layer = 0;
+		var i = 0;
+
+		while (hasMoreLayers)
 		{
-			if (x > Game.map.iTilesPerRegion)
+			i = layer;
+			layer ++;
+
+			hasMoreLayers = false;
+
+			for (x = -3; x < (Game.map.iTilesPerRegion * 2) + 1; x ++)
+			//for (var x in region['tiles'])
 			{
-				offset = (x - Game.map.iTilesPerRegion + 1) * 2;
-			}
-			else
-			{
-				offset = 0;
-			}
-			
-			for (y = 0 - x + offset - 3; y < x - offset + 4; y ++)
-			//for (var y in region['tiles'][x])
-			{
-				// thze layers
-				for (var i = 0; i < region['tiles'][x][y].length; i ++)
+				if (x > Game.map.iTilesPerRegion)
 				{
+					offset = (x - Game.map.iTilesPerRegion + 1) * 2;
+				}
+				else
+				{
+					offset = 0;
+				}
+				
+				for (y = 0 - x + offset - 3; y < x - offset + 4; y ++)
+				//for (var y in region['tiles'][x])
+				{
+					if (i >= region['tiles'][x][y].length)
+					{
+						continue;
+					}
+
+					else if (!hasMoreLayers && (i + 1) < region['tiles'][x][y].length)
+					{
+						hasMoreLayers = true;
+					}
+
 					var imgdetails = images[region['tiles'][x][y][i]];
 			
 					if (typeof (imgdetails) != 'undefined' && imgdetails)
