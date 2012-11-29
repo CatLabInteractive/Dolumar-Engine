@@ -28,7 +28,7 @@ Game.gui =
 	'fPiwiTracker' : function (sData) {},
 	
 	'lastActivity' : new Date (),
-	'maxIdleSeconds' : 60 * 30,
+	'maxIdleSeconds' : 60 * 60 * 24 * 7,
 	
 	'events' : new Array (),
 	

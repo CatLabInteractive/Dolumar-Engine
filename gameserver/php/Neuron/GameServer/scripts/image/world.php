@@ -1,4 +1,7 @@
 <?php 
+
+define ('MAP_PERLIN_NO_CACHE', true);
+
 function color_cache ($im, $color)
 {
 	global $color_cache;
@@ -10,6 +13,10 @@ function color_cache ($im, $color)
 	return $color_cache[$color[0].'_'.$color[1].'_'.$color[2]];
 }
 
+
+
+Neuron_Profiler_Profiler::getInstance ()->setForceActivate (false);
+
 if (isset ($_GET['x']) && isset ($_GET['y']))
 {
 	$extension = 'png';
@@ -18,11 +25,15 @@ if (isset ($_GET['x']) && isset ($_GET['y']))
 	
 	$width = Neuron_Core_Tools::getInput ('_GET', 'width', 'int', 250);
 	$height = Neuron_Core_Tools::getInput ('_GET', 'height', 'int', 250);
+	$zoom = Neuron_Core_Tools::getInput ('_GET', 'zoom', 'int', 0);
+	$x = Neuron_Core_Tools::getInput ('_GET', 'x', 'int', 0);
+	$y = Neuron_Core_Tools::getInput ('_GET', 'y', 'int', 0);
 	
 	// Fetch cache
-	$cachename = 'i'.intval($_GET['x']).'p'.intval($_GET['y']).'w'.$width.'h'.$height.'p'.$extension;
+	$cachename = 'gw4_'.$zoom.'_'.$x.'_'.$y.'_'.$width.'x'.$height;
 	
-	$image = $cache->getCache ($cachename, 60 * 60 * 24 * 2);
+	$image = $cache->getCache ($cachename, 60 * 60 * 24 * 7);
+	//$image = false;
 	
 	if ($image)
 	{
@@ -33,30 +44,6 @@ if (isset ($_GET['x']) && isset ($_GET['y']))
 	
 	else
 	{
-		$x = $_GET['x'];
-		$y = $_GET['y'] - 1;
-		
-		$startX = $x * $width;
-		$startY = ($y) * $height;
-		
-		$endX = ($x + 1) * $width;
-		$endY = ($y + 1) * $height;
-		
-		// Load from cache
-		$db = Neuron_DB_Database::__getInstance ();
-		
-		$data = $db->query
-		("
-			SELECT
-				*
-			FROM
-				z_cache_tiles
-			WHERE
-				t_ix >= $startX AND t_ix <= $endX AND
-				t_iy >= $startY AND t_iy <= $endY
-				
-		");
-		
 		$im = imagecreate ($width, $height);
 		$background = imagecolorallocate ($im, 0, 0, 0);
 		
@@ -65,25 +52,83 @@ if (isset ($_GET['x']) && isset ($_GET['y']))
 		
 		// Prepare all colours
 		$colors = array ();
-		
-		$colors[0] = color_cache ($im, array (105, 178, 0));
-		$colors[1] = color_cache ($im, array (0, 0, 150));
-		$colors[2] = color_cache ($im, array (159, 188, 0));
-		$colors[3] = color_cache ($im, array (61, 132, 26));
-		$colors[4] = color_cache ($im, array (255, 255, 100));
-		$colors[5] = color_cache ($im, array (255, 200, 0));
+
+		$areaToLoad = MAXMAPSTRAAL + (MAXMAPSTRAAL * 0.1);
+
+		// The whole wide world:
+		$sizeX = $areaToLoad;
+		$sizeY = $areaToLoad;
+
+		$zoom = max (0, $zoom);
+		$zoom = pow (2, $zoom);
+
+		$dx = (($areaToLoad * 2) / $zoom) / $width;
+		$dy = (($areaToLoad * 2) / $zoom) / $height;
+
+		$startX = ((($areaToLoad * 2) / $zoom) * $x) - $areaToLoad;
+		$startY = ((($areaToLoad * 2) / $zoom) * $y) - $areaToLoad;
 
 		// Show all these pixels
-		foreach ($data as $v)
+		for ($i = 0; $i < $width; $i ++)
 		{
-			$color = isset ($colors[$v['t_tile']]) ? $colors[$v['t_tile']] : $black;
-			$location = array ($v['t_ix'] - $startX, $height - ($v['t_iy'] - $startY));
+			for ($j = 0; $j < $height; $j ++)
+			{
+				$lx = round ($startX + ($dx * $i));
+				$ly = round ($startY + ($dy * $j));
+
+				$location = Dolumar_Map_Map::getLocation ($lx, $ly, false, false);
+
+				$px = $i;
+				$py = $height - $j;
+
+				$c = $location->getHeightIntencity ();
+				$col = $location->getMapColor ();
+
+				$col[0] = floor ($col[0] * $c);
+				$col[1] = floor ($col[1] * $c);
+				$col[2] = floor ($col[2] * $c);
 			
-			imagesetpixel ($im, $location[0], $location[1], $color);
+				$color = color_cache ($im, $col);
+			
+				imagesetpixel ($im, $i, $j, $color);
+			}
 		}
+
+		$locations = array
+		(
+			array
+			(
+				$startX + 125,
+				$startY + 125
+			)
+		);
+
+		// Load buildings from SQL
+		/*
+		$buildingSQL = Dolumar_Map_Map::getBuildingsFromLocations ($locations, 125);
+
+
+		
+		foreach ($buildingSQL as $buildingV)
+		{
+
+			
+			$x = floor ($buildingV['xas']);
+			$y = floor ($buildingV['yas']);
+			
+			$color = color_cache ($im, array (255, 0, 0));
+
+			$tx = $x - $startX;
+			$ty = $height - ($y - $startY);
+			
+			imagesetpixel ($im, $tx, $ty, $color);
+		}
+		*/
 		
 		// Start output buffering
 		ob_start ();
+
+		//imagestring ($im, 2, 10, 10, $_GET['x'] . "." . $_GET['y'], color_cache ($im, array (255, 255, 255)));
 		
 		if ($extension == 'gif')
 		{

@@ -1,6 +1,6 @@
 //var CONFIG_IS_PREMIUM = true;
 
-if (false && !CONFIG_IS_PREMIUM /* && !$(document.body).hasClassName ('no-advertisement') */)
+if (true && !CONFIG_IS_PREMIUM /* && !$(document.body).hasClassName ('no-advertisement') */)
 {
 	Game.gui.observe 
 	(
@@ -10,7 +10,7 @@ if (false && !CONFIG_IS_PREMIUM /* && !$(document.body).hasClassName ('no-advert
 			Game.gui.fTracker ('advertisement');
 		
 			var dialog = args.shift();
-			dialog.setSize (300, 300);
+			dialog.setSize (300, 320);
 		
 			var iframe = document.createElement ('iframe');
 		
@@ -27,6 +27,11 @@ if (false && !CONFIG_IS_PREMIUM /* && !$(document.body).hasClassName ('no-advert
 		
 			var children = $(dialog.content).childElements ();
 		
+			var p = document.createElement ('p');
+			p.style.textAlign = 'right';
+			p.innerHTML = 'No more advertisement? <strong><a href="javascript:void(0);" onclick="openWindow(\'premium\');">Go premium</a></strong>';
+
+			dialog.content.appendChild (p);
 			dialog.content.appendChild (iframe);
 		
 			var elements = [];

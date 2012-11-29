@@ -118,6 +118,17 @@ function run()
 			'hide_advertisement'
 		)
 	);
+
+	$ax->add
+	(
+		new Auth_OpenID_AX_AttrInfo
+		(
+			'http://www.browser-games-hub.org/schema/openid/hide_chat.xml',
+			1,
+			false,
+			'hide_chat'
+		)
+	);
 	
 	$ax->add
 	(

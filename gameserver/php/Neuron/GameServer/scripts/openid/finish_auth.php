@@ -114,7 +114,10 @@ function run()
 			$openid_userstats = isset ($ax_data[$keyname6]) ? $ax_data[$keyname6] : array ();
 			
 			$keyname7 = 'http://www.browser-games-hub.org/schema/openid/hide_advertisement.xml';
-			$hide_advertisement = isset ($ax_data[$keyname7]) ? $ax_data[$keyname7] : array ();			
+			$hide_advertisement = isset ($ax_data[$keyname7]) ? $ax_data[$keyname7] : array ();
+
+			$keyname8 = 'http://www.browser-games-hub.org/schema/openid/hide_advertisement.xml';
+			$hide_chat = isset ($ax_data[$keyname8]) ? $ax_data[$keyname8] : array ();
 		
 			$notify_url = count ($notify_url) > 0 ? $notify_url[0] : null;
 			$profilebox_url = count ($profilebox_url) > 0 ? $profilebox_url[0] : null;
@@ -123,11 +126,13 @@ function run()
 			$openid_fullscreen = count ($openid_fullscreen) > 0 ? $openid_fullscreen[0] : null;
 			$openid_userstats = count ($openid_userstats) > 0 ? $openid_userstats[0] : null;
 			$hide_advertisement = count ($hide_advertisement) > 0 ? $hide_advertisement[0] : null;
+			$hide_chat = count ($hide_chat) > 0 ? $hide_chat[0] : null;
 			
 			$_SESSION['opensocial_messagebundle'] = $messagebundle_url;
 			$_SESSION['opensocial_container'] = $openid_container;
 			$_SESSION['fullscreen'] = $openid_fullscreen == 1;
 			$_SESSION['hide_advertisement'] = $hide_advertisement == 1;
+			$_SESSION['hide_chat'] = $hide_chat == 1;
 			
 			$_SESSION['welcome_url'] = getAXValue ($ax_data, 'http://www.browser-games-hub.org/schema/openid/welcome_url.xml');
 			$_SESSION['tracker_url'] = getAXValue ($ax_data, 'http://www.browser-games-hub.org/schema/openid/tracker_url.xml');

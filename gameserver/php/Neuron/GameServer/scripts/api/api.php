@@ -134,6 +134,30 @@ else
 	// Requests
 	switch ($request)
 	{
+		case 'invitation':
+
+			$id = Neuron_Core_Tools::getInput ('_REQUEST', 'id', 'int', false);
+			
+			$player = Neuron_GameServer::getPlayer ($id);
+			if ($player->isFound ())
+			{
+				$sender = Neuron_GameServer_Player::getFromOpenID (Neuron_Core_Tools::getInput ('_REQUEST', 'sender', 'varchar'));
+				$receiver = Neuron_GameServer_Player::getFromOpenID (Neuron_Core_Tools::getInput ('_REQUEST', 'receiver', 'varchar'));
+
+				if (!$receiver)
+				{
+					// We have to somehow queue it.
+				}
+
+				else
+				{
+					$receiver->invitationGiftReceiver ($_REQUEST, $sender);
+					$sender->invitationGiftSender ($_REQUEST, $receiver);
+				}
+			}
+
+		break;
+
 		case 'phpinfo':
 			phpinfo ();
 			exit ();

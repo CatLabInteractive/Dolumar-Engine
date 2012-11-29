@@ -1148,6 +1148,7 @@ class Neuron_Core_Tools
 		$xml->openMemory();
 		$xml->startDocument('1.0', 'UTF-8');
 		$xml->startElement($root);
+		$xml->setIndent (true);
 		
 		if (!empty ($version))
 		{

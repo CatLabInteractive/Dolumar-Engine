@@ -2,7 +2,7 @@
 /*
 	This class constructs a notification and sends it to the server.
 */
-class BBGS_Notification
+class BBGS_Statistics
 {
 	private $sMessage;
 	private $iTimestamp;
@@ -26,134 +26,16 @@ class BBGS_Notification
 		parameters. More information can (and should) be
 		set with the setters below.
 	*/
-	public function __construct ($sMessage, $iTimestamp = null, $language = 'en')
+	public function __construct ($statistics, $information)
 	{
-		if (!isset ($iTimestamp))
-		{
-			$iTimestamp = time ();
-		}
-		
-		$this->sMessage = $sMessage;
-		$this->iTimestamp = $iTimestamp;
-		
-		$this->sVisibility = 'private';
-		$this->sLanguage = $language;
-		
-		$this->sSkeletons = array ();
-		$this->sValues = array ();
-		
 		$this->sXML = array ();
-		$this->sXML['text'] = $sMessage;
-		$this->sXML['id'] = null;
-		$this->sXML['group'] = null;
-		$this->sXML['skeleton'] = null;
-		$this->sXML['arguments'] = array ();
-		$this->sXML['attachments'] = array ();
+		$this->sXML['statistics'] = $statistics;
+		$this->sXML['information'] = $information;
 	}
-	
-	public function addImage ($imgurl, $name, $link)
-	{
-		$this->attachments[] = array
-		(
-			'type' => 'image',
-			'src' => $imgurl,
-			'name' => $name,
-			'link' => $link
-		);
-		
-		$this->sXML['attachments'] = array ();
-		
-		$out = array ();
-		$out['attributes'] = array ('type' => 'image');
-		$out['src'] = $imgurl;
-		$out['name'] = $name;
-		$out['link'] = $link;
-		
-		$this->sXML['attachments'][] = $out;
-	}
-	
-	public function setDescription ($description)
-	{
-		$this->sXML['description'] = $description;
-	}
-	
+
 	public function setPrivateKey ($key)
 	{
 		$this->privatekey = $key;
-	}
-	
-	/*
-		Set the visiblity.
-	*/
-	public function setVisibility ($visibility)
-	{
-		switch ($visibility)
-		{
-			case 'private':
-			case 'public':
-				$this->sVisibility = $visibility;
-			break;
-		}
-	}
-	
-	public function setIcon ($sUrl)
-	{
-		$this->sXML['favicon'] = $sUrl;
-	}
-	
-	/*
-		Set a notifications group and ID.
-		For example: group "messages" contains "sent" and "received"
-	*/
-	public function setId ($group, $id)
-	{
-		$this->sGroup = $group;
-		$this->sId = $id;
-		
-		$this->sXML['id'] = $id;
-		$this->sXML['group'] = $group;
-	}
-	
-	/*
-		Set the user data
-	*/
-	public function setTargetData ($data)
-	{
-		$this->sXML['target'] = $data;
-	}
-	
-	/*
-		Set the user data
-	*/
-	public function setSenderData ($data)
-	{
-		$this->sXML['sender'] = $data;
-	}
-	
-	/*
-		Add a skeleton in a given language
-		@param $sLanguage: a 2-letter representation of the language.
-	*/
-	public function setSkeleton ($sSkeleton)
-	{		
-		$this->sSkeleton[] = array ($sSkeleton);
-		$this->sXML['skeleton'] = $sSkeleton;
-	}
-	
-	/*
-		Take an array $aValues and put it in the skeletons
-	*/
-	public function addArgument ($value, $type = 'text', $additionalData = array ())
-	{
-		$additionalData['value'] = $value;
-	
-		$this->sValues[] = array ((string)$value, $type, $additionalData);
-		
-		$this->sXML['arguments'][] = array
-		(
-			'items' => $additionalData,
-			'attributes' => array ('type' => $type)
-		);
 	}
 	
 	private function getPrivateKey ()
@@ -204,11 +86,10 @@ class BBGS_Notification
 		// And now: send the notification!
 		$postfields = array
 		(
-			'text' => $this->sMessage,
 			'date' => date ('Y-m-d\TH:i:s', $this->iTimestamp),
 			'xml' => $xml,
 			'signature' => base64_encode ($this->getSignature ($xml)),
-			'type' => 'notification'
+			'type' => 'statistics'
 		);
 		
 		// Make sure curl doesn't think that we're trying to upload files

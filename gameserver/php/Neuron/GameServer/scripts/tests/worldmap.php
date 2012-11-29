@@ -1,32 +1,44 @@
+<?php 
+	$width = 75;
+	$height = 75;
+
+	$px = ceil (MAXMAPSTRAAL / $width);
+	$py = ceil (MAXMAPSTRAAL / $height);
+
+?>
+
 <html>
 	<head>
 		<title>World Map</title>
 		
-		<style>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.css" />
+		<!--[if lte IE 8]>
+		    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.ie.css" />
+		<![endif]-->
+
+		<script src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+
+		<style type="text/css">
 			*
 			{
 				margin: 0px;
 				padding: 0px;
 			}
-			
-			td, tr, table
-			{
-				border: 0px solid none;
-				border-collapse: collapse;
-			}
 		</style>
 	</head>
 	<body>	
-		<?php $amount = 8; ?>
-	
-		<table>
-			<?php for ($i = ceil($amount / 2); $i > 0 - ceil($amount / 2); $i --) { ?>
-				<tr>
-					<?php for ($j = 0 - ceil($amount / 2); $j < ceil($amount / 2); $j ++) { ?>
-						<td><img src="<?=ABSOLUTE_URL?>image/world/?x=<?=$j?>&y=<?=$i?>"></td>
-					<?php } ?>
-				</tr>
-			<?php } ?>	
-		</table>
+		<div id="map" style="width: 100%; height: 100%;"></div>
+
+		<script>
+			var map = new L.Map('map', {
+			    center: [90, 0],
+			    zoom: 1,
+			    layers: new L.TileLayer('<?=ABSOLUTE_URL?>image/world/?x={x}&y={y}&width=<?=$width?>&height=<?=$height?>&zoom={z}', {
+			    	tileSize: <?=$width?>,
+			    	minZoom: 1,
+			    	maxZoom: 18
+			    })
+			});
+		</script>
 	</body>
 </html>

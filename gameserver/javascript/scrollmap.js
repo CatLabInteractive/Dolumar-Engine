@@ -250,8 +250,43 @@ TiledImageViewer.prototype.drawImage = function (x, y)
 
 TiledImageViewer.prototype.enableControls = function() 
 {
-	this.el.onmousedown = TIV_dragBegin;
-	this.el.onmouseup = TIV_dragEnd;
+	var self = this;
+
+	var mouseEvents = true;
+
+	self.el.addEventListener ("touchstart", function (e)
+	{
+		mouseEvents = false;
+
+		//alert ('test');
+		//console.log (event);
+		self.el.onmousedown = null;
+		TIV_touchBegin (e, self);
+
+	    if(e.stopPropagation) e.stopPropagation();
+	    if(e.preventDefault) e.preventDefault();
+	    e.cancelBubble=true;
+	    e.returnValue=false;
+	    return false;
+
+	}, false);
+
+	self.el.addEventListener ("touchend", TIV_touchEnd, false);
+
+	self.el.addEventListener ("mousedown", function (e)
+		{
+			if (mouseEvents)
+			{
+				TIV_dragBegin (e, self);
+			}
+		    if(e.stopPropagation) e.stopPropagation();
+		    if(e.preventDefault) e.preventDefault();
+		    e.cancelBubble=true;
+		    e.returnValue=false;
+		    return false;
+		}, false);
+
+	self.el.addEventListener ("mouseup", TIV_dragEnd, false);
 	//document.body.onmouseup = TIV_dragEnd;
 	//this.el.ondblclick = TIV_recenter;
 };
@@ -549,9 +584,71 @@ function TIV_getMousePos(e)
 	return {x: e.clientX, y: e.clientY};
 }
 
-function TIV_dragBegin(e) 
+function TIV_getTouchPos (e)
+{
+	var out =  
+	{
+		'x' : e.targetTouches[0].clientX,
+		'y' : e.targetTouches[0].clientY
+	};
+
+	//console.log (out);
+	return out;
+}
+
+function TIV_touchBegin (e, self)
+{
+	var o = self.el._TIV_obj;
+	var mpos;
+
+	if (!e) {
+		e = window.event;
+	}
+
+	mpos = TIV_getTouchPos (e);
+	o.mx = o.drmx = mpos.x;
+	o.my = o.drmy = mpos.y;
+
+	o.dragging = true;
+	self.el.addEventListener ('touchmove', TIV_touchMove, false);
+	
+	setTimeout(function() { TIV_dragUpdate(o); }, 50);
+}
+
+function TIV_touchEnd (e)
 {
 	var o = this._TIV_obj;
+	
+	o.dragging = false;
+	this.ontouchmove = '';
+	
+	// Recalculate
+	o.drawVisibleImages ();
+	
+	return false;
+}
+
+function TIV_touchMove (e)
+{
+	var o = this._TIV_obj;
+	var mpos;
+	
+	if (!e) {
+		e = window.event;
+	}
+	
+	mpos = TIV_getTouchPos (e);
+	o.mx = mpos.x;
+	o.my = mpos.y;
+
+	return false;
+}
+
+function TIV_dragBegin(e, obj) 
+{
+	var self = obj;
+
+	var o = self.el._TIV_obj;
 	var mpos;
 
 	if (!e) {
@@ -562,8 +659,8 @@ function TIV_dragBegin(e)
 	o.mx = o.drmx = mpos.x;
 	o.my = o.drmy = mpos.y;
 	o.dragging = true;
-	this.onmousemove = TIV_dragMouseMove;
-	this.style.cursor = 'move';
+	self.el.onmousemove = TIV_dragMouseMove;
+	self.el.style.cursor = 'move';
 	setTimeout(function() { TIV_dragUpdate(o); }, 50);
 	return false;
 }

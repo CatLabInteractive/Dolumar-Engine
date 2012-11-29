@@ -2,7 +2,7 @@
 /*
 	This class constructs a notification and sends it to the server.
 */
-class BBGS_Notification
+class BBGS_Invite
 {
 	private $sMessage;
 	private $iTimestamp;
@@ -21,34 +21,48 @@ class BBGS_Notification
 	
 	private $attachments = array ();
 
+	private $sendMessage;
+	private $receiverMessage;
+	private $maxPerInterval;
+	private $maxReceiverPerInterval;
+	private $interval;
+
+
+
 	/*
 		Construct a notification with it's 2 required
 		parameters. More information can (and should) be
 		set with the setters below.
 	*/
-	public function __construct ($sMessage, $iTimestamp = null, $language = 'en')
+	public function __construct ($senderMessage, $receiverMessage, $maxPerInterval = 1, $maxReceiverPerInterval = 0, $interval = 604800, $language = 'en')
 	{
-		if (!isset ($iTimestamp))
-		{
-			$iTimestamp = time ();
-		}
-		
-		$this->sMessage = $sMessage;
-		$this->iTimestamp = $iTimestamp;
-		
-		$this->sVisibility = 'private';
+		$this->senderMessage = $senderMessage;
+		$this->receiverMessage = $receiverMessage;
+		$this->maxPerInterval = $maxPerInterval;
+		$this->maxReceiverPerInterval = $maxReceiverPerInterval;
+		$this->interval = $interval;
 		$this->sLanguage = $language;
 		
 		$this->sSkeletons = array ();
 		$this->sValues = array ();
 		
 		$this->sXML = array ();
-		$this->sXML['text'] = $sMessage;
+		$this->sXML['attributes'] = array
+		(
+			'maxPerInterval' => $maxPerInterval,
+			'maxReceiverPerInterval' => $maxReceiverPerInterval,
+			'interval' => $interval
+		);
+
 		$this->sXML['id'] = null;
 		$this->sXML['group'] = null;
-		$this->sXML['skeleton'] = null;
+		$this->sXML['senderskeleton'] = null;
+		$this->sXML['receiverskeleton'] = null;
 		$this->sXML['arguments'] = array ();
 		$this->sXML['attachments'] = array ();
+
+		$this->sXML['sendermessage'] = $senderMessage;
+		$this->sXML['receivermessage'] = $receiverMessage;
 	}
 	
 	public function addImage ($imgurl, $name, $link)
@@ -72,30 +86,6 @@ class BBGS_Notification
 		$this->sXML['attachments'][] = $out;
 	}
 	
-	public function setDescription ($description)
-	{
-		$this->sXML['description'] = $description;
-	}
-	
-	public function setPrivateKey ($key)
-	{
-		$this->privatekey = $key;
-	}
-	
-	/*
-		Set the visiblity.
-	*/
-	public function setVisibility ($visibility)
-	{
-		switch ($visibility)
-		{
-			case 'private':
-			case 'public':
-				$this->sVisibility = $visibility;
-			break;
-		}
-	}
-	
 	public function setIcon ($sUrl)
 	{
 		$this->sXML['favicon'] = $sUrl;
@@ -117,14 +107,6 @@ class BBGS_Notification
 	/*
 		Set the user data
 	*/
-	public function setTargetData ($data)
-	{
-		$this->sXML['target'] = $data;
-	}
-	
-	/*
-		Set the user data
-	*/
 	public function setSenderData ($data)
 	{
 		$this->sXML['sender'] = $data;
@@ -134,10 +116,16 @@ class BBGS_Notification
 		Add a skeleton in a given language
 		@param $sLanguage: a 2-letter representation of the language.
 	*/
-	public function setSkeleton ($sSkeleton)
+	public function setSkeletonSender ($sSkeleton)
 	{		
 		$this->sSkeleton[] = array ($sSkeleton);
-		$this->sXML['skeleton'] = $sSkeleton;
+		$this->sXML['senderskeleton'] = $sSkeleton;
+	}
+
+	public function setSkeletonReceiver ($sSkeleton)
+	{		
+		$this->sSkeleton[] = array ($sSkeleton);
+		$this->sXML['receiverskeleton'] = $sSkeleton;
 	}
 	
 	/*
@@ -180,6 +168,16 @@ class BBGS_Notification
 		
 		return $binary_signature;
 	}
+
+	public function setPrivateKey ($key)
+	{
+		$this->privatekey = $key;
+	}
+
+	public function setCallback ($url)
+	{
+		$this->sXML['callback'] = $url;
+	}
 	
 	/*
 		And the most important function of them all:
@@ -188,27 +186,31 @@ class BBGS_Notification
 	public function send ($sUrl)
 	{
 		$key = $this->getPrivateKey ();
+
+		$attributes = array ();
+		$attributes['lang'] = $this->sLanguage;
+
+		if (isset ($this->sXML['attributes']))
+		{
+			$attributes = array_merge ($attributes, $this->sXML['attributes']);
+			unset ($this->sXML['attributes']);
+		}
 	
 		$xml = self::output_xml 
 		(
 			$this->sXML, 
 			1, 
-			'notification', 
-			array 
-			(
-				'visibility' => $this->sVisibility, 
-				'lang' => $this->sLanguage
-			)
+			'invite', 
+			$attributes
 		);
 		
 		// And now: send the notification!
 		$postfields = array
 		(
-			'text' => $this->sMessage,
 			'date' => date ('Y-m-d\TH:i:s', $this->iTimestamp),
 			'xml' => $xml,
 			'signature' => base64_encode ($this->getSignature ($xml)),
-			'type' => 'notification'
+			'type' => 'invitation'
 		);
 		
 		// Make sure curl doesn't think that we're trying to upload files
@@ -229,6 +231,9 @@ class BBGS_Notification
 			echo '<h2>Preparing data to send:</h2><pre>';
 			echo htmlentities (print_r ($postfields, true));
 			echo '</pre>';
+
+			echo '<h2>XML</h2>';
+			echo '<pre>' . htmlentities ($postfields['xml']) . '</pre>';
 			
 			echo '<h2>Sending data</h2>';
 			echo '<p>Contacting <span style="color: red;">'.$sUrl.'</span>... ';
@@ -280,10 +285,16 @@ class BBGS_Notification
 
 		$result = json_decode ($result, true);
 
+		$width = isset ($result['width']) ? $result['width'] : null;
+		$height = isset ($result['height']) ? $result['height'] : null;
+
 		return array
 		(
 			'success' => $result['success'] ? true : false,
-			'iframe' => isset ($result['iframe']) ? $result['iframe'] : null
+			'iframe' => isset ($result['iframe']) ? $result['iframe'] : null,
+			'error' => isset ($result['error']) ? $result['error'] : 'No error found.',
+			'width' => $width,
+			'height' => $height
 		);
 	}
 	
@@ -296,6 +307,7 @@ class BBGS_Notification
 		$xml->openMemory();
 		$xml->startDocument('1.0', 'UTF-8');
 		$xml->startElement($root);
+		$xml->setIndent (true);
 		
 		if (!empty ($version))
 		{

@@ -37,6 +37,26 @@ class Neuron_GameServer_Player
 	{
 		return Neuron_GameServer::getPlayer ($id);
 	}
+
+	public static function getFromOpenID ($openid)
+	{
+		$db = Neuron_Core_Database::__getInstance ();
+
+		// See if there is an account available
+		$acc = $db->select
+		(
+			'auth_openid',
+			array ('user_id'),
+			"openid_url = '".$db->escape ($openid)."'"
+		);
+
+		if (count ($acc) > 0)
+		{
+			return self::getFromId ($acc[0]['user_id']);
+		}
+
+		return false;
+	}
 	
 	/*
 		Check if a player name exists.
@@ -603,6 +623,120 @@ class Neuron_GameServer_Player
 		return API_FULL_URL.'unsubscribe?id='.$this->getId ().'&key=' . $key;
 	}
 
+	public function invitePeople 
+	(
+		$txtMsgKeySender, $txtMsgSectionSender,
+		$txtMsgKeyReceiver, $txtMsgSectionReceiver,
+		$maxPerInterval = 1, $maxReceiverPerInterval = 0, $interval = 604800,
+		$inputData = array ()
+	)
+	{
+		// First: load this users OpenID notification urls
+		$db = Neuron_DB_Database::__getInstance ();
+		
+		$openid_rows = $db->query
+		("
+			SELECT
+				notify_url
+			FROM
+				auth_openid
+			WHERE
+				user_id = {$this->getId()}
+				AND notify_url IS NOT NULL
+				AND notify_url != ''
+		");
+
+		$text = $this->getRightLanguage ();
+		
+		if (count ($openid_rows) > 0)
+		{
+	
+			$server = Neuron_GameServer::getInstance ()->getServer ();
+			$servername = new Neuron_GameServer_Logable_String ($server->getServerName ());
+
+			$inputData = array_merge (array ('sender' => $this, 'server' => $servername), $inputData);
+
+			$keyvalues = array ();
+			foreach ($inputData as $k => $v)
+			{
+				$keyvalues[$k] = $v->getName ();
+			}
+
+			$senderMessage = Neuron_Core_Tools::putIntoText ($text->get ($txtMsgKeySender, $txtMsgSectionSender, 'notifications'), $keyvalues);
+			$receiverMessage = Neuron_Core_Tools::putIntoText ($text->get ($txtMsgKeyReceiver, $txtMsgSectionReceiver, 'notifications'), $keyvalues);
+
+			// Load OpenID accounts and send Browser Games Hub notifications
+			$objNot = new BrowserGamesHub_Invitation ($senderMessage, $receiverMessage, $maxPerInterval, $maxReceiverPerInterval, $interval, $text->getCurrentLanguage ());
+			
+			$objNot->setIcon (STATIC_URL . 'icon.png');
+			$objNot->setId ($txtMsgKeySender, $txtMsgSectionSender);
+			$objNot->setSenderData ($this->getBrowserBasedGamesData ());
+
+			// Keep in mind that the notification does not like actual names,
+			// so we will replace all key names with their numeric value.
+			$keys = array_keys ($inputData);
+			$replace_keys = array ();
+			foreach ($keys as $k => $v)
+			{
+				if ($v != 'actor')
+				{
+					$replace_keys[$v] = '{'.$k.'}';
+				}
+				else
+				{
+					$replace_keys[$v] = '{actor}';
+				}
+			}
+			
+			$objNot->setSkeletonSender
+			(
+				Neuron_Core_Tools::putIntoText
+				(
+					$text->get ($txtMsgKeySender, $txtMsgSectionSender, 'notifications'),
+					$replace_keys
+				)
+			);
+
+			$objNot->setSkeletonReceiver
+			(
+				Neuron_Core_Tools::putIntoText
+				(
+					$text->get ($txtMsgKeyReceiver, $txtMsgSectionReceiver, 'notifications'),
+					$replace_keys
+				)
+			);
+
+			$callback = API_FULL_URL.'invitation/?id='.$this->getId();
+			$objNot->setCallback ($callback);
+		
+			// Take all the value strings and put them in there aswell
+			foreach ($inputData as $v)
+			{
+				if ($v instanceof Dolumar_Players_Player)
+				{
+					$objNot->addArgument ($v->getName (), 'user', $v->getBrowserBasedGamesData ());
+				}
+			
+				elseif ($v instanceof Neuron_GameServer_Interfaces_Logable)
+				{
+					$objNot->addArgument ($v->getName (), 'text');
+				}
+				else
+				{
+					$objNot->addArgument ($v, 'text');
+				}
+			}
+		
+			// Send the notification
+			foreach ($openid_rows as $v)
+			{
+				return $objNot->send ($v['notify_url']);
+			}
+		}
+
+		return array ('success' => false, 'error' => 'No OpenID providers set.');
+	}
+
 	/*
 		Various notifications are called
 	*/
@@ -795,6 +929,7 @@ class Neuron_GameServer_Player
 	*/
 	public function updateProfilebox ()
 	{
+		/*
 		// First: load this users OpenID notification urls
 		$db = Neuron_DB_Database::__getInstance ();
 		
@@ -828,6 +963,7 @@ class Neuron_GameServer_Player
 				$objNot->send ($v['profilebox_url']);
 			}
 		}
+		*/
 	}
 	
 	/*
@@ -835,6 +971,7 @@ class Neuron_GameServer_Player
 	*/
 	private function sendUserData ()
 	{
+		/*
 		$profiler = Neuron_Profiler_Profiler::getInstance ();
 		
 		$profiler->start ('Sending user data to OpenID providers.');
@@ -869,6 +1006,43 @@ class Neuron_GameServer_Player
 		}
 		
 		$profiler->stop ();
+		*/
+
+		// First: load this users OpenID notification urls
+		$db = Neuron_DB_Database::__getInstance ();
+		
+		$openid_rows = $db->query
+		("
+			SELECT
+				notify_url
+			FROM
+				auth_openid
+			WHERE
+				user_id = {$this->getId()}
+				AND notify_url IS NOT NULL
+				AND notify_url != ''
+		");
+		
+		if (count ($openid_rows) > 0)
+		{
+			$information = $this->getBrowserBasedGamesData ();
+			$statistics = $this->getStatistics ();
+
+			// Send the notification
+			foreach ($openid_rows as $v)
+			{
+				$stat = new BrowserGamesHub_Statistics ($statistics, $information);
+				$stat->send ($v['notify_url']);
+			}
+		}
+	}
+
+	public function getStatistics ()
+	{
+		return array
+		(
+			'score' => $this->getScore ()
+		);
 	}
 	
 	/*
@@ -1849,6 +2023,30 @@ class Neuron_GameServer_Player
 	public function equals ($objPlayer)
 	{
 		return $objPlayer->getId () == $this->getId ();
+	}
+
+	/*
+	* Called when someone sent you a gift.
+	*/
+	public function invitationGiftReceiver ($data, Neuron_GameServer_Player $from)
+	{
+
+	}
+
+	/*
+	* Called when someone accepts your gift.
+	*/
+	public function invitationGiftSender ($data, Neuron_GameServer_Player $to)
+	{
+
+	}
+
+	public function countLogins ()
+	{
+		$db = Neuron_DB_Database::getInstance ();
+
+		$data = $db->query ("SELECT COUNT(*) AS aantal FROM login_log WHERE l_plid = {$this->getId ()}");
+		return $data[0]['aantal'];
 	}
 	
 	public function __toString ()

@@ -19,6 +19,8 @@ class Neuron_GameServer_Windows_Messages
 	
 	public function getContent ()
 	{
+		$text = Neuron_Core_Text::__getInstance ();
+		
 		$player = Neuron_GameServer::getPlayer ();
 		if (!$player)
 		{
