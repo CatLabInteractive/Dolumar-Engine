@@ -9,7 +9,7 @@ class Neuron_GameServer_Map_Area
 
 	public function __construct (Neuron_GameServer_Map_Location $center, $radius)
 	{
-		if (!$radius instanceof Neuron_GameServer_Map_Radius)
+		if (! ($radius instanceof Neuron_GameServer_Map_Radius))
 		{
 			$radius = new Neuron_GameServer_Map_Radius ($radius);
 		}
@@ -20,7 +20,7 @@ class Neuron_GameServer_Map_Area
 	private function setSquareArea (Neuron_GameServer_Map_Location $center, Neuron_GameServer_Map_Radius $radius)
 	{
 		$this->center = $center;
-		$this->radius = $radius->radius ();
+		$this->radius = $radius;
 
 		$this->minima = array ($center[0] - $radius->radius (), $center[1] - $radius->radius (), $center[2] - $radius->radius ());
 		$this->maxima = array ($center[0] + $radius->radius (), $center[1] + $radius->radius (), $center[2] + $radius->radius ());
