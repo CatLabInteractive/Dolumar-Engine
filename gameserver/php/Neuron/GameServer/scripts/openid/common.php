@@ -3,9 +3,9 @@
 restore_error_handler ();
 error_reporting (E_ERROR);
 
-define('Auth_OpenID_VERIFY_HOST', true);
+//define('Auth_OpenID_VERIFY_HOST', true);
 //define ('Auth_OpenID_BUGGY_GMP', true);
-define ('Auth_OpenID_RAND_SOURCE', null);
+//define ('Auth_OpenID_RAND_SOURCE', null);
 
 /*
 $path_extra = dirname(dirname(dirname(__FILE__)));
