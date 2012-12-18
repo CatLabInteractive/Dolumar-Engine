@@ -37,6 +37,13 @@
 				echo "\t\t\tvar PARAM_".strtoupper ($k)." = '".$v."';\n";
 			}
 			?>
+
+			<?php if (isset ($_SESSION['hide_advertisement']) && $_SESSION['hide_advertisement']) { ?>
+				var CONFIG_HIDE_ADVERTISEMENT = true;
+			<?php } else { ?>
+				var CONFIG_HIDE_ADVERTISEMENT = false;
+			<?php } ?>
+
 			var CONFIG_IS_TESTSERVER = <?= IS_TESTSERVER ? 'true' : 'false'?>;
 			var CONFIG_DATETIME_FORMAT = '<?=DATETIME?>';
 			var RUNTIME_SESSION_ID = '<?=session_id()?>';

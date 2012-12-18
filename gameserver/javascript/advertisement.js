@@ -1,6 +1,6 @@
 //var CONFIG_IS_PREMIUM = true;
 
-if (!CONFIG_IS_PREMIUM  /* && !$(document.body).hasClassName ('no-advertisement') */ )
+if (!CONFIG_IS_PREMIUM  && !CONFIG_HIDE_ADVERTISEMENT)
 {
 	Game.gui.observe 
 	(
