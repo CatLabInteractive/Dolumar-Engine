@@ -37,7 +37,7 @@ class Neuron_GameServer_Map_Display_Sprite
 	}
 
 	/**
-		Return the URI of the object
+	*	Return the URI of the object
 	*/
 	public function getURI ()
 	{
@@ -45,8 +45,8 @@ class Neuron_GameServer_Map_Display_Sprite
 	}
 	
 	/**
-		Return pixel offset (Neuron_GameServer_Map_Offset)
-		for this sprite
+	*	Return pixel offset (Neuron_GameServer_Map_Offset)
+	*	for this sprite
 	*/
 	public function getOffset ()
 	{

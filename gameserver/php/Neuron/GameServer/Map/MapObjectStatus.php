@@ -1,6 +1,6 @@
 <?php
 /**
-	TODO something with this.
+*	TODO something with this.
 */
 class Neuron_GameServer_Map_MapObjectStatus
 {

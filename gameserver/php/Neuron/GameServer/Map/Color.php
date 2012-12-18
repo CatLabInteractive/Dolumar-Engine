@@ -32,6 +32,11 @@ class Neuron_GameServer_Map_Color
 			throw new Neuron_Exceptions_InvalidParameter ("Please provide a valid color.");
 		}
 	}
+
+	public static function getRandomColor ()
+	{
+		return new self (mt_rand (0, 255), mt_rand (0, 255), mt_rand (0, 255));
+	}
 	
 	public function r ()
 	{

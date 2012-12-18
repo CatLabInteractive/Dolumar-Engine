@@ -334,6 +334,17 @@ else
 		
 		break;
 
+		case 'getsession':
+
+			session_write_close ();
+			session_start ();
+			$id = session_id ();
+
+			echo $id;
+			exit;
+
+		break;
+
 		default:
 			$output['content'] = array ();
 		break;

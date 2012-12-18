@@ -31,7 +31,9 @@ class Neuron_GameServer_Windows_Window
 		$minHeight = 20,
 		
 		$modal = false,
-		$centered = false
+		$centered = false,
+
+		$container = 'center'
 	;
 	
 	// There we go with the new functions!
@@ -61,6 +63,16 @@ class Neuron_GameServer_Windows_Window
 	public function getServer ()
 	{
 		return $this->server;
+	}
+
+	public function setContainer ($container)
+	{
+		$this->container = $container;
+	}
+
+	public function getContainer ()
+	{
+		return $this->container;
 	}
 
 	public static function getWindow ($v)
@@ -208,6 +220,11 @@ class Neuron_GameServer_Windows_Window
 			
 			$element->setAttribute ('minWidth', $this->minWidth);
 			$element->setAttribute ('minHeight', $this->minHeight);
+
+			if (isset ($this->container))
+			{
+				$element->setAttribute ('container', $this->container);
+			}
 			
 			// Position
 			/*

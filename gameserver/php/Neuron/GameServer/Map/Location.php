@@ -71,8 +71,15 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 		throw new Neuron_Exceptions_InvalidParameter ("You cannot change the location parameters.");
 	}
 	
-	public function transform ($x, $y, $z = 0)
+	public function transform ($x, $y = 0, $z = 0)
 	{
+		if ($x instanceof Neuron_GameServer_Map_Location)
+		{
+			$z = $x->z ();
+			$y = $x->y ();
+			$x = $x->x ();
+		}
+
 		return new self ($this->x + $x, $this->y + $y, $this->z + $z);
 	}
 	
@@ -108,6 +115,18 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 		$in = substr ($in, ($x * $y) % (32 - $chars), $chars);
 		
 		return round ((base_convert ($in, 16, 10) % $base) + 1);
+	}
+
+	public function scale ($scale)
+	{
+		$this->x *= $scale;
+		$this->y *= $scale;
+		$this->z *= $scale;
+	}
+
+	public function getData ()
+	{
+		return array ('x' => $this->x (), 'y' => $this->y (), 'z' => $this->z ());
 	}
 	
 	public function __tostring ()
