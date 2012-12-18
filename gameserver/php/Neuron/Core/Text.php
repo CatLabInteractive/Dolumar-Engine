@@ -115,7 +115,7 @@ class Neuron_Core_Text
 			{
 				return $this->backup->get ($id, $section, $file, false);
 			}
-			elseif ($alternative === null) 
+			elseif ($alternative == null) 
 			{
 				return 'Text Not Found: '.$id.' ('.$file.', '.$section.', '.$this->root_dir.')';
 			}

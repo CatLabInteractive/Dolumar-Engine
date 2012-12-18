@@ -54,6 +54,11 @@ class Neuron_GameServer_Windows_Window
 		$this->setUrlCallback (array ($this, '_getUrl'));
 		libxml_use_internal_errors(true);
 	}
+
+	protected function getXMLNamespace ()
+	{
+		return 'http://www.w3.org/1999/xhtml';
+	}
 	
 	public function setServer (Neuron_GameServer $server)
 	{
@@ -271,7 +276,7 @@ class Neuron_GameServer_Windows_Window
 			else
 			{
 				$content = $dom->createElement ('content');
-				$content->setAttribute ('xmlns', 'http://www.w3.org/1999/xhtml');
+				$content->setAttribute ('xmlns', $this->getXMLNamespace ());
 			
 				$contentInput = $this->xmlEntities ($contentInput);
 			
@@ -483,7 +488,7 @@ class Neuron_GameServer_Windows_Window
 		$update->setAttribute ('action', 'updateContent');
 		
 		$content = $dom->createElement ('content');
-		$content->setAttribute ('xmlns', 'http://www.w3.org/1999/xhtml');
+		$content->setAttribute ('xmlns', $this->getXMLNamespace ());
 		
 		$data = $this->xmlEntities ($data);
 		
@@ -613,7 +618,7 @@ class Neuron_GameServer_Windows_Window
 		*/
 		
 		$content = $dom->createElement ('content');
-		$content->setAttribute ('xmlns', 'http://www.w3.org/1999/xhtml');
+		$content->setAttribute ('xmlns', $this->getXMLNamespace ());
 		
 		$html = $this->xmlEntities ($html);
 		
@@ -641,7 +646,7 @@ class Neuron_GameServer_Windows_Window
 		$update->setAttribute ('action', 'showNewsflash');
 
 		$content = $dom->createElement ('content');
-		$content->setAttribute ('xmlns', 'http://www.w3.org/1999/xhtml');
+		$content->setAttribute ('xmlns', $this->getXMLNamespace ());
 		
 		$html = $this->xmlEntities ($html);
 		
