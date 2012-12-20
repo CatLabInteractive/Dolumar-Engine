@@ -29,6 +29,10 @@ switch ($sAction)
 	case 'plainmap':
 		include (self::SCRIPT_PATH.'map/plainmap.php');
 	break;
+
+	case 'update':
+		include (self::SCRIPT_PATH.'map/update.php');
+	break;
 	
 	default:
 	case 'objects':

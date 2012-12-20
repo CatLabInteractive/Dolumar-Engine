@@ -13,6 +13,11 @@ abstract class Neuron_GameServer_Map_MapObject
 	private $events = array ();
 	private $movements = array ();
 	
+	public function getId ()
+	{
+		return $this->getLocation ()->toString ();
+	}
+
 	public function setLocation (Neuron_GameServer_Map_Location $location)
 	{
 		$this->location = $location;
@@ -102,7 +107,8 @@ abstract class Neuron_GameServer_Map_MapObject
 			(
 				'x' => $location->x (),
 				'y' => $location->y (),
-				'z' => $location->z ()
+				'z' => $location->z (),
+				'id' => $this->getId ()
 			),
 			'top' => array 
 			(

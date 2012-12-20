@@ -1,6 +1,6 @@
 <?php
 class Neuron_GameServer_Map_Display_Sphere
-	extends Neuron_GameServer_Map_Display_Model
+	extends Neuron_GameServer_Map_Display_Mesh
 {
 	private $radius;
 

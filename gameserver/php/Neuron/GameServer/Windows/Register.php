@@ -36,7 +36,8 @@ class Neuron_GameServer_Windows_Register extends Neuron_GameServer_Windows_Windo
 		return $page->parse ('register/register_inv.tpl');
 		*/
 		
-		return $this->showRegisterForm ();
+		//return $this->showRegisterForm ();
+		return '<p>Registration is disabled. Please use OpenID for authentication.</p>';
 	
 	}
 	

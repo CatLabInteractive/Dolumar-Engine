@@ -14,6 +14,11 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 		$this->y = $y;
 		$this->z = $z;
 	}
+
+	public static function getRandomLocation (Neuron_GameServer_Map_Area $area)
+	{
+		return new self (mt_rand (-500, 500), mt_rand (-500, 500), mt_rand (-500, 500));
+	}
 	
 	public function x ()
 	{

@@ -66,8 +66,8 @@ class Neuron_GameServer_Windows_MyAccount extends Neuron_GameServer_Windows_Wind
 				else
 				{
 					// Select a nickname
-					$username = $me->getNickname ();
-					if (empty ($username))
+					//$username = $me->getNickname ();
+					if ($me->isNicknameSet ())
 					{
 						$html = $this->chooseNickname ();
 					}

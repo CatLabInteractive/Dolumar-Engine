@@ -207,11 +207,16 @@ class Neuron_GameServer_Player
 		$this->loadData ();
 		return isset ($this->data['password1']) ? $this->data['password1'] : null;
 	}
+
+	public function isNicknameSet ()
+	{
+		return !empty ($this->data['nickname']);
+	}
 	
 	public function getNickname ()
 	{
 		$this->loadData ();
-		return isset ($this->data['nickname']) ? $this->data['nickname'] : null;
+		return isset ($this->data['nickname']) ? $this->data['nickname'] : 'Guest ' . $this->getId ();
 	}
 	
 	public function getName ()
