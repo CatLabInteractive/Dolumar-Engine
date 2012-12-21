@@ -18,6 +18,11 @@ abstract class Neuron_GameServer_Map_MapObject
 		return $this->getLocation ()->toString ();
 	}
 
+	public function getUOID ()
+	{
+		return $this->getId ();
+	}
+
 	public function setLocation (Neuron_GameServer_Map_Location $location)
 	{
 		$this->location = $location;
@@ -108,7 +113,7 @@ abstract class Neuron_GameServer_Map_MapObject
 				'x' => $location->x (),
 				'y' => $location->y (),
 				'z' => $location->z (),
-				'id' => $this->getId ()
+				'id' => $this->getUOID ()
 			),
 			'top' => array 
 			(

@@ -41,6 +41,11 @@ abstract class Neuron_GameServer_Map_Managers_MapObjectManager
 		
 		return $out;
 	}
+
+	public function getFromUOID ($id)
+	{
+		return Neuron_GameServer_Mappers_IDMapper::getObject ($id);
+	}
 	
 	/**
 	*	Load all objects with the radius of the points

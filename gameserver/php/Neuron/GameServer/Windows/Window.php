@@ -545,17 +545,6 @@ class Neuron_GameServer_Windows_Window
 		$this->updates[] = $update;
 	}
 
-	public function watch (Neuron_GameServer_Map_MapObject $object)
-	{
-		$dom = $this->dom;
-		
-		$update = $dom->createElement ('watch');
-		$update->setAttribute ('action', 'watch');
-		$update->setAttribute ('object', $object->getId ());
-
-		$this->updates[] = $update;
-	}
-
 	public function updateRequestData ($data)
 	{
 		if (!is_array ($data))
@@ -672,6 +661,27 @@ class Neuron_GameServer_Windows_Window
 		}
 		
 		$update->appendChild ($content);
+
+		$this->updates[] = $update;
+	}
+
+	public function updateMap ()
+	{
+		// Trigger a "reload" map event.
+		$dom = $this->dom;
+		
+		$update = $dom->createElement ('update');
+		$update->setAttribute ('action', 'updateMap');
+		$this->updates[] = $update;
+	}
+
+	public function watchObject (Neuron_GameServer_Map_MapObject $object)
+	{
+		$dom = $this->dom;
+		
+		$update = $dom->createElement ('update');
+		$update->setAttribute ('action', 'watch');
+		$update->setAttribute ('object', $object->getUOID ());
 
 		$this->updates[] = $update;
 	}
