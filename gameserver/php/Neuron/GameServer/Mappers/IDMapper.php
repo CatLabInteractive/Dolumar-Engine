@@ -17,7 +17,7 @@ class Neuron_GameServer_Mappers_IDMapper
 				ai_identifier,
 				ai_class
 			FROM
-				a_id
+				n_id
 			WHERE
 				ai_class = {$classId} &&
 				ai_identifier = '{$db->escape ($identification)}'
@@ -33,7 +33,7 @@ class Neuron_GameServer_Mappers_IDMapper
 			$id = $db->query 
 			("
 				INSERT INTO
-					a_id
+					n_id
 				SET
 					ai_class = {$classId},
 					ai_identifier = '{$db->escape ($identification)}'
@@ -55,7 +55,7 @@ class Neuron_GameServer_Mappers_IDMapper
 				ai_class,
 				ai_identifier
 			FROM
-				a_id
+				n_id
 			WHERE
 				ai_id = {$id}
 		");
