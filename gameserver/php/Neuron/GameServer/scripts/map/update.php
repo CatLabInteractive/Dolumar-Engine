@@ -45,7 +45,6 @@ else
 	$last = $ll;
 	
 	$out['objects'] = array ();
-	$out['objects']['attributes']['last'] = $last;
 
 	foreach ($q as $v)
 	{
@@ -59,6 +58,8 @@ else
 
 		$out['objects'][] = $object->getExportData ();
 	}
+
+	$out['objects']['attributes']['last'] = $last;
 }
 
 echo Neuron_Core_Tools::output_xml ($out);

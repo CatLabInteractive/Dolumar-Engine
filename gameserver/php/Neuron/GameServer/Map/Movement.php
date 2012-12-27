@@ -31,6 +31,32 @@ class Neuron_GameServer_Map_Movement
 		return $this->endTime;
 	}
 
+	public function isActive ($time = NOW)
+	{
+		return $this->startTime <= $time && $this->endTime > $time;
+	}
+
+	public function getCurrentLocation ($time = NOW)
+	{
+		$diff = $this->endTime - $this->startTime;
+		$percentage = ($time - $this->startTime) / $diff;
+
+		//customMail ('daedelson@gmail.com', 'coortest', $percentage);
+
+		$s = $this->getStartLocation ();
+		$e = $this->getEndLocation ();
+
+		$dx = $e->x () - $s->x ();
+		$dy = $e->y () - $s->y ();
+		$dz = $e->z () - $s->z ();
+
+		$x = $s->x () + ($dx * $percentage);
+		$y = $s->y () + ($dy * $percentage);
+		$z = $s->z () + ($dz * $percentage);
+
+		return new Neuron_GameServer_Map_Location ($x, $y, $z);
+	}
+
 	public function getStartLocation ()
 	{
 		return $this->startLocation;
@@ -39,6 +65,11 @@ class Neuron_GameServer_Map_Movement
 	public function getEndLocation ()
 	{
 		return $this->endLocation;
+	}
+
+	public function getPath ()
+	{
+		return array ($this->getStartLocation ()->getData (false), $this->getEndLocation ()->getData (false));
 	}
 
 	public function getData ()

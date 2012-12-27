@@ -33,7 +33,9 @@ class Neuron_GameServer_Windows_Window
 		$modal = false,
 		$centered = false,
 
-		$container = 'center'
+		$container = 'center',
+
+		$requires = null
 	;
 	
 	// There we go with the new functions!
@@ -263,6 +265,8 @@ class Neuron_GameServer_Windows_Window
 			
 			$element->setAttribute ('center', $this->centered ? '1' : '0');
 			$element->setAttribute ('modal', $this->modal ? '1' : '0');
+
+			$element->setAttribute ('requires', $this->requires);
 			
 			
 			//$element->appendChild ($dom->createElement ('ajaxPollSec', $this->ajaxPollSeconds));
@@ -868,6 +872,9 @@ class Neuron_GameServer_Windows_Window
 		$str = str_ireplace($html,$xml,$str); 
 		return $str; 
 	} 
-}
 
-?>
+	public function requires ($script)
+	{
+		$this->requires = $script;
+	}
+}

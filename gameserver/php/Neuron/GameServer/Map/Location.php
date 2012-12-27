@@ -130,9 +130,16 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 		$this->z *= $scale;
 	}
 
-	public function getData ()
+	public function getData ($assoc = true)
 	{
-		return array ('x' => $this->x (), 'y' => $this->y (), 'z' => $this->z ());
+		if ($assoc)
+		{
+			return array ('x' => $this->x (), 'y' => $this->y (), 'z' => $this->z ());
+		}
+		else
+		{
+			return array ($this->x (), $this->y (), $this->z ());
+		}
 	}
 	
 	public function __tostring ()

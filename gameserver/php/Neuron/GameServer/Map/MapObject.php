@@ -30,6 +30,15 @@ abstract class Neuron_GameServer_Map_MapObject
 	
 	public function getLocation ()
 	{
+		// Go trough the paths to update
+		foreach ($this->movements as $v)
+		{
+			if ($v->isActive ())
+			{
+				return $v->getCurrentLocation ();
+			}
+		}
+
 		return $this->location;
 	}
 	
@@ -87,6 +96,11 @@ abstract class Neuron_GameServer_Map_MapObject
 		}
 		
 		return array ();
+	}
+
+	public function move (Neuron_GameServer_Map_Movement $movement)
+	{
+		// To be defined by clients
 	}
 
 	public function addMovement (Neuron_GameServer_Map_Movement $movement)
