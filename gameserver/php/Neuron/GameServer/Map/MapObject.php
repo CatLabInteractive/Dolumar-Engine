@@ -127,7 +127,8 @@ abstract class Neuron_GameServer_Map_MapObject
 				'x' => $location->x (),
 				'y' => $location->y (),
 				'z' => $location->z (),
-				'id' => $this->getUOID ()
+				'id' => $this->getUOID (),
+				'name' => $this->getName ()
 			),
 			'top' => array 
 			(

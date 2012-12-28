@@ -8,6 +8,14 @@ abstract class Neuron_GameServer_Map_Managers_MapObjectManager
 	public abstract function getDisplayObjects (Neuron_GameServer_Map_Area $area);
 	
 	/**
+	* Called once in a while. Used to remove old objects.
+	*/
+	public function clean ()
+	{
+
+	}
+
+	/**
 	*	Move an object to another position
 	*/	
 	public function move 

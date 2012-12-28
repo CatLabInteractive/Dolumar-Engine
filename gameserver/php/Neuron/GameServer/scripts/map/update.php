@@ -10,6 +10,7 @@ $lastlog = Neuron_Core_Tools::getInput ('_REQUEST', 'from', 'int');
 $ll = intval ($lastlog);
 
 $out = array ();
+$attributes = array ();
 
 if ($ll < 1)
 {
@@ -24,10 +25,7 @@ if ($ll < 1)
 	");
 
 	$out = array ();
-	$out['objects'] = array ();
-	$out['objects']['attributes'] = array ();
-	
-	$out['objects']['attributes']['last'] = intval ($last[0]['laatste']);
+	$attributes = array ('last' => intval ($last[0]['laatste']));
 }
 
 else
@@ -45,21 +43,28 @@ else
 	$last = $ll;
 	
 	$out['objects'] = array ();
+	$out['removes'] = array ();
 
 	foreach ($q as $v)
 	{
-		//$this->alert ('reloading ' . $v['mu_x'] . ',' . $v['mu_y']);
-		$object = Neuron_GameServer::getInstance ()->getMap ()->getMapObjectManager ()->getFromUOID ($v['mu_uoid']);
-
 		if ($last < $v['mu_id'])
 		{
 			$last = $v['mu_id'];
 		}
-
-		$out['objects'][] = $object->getExportData ();
+		
+		if ($v['mu_action'] == 'REMOVE')
+		{
+			$out['removes'][] = array ('attributes' => array ('id' => $v['mu_uoid']));
+		}
+		else
+		{
+			//$this->alert ('reloading ' . $v['mu_x'] . ',' . $v['mu_y']);
+			$object = Neuron_GameServer::getInstance ()->getMap ()->getMapObjectManager ()->getFromUOID ($v['mu_uoid']);
+			$out['objects'][] = $object->getExportData ();
+		}
 	}
 
-	$out['objects']['attributes']['last'] = $last;
+	$attributes['last'] = $last;
 }
 
-echo Neuron_Core_Tools::output_xml ($out);
+echo Neuron_Core_Tools::output_xml ($out, '1', 'updates', $attributes);

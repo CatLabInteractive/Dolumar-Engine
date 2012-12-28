@@ -18,6 +18,8 @@ if (isset ($_POST['regions']) && is_array ($_POST['regions']))
 {
 	$objectManager = $this->getMap ()->getMapObjectManager ();
 
+	$objectManager->clean ();
+
 	foreach ($_POST['regions'] as $v)
 	{
 		$x = isset ($v['x']) ? $v['x'] : 0;
