@@ -210,6 +210,7 @@ class Neuron_GameServer_Player
 
 	public function isNicknameSet ()
 	{
+		$this->loadData ();
 		return !empty ($this->data['nickname']);
 	}
 	
