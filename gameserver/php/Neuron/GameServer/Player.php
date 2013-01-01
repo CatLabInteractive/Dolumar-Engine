@@ -1116,7 +1116,7 @@ class Neuron_GameServer_Player
 			$db = Neuron_Core_Database::__getInstance ();
 			$this->loadData ();
 			
-			if (empty ($this->data['nickname']))
+			if (!$this->isNicknameSet ())
 			{
 				if (Neuron_Core_Tools::checkInput ($nickname, 'username'))
 				{
