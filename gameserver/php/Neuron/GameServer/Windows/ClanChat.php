@@ -36,6 +36,11 @@ class Neuron_GameServer_Windows_ClanChat
 					$me = Neuron_GameServer::getPlayer ();
 				}
 
+				else
+				{
+					return null;
+				}
+
 				if ($clan->isMember ($me))
 				{
 					return $clan;
