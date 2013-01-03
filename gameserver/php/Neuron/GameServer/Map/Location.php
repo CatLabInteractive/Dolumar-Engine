@@ -5,7 +5,7 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 
 	public function __construct ($x, $y, $z = null)
 	{
-		if (!is_numeric ($x) || !is_numeric ($y) || !is_numeric ($z))
+		if (!is_numeric ($x) || !is_numeric ($y) || ($z !== null && !is_numeric ($z))
 		{
 			throw new Neuron_Exceptions_InvalidParameter ("Coordinates should be numeric.");
 		}
