@@ -39,7 +39,7 @@ function cache_color ($color)
 foreach ($stars as $v)
 {
 	$l = $v->getLocation ();
-	$l->scale (1 / $zoom);
+	$l = $l->scale (1 / $zoom);
 	$color = cache_color ($v->getDisplayObject ()->getColor ());
 
 	imagerectangle ($im, $l[0] + $offsetX, $l[1] + $offsetY, $l[0] + $offsetX + 10, $l[1] + $offsetY + 10, $color);

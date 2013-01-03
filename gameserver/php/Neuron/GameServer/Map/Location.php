@@ -3,7 +3,7 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 {
 	private $x, $y, $z;
 
-	public function __construct ($x, $y, $z = 0)
+	public function __construct ($x, $y, $z = null)
 	{
 		if (!is_numeric ($x) || !is_numeric ($y) || !is_numeric ($z))
 		{
@@ -125,9 +125,11 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 
 	public function scale ($scale)
 	{
-		$this->x *= $scale;
-		$this->y *= $scale;
-		$this->z *= $scale;
+		$x = $this->x * $scale;
+		$y = $this->y * $scale;
+		$z = $this->z * $scale;
+
+		return new self ($x, $y, $z);
 	}
 
 	public function getData ($assoc = true)
@@ -144,7 +146,14 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 	
 	public function __tostring ()
 	{
-		return '(' . $this->x () . ',' . $this->y () . ')';
+		if ($this->z !== null)
+		{
+			return '(' . round ($this->x ()) . ',' . round ($this->y ()) . ',' . round ($this->z ()) . ')';
+		}
+		else
+		{
+			return '(' . round ($this->x ()) . ',' . round ($this->y ()) . ')';
+		}
 	}
 }
 ?>

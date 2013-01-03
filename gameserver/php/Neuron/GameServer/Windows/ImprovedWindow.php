@@ -6,7 +6,7 @@ class Neuron_GameServer_Windows_ImprovedWindow
 
 	protected function getXMLNamespace ()
 	{
-		return 'http://www.w3.org/1999/xhtml';
+		return 'http://schema.catlab.eu/catml.xsd';
 	}
 
 }

@@ -21,7 +21,7 @@ $white = imagecolorallocate($im, 255, 255, 255);
 foreach ($stars as $v)
 {
 	$l = $v->getLocation ();
-	$l->scale (1 / Andromeda_Universe_Universe::STAR_RESOLUTION);
+	$l = $l->scale (1 / Andromeda_Universe_Universe::STAR_RESOLUTION);
 	imagesetpixel ($im, $l[0] + $offsetX, $l[1] + $offsetY, $white);
 }
 

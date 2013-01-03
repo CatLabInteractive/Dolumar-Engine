@@ -41,6 +41,26 @@ abstract class Neuron_GameServer_Map_MapObject
 
 		return $this->location;
 	}
+
+	/**
+	* Goes true all paths and checks the final location
+	*/
+	public function getEndLocation ()
+	{
+		$lastLocation = $this->getLocation ();
+		$lastDate = NOW;
+
+		foreach ($this->movements as $v)
+		{
+			if ($v->getEndTime () > $lastDate)
+			{
+				$lastDate = $v->getEndTime ();
+				$lastLocation = $v->getEndLocation ();
+			}
+		}
+
+		return $lastLocation;
+	}
 	
 	public function setMapObjectStatus (Neuron_GameServer_Map_MapObjectStatus $status)
 	{
