@@ -973,7 +973,7 @@ class Auth_OpenID_GenericConsumer {
             // _checkAuth.
             if (!$this->_checkAuth($message, $server_url)) {
 
-                customMail ('thijs@catlab.be', 'OpenID server denied check_authentication ' . $server_url, 'blaaa');
+                customMail ('thijs@catlab.be', 'OpenID server denied check_authentication ' . $server_url, htmlentities ($message));
 
                 return new Auth_OpenID_FailureResponse(null,
                              "Server denied check_authentication");
