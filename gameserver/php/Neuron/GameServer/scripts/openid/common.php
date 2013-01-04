@@ -1,5 +1,9 @@
 <?php
 
+header('Cache-Control: no-cache');
+header('Pragma: no-cache');
+
+
 restore_error_handler ();
 error_reporting (E_ERROR);
 
