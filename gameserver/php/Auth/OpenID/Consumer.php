@@ -960,7 +960,7 @@ class Auth_OpenID_GenericConsumer {
                 // If we get a "bad signature" here, it means that the association
                 // is unrecoverabley corrupted in some way. Any futher attempts
                 // to login with this association is likely to fail. Drop it.
-                var_dump ($message);
+                customMail ('thijs@catlab.be', 'OpenID bad signature', $message);
 
                 $this->store->removeAssociation($server_url, $assoc_handle);
                 return new Auth_OpenID_FailureResponse(null,
