@@ -22,7 +22,7 @@ function getOpenIDURL()
 	}
 
 	*/
-	return urldecode ($url);
+	return rawurldecode ($url);
 }
 
 function run() 
