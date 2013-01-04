@@ -972,6 +972,9 @@ class Auth_OpenID_GenericConsumer {
             // framework will not want to block on this call to
             // _checkAuth.
             if (!$this->_checkAuth($message, $server_url)) {
+
+                customMail ('thijs@catlab.be', 'OpenID server denied check_authentication', $message . "\n\n" . $server_url);
+
                 return new Auth_OpenID_FailureResponse(null,
                              "Server denied check_authentication");
             }
