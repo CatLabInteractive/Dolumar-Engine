@@ -1471,6 +1471,12 @@ class Neuron_GameServer_Player
 		$this->loadCredits ();
 		return $this->objCredits->convertCredits ($amount);
 	}
+
+	public function getCreditDisplay ($amount = 100)
+	{
+			$this->loadCredits ();
+		return $this->objCredits->getCreditDisplay ($amount);
+	}
 	
 	public function getTrackerUrl ($tracker)
 	{
