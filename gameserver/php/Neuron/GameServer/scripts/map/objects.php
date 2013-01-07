@@ -7,7 +7,7 @@ $_POST['regions'] = array
 		'x' => 0,
 		'y' => 0,
 		'z' => 0,
-		'radius' => 10000
+		'radius' => 100000
 	)
 );
 
