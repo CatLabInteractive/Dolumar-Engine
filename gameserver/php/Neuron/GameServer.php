@@ -314,10 +314,24 @@ class Neuron_GameServer
 				else
 				{
 					$file = isset ($sInputs[1]) ? $sInputs[1] : null;
+
+					if (@include ('scripts/tests/' . $sInputs[1] . '.php'))
+					{
+						//include_once ('scripts/tests/' . $sInputs[1] . '.php');
+					}
+					else if (@include (self::SCRIPT_PATH.'tests/'.$file.'.php'))
+					{
+						// ok	
+					}
+					else
+					{
+						echo "File not found: " . self::SCRIPT_PATH.'tests/'.$file.'.php';
+					}
+
 					/*if (file_exists (self::SCRIPT_PATH.'tests/'.$file.'.php'))
 					{
 					*/
-					require_once (self::SCRIPT_PATH.'tests/'.$file.'.php');
+
 					/*}
 					else
 					{
