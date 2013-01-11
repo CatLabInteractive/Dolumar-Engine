@@ -367,11 +367,13 @@ TiledImageViewer.prototype.updatePointerBackgroundImage = function (image)
 
 TiledImageViewer.prototype.selectLocation = function (callback, onFinish, image)
 {
+	var self = this;
 	this.selecting = true;
 
 	this.el.onmousedown = TIV_selectLocation;
 	this.el.onmouseup = function (e)
 	{
+		self.el.onmousedown = null;
 		if (!e) {
 			e = window.event;
 		}
