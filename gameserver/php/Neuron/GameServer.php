@@ -519,7 +519,10 @@ class Neuron_GameServer
 							$window->setDivId ($v['sDialogId']);
 						
 							// Set request data
-							$window->setRequestData ($v['sRequestData']);
+							if (isset ($v['sRequestData']))
+							{
+								$window->setRequestData ($v['sRequestData']);
+							}
 						
 							// Set input data
 							$window->setJsonInputData ($v['sInputData']);
