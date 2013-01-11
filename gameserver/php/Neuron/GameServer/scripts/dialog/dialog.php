@@ -72,7 +72,12 @@ if (is_array ($openwindows))
 				else
 				{
 					$window = $this->getWindow ($v['sWindowId']);
-					$window->setRequestData ($v['sRequestData']);
+
+					if (isset ($v['sRequestData']))
+					{
+						$window->setRequestData ($v['sRequestData']);
+					}
+					
 					$window->setJsonInputData ($v['sInputData']);
 					
 					// Append to array
