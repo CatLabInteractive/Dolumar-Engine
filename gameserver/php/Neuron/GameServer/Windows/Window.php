@@ -187,8 +187,8 @@ class Neuron_GameServer_Windows_Window
 			$me = Neuron_GameServer::getPlayer ();
 			if ($me)
 			{
-				$out .= '<iframe src="'.htmlentities ($me->getTrackerUrl ('login')).'" width="0" '.
-					'height="0" border="0" class="hidden-iframe"></iframe>';
+				$out .= '<iframe src="'.htmlentities ($me->getTrackerUrl ('login')).'" width="1" '.
+					'height="1" border="0" class="hidden-iframe"></iframe>';
 			}
 			
 			$_SESSION['just_logged_in'] = false;
