@@ -176,7 +176,7 @@ class Neuron_GameServer_Windows_Window
 	{
 		$out = $this->getContent ();
 		
-		if (!$out)
+		if (!$out || $this->getType () == 'invisible')
 		{
 			return false;
 		}
