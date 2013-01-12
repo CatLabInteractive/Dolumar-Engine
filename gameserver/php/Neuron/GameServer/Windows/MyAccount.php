@@ -47,6 +47,12 @@ class Neuron_GameServer_Windows_MyAccount extends Neuron_GameServer_Windows_Wind
 					else
 					{
 						$html = $this->showMyAccount ();
+
+						if (isset ($_SESSION['just_registered']) && $_SESSION['just_registered'])
+						{
+							$html .= '<iframe src="'.htmlentities ($me->getTrackerUrl ('registration')).'" width="1" '.
+								'height="1" border="0" class="hidden-iframe"></iframe>';
+						}
 					}
 				}
 
@@ -74,6 +80,7 @@ class Neuron_GameServer_Windows_MyAccount extends Neuron_GameServer_Windows_Wind
 					else
 					{
 						$html = $this->getPlayerInitialization ();
+						$_SESSION['just_registered'] = true;
 					}
 				}
 				
