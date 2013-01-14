@@ -2,12 +2,13 @@
 class Neuron_GameServer_Map_Display_Cuboid
 	extends Neuron_GameServer_Map_Display_Mesh
 {
-	private $width, $height;
+	private $width, $height, $depth;
 
-	public function __construct ($width, $height, Neuron_GameServer_Map_Color $color)
+	public function __construct ($width, $height, $depth, Neuron_GameServer_Map_Color $color)
  	{
  		$this->width = $width;
  		$this->height = $height;
+ 		$this->depth = $depth;
 
  		$this->setColor ($color);
  	}
@@ -31,6 +32,7 @@ class Neuron_GameServer_Map_Display_Cuboid
 				'model' => 'cuboid',
 				'width' => $this->width,
 				'height' => $this->height,
+				'depth' => $this->depth,
 				'color' => $this->getColor ()->getHex ()
 			)
 		);

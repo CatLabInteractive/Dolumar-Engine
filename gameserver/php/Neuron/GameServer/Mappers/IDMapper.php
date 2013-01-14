@@ -1,6 +1,8 @@
 <?php
 class Neuron_GameServer_Mappers_IDMapper
 {
+	private static $JUST_ADDED = false;
+
 	public static function getId (Andromeda_Interfaces_Identifiable $object)
 	{
 		$db = Neuron_DB_Database::getInstance ();
@@ -25,11 +27,13 @@ class Neuron_GameServer_Mappers_IDMapper
 
 		if (count ($chk) > 0)
 		{
+			self::$JUST_ADDED = false;
 			return $chk[0]['ai_id'];
 		}
 
 		else
 		{
+			self::$JUST_ADDED = true;
 			$id = $db->query 
 			("
 				INSERT INTO
@@ -70,5 +74,10 @@ class Neuron_GameServer_Mappers_IDMapper
 		{
 			throw new Exception ("Object not found in IDMapper.");
 		}
+	}
+
+	public static function isJustAdded ()
+	{
+		return self::$JUST_ADDED;
 	}
 }
