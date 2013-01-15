@@ -26,6 +26,10 @@ abstract class Neuron_GameServer_Windows_BaseChat
 		$this->setTitle ($this->getTitle ());
 
 		$this->additionalSettings ();
+
+		$this->channel->subscribe ('chat-' . $this->getChannelID ());
+
+		$this->setContainer ('left');
 	}
 
 	protected function additionalSettings ()
@@ -161,6 +165,8 @@ abstract class Neuron_GameServer_Windows_BaseChat
 		$msgid = $mapper->sendMessage ($channelId, $message, $user);
 
 		$this->onPostMessage ($msgid, $mapper);
+
+		$this->channel->refresh ('chat-' . $this->getChannelID ());
 	}
 
 	protected function onPostMessage ($msgId, Neuron_GameServer_Mappers_ChatMapper $mapper)

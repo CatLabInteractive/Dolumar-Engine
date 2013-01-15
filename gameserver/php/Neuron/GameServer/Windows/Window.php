@@ -1,9 +1,7 @@
 <?php
-
 class Neuron_GameServer_Windows_Window 
 	implements Neuron_GameServer_Interfaces_Window
 {
-
 	private 
 		$width = 300, 
 		$height = 150, 
@@ -37,6 +35,8 @@ class Neuron_GameServer_Windows_Window
 
 		$requires = null
 	;
+
+	public $channel;
 	
 	// There we go with the new functions!
 	private $sType = 'window';
@@ -53,6 +53,8 @@ class Neuron_GameServer_Windows_Window
 	*/
 	public function __construct ()
 	{
+		$this->channel = new Neuron_GameServer_Models_Channel ();
+
 		$this->setUrlCallback (array ($this, '_getUrl'));
 		libxml_use_internal_errors(true);
 	}
@@ -307,6 +309,15 @@ class Neuron_GameServer_Windows_Window
 			$attribute = $dom->createElement ('requestData');
 			$attribute->appendChild ($content);
 			$element->appendChild ($attribute);
+
+			$subsribed = $dom->createElement ('subscriptions');
+			foreach ($this->channel->getSubscriptions () as $v)
+			{
+					$el = $dom->createElement ('channel');
+					$el->setAttribute ('channel', $v);
+					$subsribed->appendChild ($el);
+			}
+			$element->appendChild ($subsribed);
 		
 			return $element;
 		}
@@ -424,6 +435,19 @@ class Neuron_GameServer_Windows_Window
 	
 	public function getRefresh () {}
 
+	private function appendChannelUpdates ($element)
+	{
+		$dom = $this->dom;
+		foreach ($this->channel->getUpdates () as $v)
+		{
+			$up = $dom->createElement ('update');
+			$up->setAttribute ('action', 'channel');
+			$up->setAttribute ('chaction', $v['action']);
+			$up->setAttribute ('channel', $v['channel']);
+			$element->appendChild ($up);
+		}
+	}
+
 	public function getDOMRefresh ()
 	{
 		// Process input
@@ -463,6 +487,8 @@ class Neuron_GameServer_Windows_Window
 			$element->appendChild ($attribute);
 			
 			$element->setAttribute ('onLoad', $this->getOnload ());
+
+			$this->appendChannelUpdates ($element);
 			
 			return $element;
 		}

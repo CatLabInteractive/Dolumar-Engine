@@ -104,6 +104,7 @@ if (is_array ($openwindows))
 }
 
 $updatewindows = $this->getOpenWindows ();
+$firstUpdate = true;
 
 foreach ($updatewindows as $window)
 {
@@ -118,6 +119,17 @@ foreach ($updatewindows as $window)
 		if (defined ('RELOAD'))
 		{
 			$window->reloadContent ();
+
+			if ($firstUpdate)
+			{
+				$window->channel->refresh ('__session__');
+				$firstUpdate = false;
+			}
+		}
+
+		else if ($window->getInput ('action') == '__reloadContent__')
+		{
+			$window->reloadContent ();			
 		}
 	
 		// Load updates
