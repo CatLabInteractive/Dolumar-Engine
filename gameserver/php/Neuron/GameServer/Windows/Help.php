@@ -5,15 +5,11 @@ class Neuron_GameServer_Windows_Help extends Neuron_GameServer_Windows_Window
 	protected $prefix;
 	protected $page;
 	
-	public function __construct ()
+	public function setSettings ()
 	{
 		$text = Neuron_Core_Text::__getInstance ();
 		$this->prefix = WIKI_PREFIX.strtoupper ($text->getCurrentLanguage ());
-	}
-	
-	public function setSettings ()
-	{
-	
+
 		$text = Neuron_Core_Text::__getInstance ();
 	
 		// Window settings
