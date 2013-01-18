@@ -89,19 +89,6 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 		return new self ($this->x + $x, $this->y + $y, $this->z + $z);
 	}
 	
-	public function getDistance (Neuron_GameServer_Map_Location $location)
-	{
-		$x1 = $this->x ();
-		$y1 = $this->y ();
-		$z1 = $this->z ();
-		
-		$x2 = $location->x ();
-		$y2 = $location->y ();
-		$z2 = $location->z ();
-		
-		return sqrt (pow ($x1 - $x2, 2) + pow ($y1 - $y2, 2) + pow ($z1 - $z2, 2));
-	}
-	
 	public function equals (Neuron_GameServer_Map_Location $location)
 	{
 		return $this->x () == $location->x () 
@@ -130,6 +117,15 @@ class Neuron_GameServer_Map_Location implements ArrayAccess
 		$z = $this->z * $scale;
 
 		return new self ($x, $y, $z);
+	}
+
+	public function getDistance (Neuron_GameServer_Map_Location $location)
+	{
+		return sqrt (
+			pow ($location->x () - $this->x (), 2) + 
+			pow ($location->y () - $this->y (), 2) + 
+			pow ($location->z () - $this->z (), 2)
+		);
 	}
 
 	public function getData ($assoc = true)

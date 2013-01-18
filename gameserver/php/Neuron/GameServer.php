@@ -319,7 +319,7 @@ class Neuron_GameServer
 					{
 						//include_once ('scripts/tests/' . $sInputs[1] . '.php');
 					}
-					else if (@include (self::SCRIPT_PATH.'tests/'.$file.'.php'))
+					else if (include (self::SCRIPT_PATH.'tests/'.$file.'.php'))
 					{
 						// ok	
 					}
