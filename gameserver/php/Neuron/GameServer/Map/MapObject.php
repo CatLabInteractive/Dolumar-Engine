@@ -28,14 +28,14 @@ abstract class Neuron_GameServer_Map_MapObject
 		$this->location = $location;
 	}
 	
-	public function getLocation ()
+	public function getLocation ($time = NOW)
 	{
 		// Go trough the paths to update
 		foreach ($this->movements as $v)
 		{
-			if ($v->isActive ())
+			if ($v->isActive ($time))
 			{
-				return $v->getCurrentLocation ();
+				return $v->getCurrentLocation ($time);
 			}
 		}
 
@@ -60,6 +60,23 @@ abstract class Neuron_GameServer_Map_MapObject
 		}
 
 		return $lastLocation;
+	}
+
+	public function getEndUp ()
+	{
+		$lastUp = $this->getLocation ();
+		$lastDate = NOW;
+
+		foreach ($this->movements as $v)
+		{
+			if ($v->getEndTime () > $lastDate)
+			{
+				$lastDate = $v->getEndTime ();
+				$lastUp = $v->getEndUp ();
+			}
+		}
+
+		return $lastUp;
 	}
 	
 	public function setMapObjectStatus (Neuron_GameServer_Map_MapObjectStatus $status)
@@ -128,6 +145,44 @@ abstract class Neuron_GameServer_Map_MapObject
 		$this->movements[] = $movement;
 	}
 
+	/**
+	* The up vector can be manipulated by the movements.
+	*/
+	public function getUp ($time = NOW)
+	{
+		// Go trough the paths to update
+		foreach ($this->movements as $v)
+		{
+			if ($v->isActive ($time))
+			{
+				$up = $v->getCurrentUp ($time);
+				if (isset ($up))
+				{
+					return $v->getCurrentUp ($time);
+				}
+			}
+		}
+
+		return new Neuron_GameServer_Map_Vector3 (0, 1, 0);
+	}
+
+	/**
+	* Rotation can also be manipulated by the movement.
+	* By default, an object always "looks" in the direction of the movement
+	*/
+	public function getDirection ()
+	{
+		return new Neuron_GameServer_Map_Vector3 (0, 0, 0);
+	}
+
+	/**
+	* Return the default rotation (use this to turn your object around)
+	*/
+	public function getDefaultRotation ()
+	{
+		return new Neuron_GameServer_Map_Vector3 (0, 0, 0);
+	}
+
 	public function getExportData ()
 	{
 		$location = $this->getLocation ();
@@ -150,17 +205,11 @@ abstract class Neuron_GameServer_Map_MapObject
 				'id' => $this->getUOID (),
 				'name' => $this->getName ()
 			),
-			'top' => array 
-			(
-				'attributes' => array
-				(
-					'x' => 0,
-					'y' => 1,
-					'z' => 0
-				)
-			),
-			'paths' => $path,
-			'model' => $displayobject->getDisplayData ()
+			'up' => array ('attributes' => $this->getUp ()->getData ()),
+			'model' => $displayobject->getDisplayData (),
+			'defaultRotation' => array ('attributes' => $this->getDefaultRotation ()->getData ()),
+			'direction' => array ('attributes' => $this->getDirection ()->getData ()),
+			'paths' => $path
 		);
 
 		return $out;

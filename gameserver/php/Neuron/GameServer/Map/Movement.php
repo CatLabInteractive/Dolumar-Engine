@@ -9,6 +9,12 @@ class Neuron_GameServer_Map_Movement
 	private $acceleration = 0;
 	private $startSpeed = 0;
 
+	private $startRotation = null;
+	private $endRotation = null;
+
+	private $startUp = null;
+	private $endUp = null;
+
 	/**
 	* A bezier curved movement description
 	* @param $startTime: Start timestamp
@@ -104,25 +110,104 @@ class Neuron_GameServer_Map_Movement
 		return $this->startTime <= $time && $this->endTime > $time;
 	}
 
+	private function calcPositionFromVelocity ($progress)
+	{
+		$progress *= $this->getDuration ();
+		$speed = $this->calculateSpeed ();
+		return (( $speed['start'] * $progress) + (0.5 * $speed['acceleration'] * $progress * $progress)) / $this->getDistance ();
+	}
+
+	private function calcPositionFromBezierCurve ($t)
+	{
+		$u = (1 - $t);
+
+		$location = array (0, 0, 0);
+		if (count ($this->locations) == 2)
+		{
+			for ($i = 0; $i <= 2; $i ++)	
+			{
+				$location[$i] = ($u * $this->locations[0][$i]) 
+					+ ($t * $this->locations[1][$i]);
+			}
+		}
+
+		else if (count ($this->locations) == 3)
+		{
+			$uu = $u * $u;
+			$tt = $t * $t;
+
+			for ($i = 0; $i <= 2; $i ++)	
+			{
+				$location[$i] = ($uu * $this->locations[0][$i]) 
+					+ (2 * $u * $t * $this->locations[1][$i]) 
+					+ ($tt * $this->locations[2][$i]);
+			}
+		}
+
+		else if (count ($this->locations) == 4)
+		{
+			$uu = $u * $u;
+			$tt = $t * $t;
+			$uuu = $uu * $u;
+			$ttt = $tt * $t;
+
+			for ($i = 0; $i <= 2; $i ++)	
+			{
+				$location[$i] = ($uuu * $this->locations[0][$i]) 
+					+ (3 * $uu * $t * $this->locations[1][$i]) 
+					+ (3 * $u * $tt * $this->locations[2][$i]) 
+					+ ($ttt * $this->locations[3][$i]);
+			}
+		}
+
+		return new Neuron_GameServer_Map_Location ($location[0], $location[1], $location[2]);;
+	}
+
 	public function getCurrentLocation ($time = NOW)
 	{
 		$diff = $this->endTime - $this->startTime;
 		$percentage = ($time - $this->startTime) / $diff;
 
 		//customMail ('daedelson@gmail.com', 'coortest', $percentage);
+		$percentage = $this->calcPositionFromVelocity ($percentage);
 
-		$s = $this->getStartLocation ();
-		$e = $this->getEndLocation ();
+		return $this->calcPositionFromBezierCurve ($percentage);
+	}
 
-		$dx = $e->x () - $s->x ();
-		$dy = $e->y () - $s->y ();
-		$dz = $e->z () - $s->z ();
+	public function getCurrentUp ($time = NOW)
+	{
+		if (isset ($this->startUp) && isset ($this->endUp))
+		{
+			$diff = $this->endTime - $this->startTime;
+			$percentage = ($time - $this->startTime) / $diff;
 
-		$x = $s->x () + ($dx * $percentage);
-		$y = $s->y () + ($dy * $percentage);
-		$z = $s->z () + ($dz * $percentage);
+			$rotation = $this->startUp->transform ($this->endUp->transform ($this->startUp->inverse ())->scale ($percentage));
+			return $rotation->normalize ();
+		}
+		else
+		{
+			return null;
+		}
+	}
 
-		return new Neuron_GameServer_Map_Location ($x, $y, $z);
+	public function getCurrentDirection ($time = NOW)
+	{
+		if (isset ($this->startRotation) && isset ($this->endRotation))
+		{
+			$diff = $this->endTime - $this->startTime;
+			$percentage = ($time - $this->startTime) / $diff;
+
+			$rotation = $this->startRotation->transform ($this->endRotation->transform ($this->startRotation->inverse ())->scale ($percentage));
+			return $rotation->normalize ();
+		}
+
+		else
+		{
+			$t1 = $this->getCurrentLocation ($time);
+			$t2 = $this->getCurrentLocation ($time + 0.001);
+
+			return $t2->transform ($t1)->normalize ();
+		}
 	}
 
 	public function getStartLocation ()
@@ -211,6 +296,34 @@ class Neuron_GameServer_Map_Movement
 		return $out;
 	}
 
+	/**
+	* If no rotation is set, object will face in direction of movement
+	*/
+	public function setDirection (Neuron_GameServer_Map_Vector3 $start, Neuron_GameServer_Map_Vector3 $end)
+	{
+		$this->startRotation = $start;
+		$this->endRotation = $end;
+	}
+
+	/**
+	* Set "UP" vector that will be interpolated
+	*/
+	public function setUp (Neuron_GameServer_Map_Vector3 $start, Neuron_GameServer_Map_Vector3 $end)
+	{
+		$this->startUp = $start->normalize ();
+		$this->endUp = $end->normalize ();
+	}
+
+	public function getStartUp ()
+	{
+		return $this->startUp;
+	}
+
+	public function getEndUp ()
+	{
+		return $this->endUp;
+	}
+
 	public function getData ()
 	{
 		$out = array ();
@@ -242,6 +355,24 @@ class Neuron_GameServer_Map_Movement
 		(
 			'attributes' => $this->calculateSpeed ()
 		);
+
+		if (isset ($this->startRotation) && isset ($this->endRotation))
+		{
+			$out['diration'] = array 
+			(
+				'start' => array ('attributes' => $this->startRotation->getData ()),
+				'end' => array ('attributes' => $this->startRotation->getData ())
+			);
+		}
+
+		if (isset ($this->startUp) && isset ($this->endUp))
+		{
+			$out['up'] = array
+			(
+				'start' => array ('attributes' => $this->startUp->getData ()),
+				'end' => array ('attributes' => $this->endUp->getData ())
+			);
+		}
 
 		return $out;
 	}
