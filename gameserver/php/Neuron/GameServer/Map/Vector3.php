@@ -3,7 +3,7 @@ class Neuron_GameServer_Map_Vector3 implements ArrayAccess
 {
 	private $x, $y, $z;
 
-	public final function __construct ($x, $y, $z = null)
+	public function __construct ($x, $y, $z = null)
 	{
 		if (!is_numeric ($x) || !is_numeric ($y) || ($z !== null && !is_numeric ($z)))
 		{
