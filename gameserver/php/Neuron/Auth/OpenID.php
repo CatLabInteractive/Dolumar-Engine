@@ -1,7 +1,7 @@
 <?php
 class Neuron_Auth_OpenID
 {
-	private $disableredirect = false;
+	private $disableredirect = true;
 
 	public function dispatch ($openid_url = null)
 	{
