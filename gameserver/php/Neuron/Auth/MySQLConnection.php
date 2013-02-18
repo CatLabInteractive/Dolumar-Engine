@@ -25,14 +25,14 @@
 class Neuron_Auth_MySQLConnection 
     extends Auth_OpenID_DatabaseConnection {
 
-            private $debug = true;
+            private $debug = false;
             private $error = false;
     
         private function printf ($sql, $params)
         {
             $db = Neuron_DB_Database::getInstance ();
             $sql = str_replace ('?', '%s', $sql);
-            $sql = str_replace ('!', '%i', $sql);
+            $sql = str_replace ('!', '%s', $sql);
 
             foreach ($params as $k => $v)
             {
