@@ -210,7 +210,7 @@ class Neuron_GameServer
 
 	public function openid ()
 	{
-		$openid = new Neuron_OpenID ();
+		$openid = new Neuron_Auth_OpenID ();
 		$openid->dispatch ();
 	}
 

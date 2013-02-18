@@ -1,9 +1,14 @@
 <?php
-class Neuron_OpenID
+class Neuron_Auth_OpenID
 {
+	private $disableredirect = false;
+
 	public function dispatch ($openid_url = null)
 	{
-		if (isset ($openid_url))
+		$sInputs = explode ('/', isset ($_GET['module']) ? $_GET['module'] : '');
+		//unset ($_GET['module']);
+
+		if (isset ($openid_url) || !isset ($_GET['openid_url']))
 		{
 			$_GET['openid_url'] = $openid_url;
 		}
@@ -199,11 +204,19 @@ class Neuron_OpenID
 			else 
 			{
 				// Send redirect.
-				header("Location: ".$redirect_url);
+				if (!$this->disableredirect)
+				{
+					header("Location: ".$redirect_url);
+				}
+
 				echo '<html>';
 				echo '<head><style type="text/css">body { background: black; color: white; }</style><head>';
 				echo '<body>';
 				echo '<p>Redirecting to OpenID Gateway...</p>';
+				if ($this->disableredirect)
+				{
+					echo '<p><a href="'.$redirect_url.'">Click to continue.</a></p>';
+				}
 				echo '</body>';
 				echo '</html>';
 			}
@@ -222,8 +235,18 @@ class Neuron_OpenID
 			} 
 			else 
 			{
-				echo '<p>Redirecting to OpenID Gateway...</p>';
-				print $form_html;
+				//echo '<p>Redirecting to OpenID Gateway...</p>';
+
+				if (!$this->disableredirect)
+				{
+					print $form_html;
+				}
+				else
+				{
+					$form_html = str_replace ("onload='document.forms[0].submit();", "", $form_html);
+					$form_html = str_replace ('<script>var elements = document.forms[0].elements;for (var i = 0; i < elements.length; i++) {  elements[i].style.display = "none";}</script>', '', $form_html);
+					print $form_html;
+				}
 			}
 		}
 	}
@@ -406,7 +429,8 @@ class Neuron_OpenID
 				// when you hit submit.
 				$_SESSION['dolumar_openid_identity'] = $esc_identity;
 				$_SESSION['dolumar_openid_email'] = $email;
-				include ('new_account.php');
+				
+				header ('Location: ' . ABSOLUTE_URL.'dispatch.php?module=openid/register/');
 			}
 			
 			// Update this ID
@@ -421,84 +445,7 @@ class Neuron_OpenID
 				),
 				"openid_url = '".$db->escape ($esc_identity)."'"
 			);
-			
-			//customMail ('daedelson@gmail.com', 'login test', print_r ($_SESSION, true));
-			
-			/*		
-			$success = sprintf
-			(
-				'You have successfully verified <a href="%s">%s</a> as your identity.', 
-				$esc_identity, 
-				$esc_identity
-			);
-
-			if ($response->endpoint->canonicalID) 
-			{
-			    $escaped_canonicalID = escape($response->endpoint->canonicalID);
-			    $success .= '  (XRI CanonicalID: '.$escaped_canonicalID.') ';
-			}
-
-			$sreg_resp = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
-
-			$sreg = $sreg_resp->contents();
-
-			if (@$sreg['email']) 
-			{
-				$success .= "  You also returned '".escape($sreg['email'])."' as your email.";
-			}
-
-			if (@$sreg['nickname']) 
-			{
-				$success .= "  Your nickname is '".escape($sreg['nickname'])."'.";
-			}
-
-			if (@$sreg['fullname']) 
-			{
-				$success .= "  Your fullname is '".escape($sreg['fullname'])."'.";
-			}
-
-			$pape_resp = Auth_OpenID_PAPE_Response::fromSuccessResponse($response);
-
-			if ($pape_resp) 
-			{
-				if ($pape_resp->auth_policies) 
-				{
-					$success .= "<p>The following PAPE policies affected the authentication:</p><ul>";
-
-					foreach ($pape_resp->auth_policies as $uri) 
-					{
-						$escaped_uri = escape($uri);
-						$success .= "<li><tt>$escaped_uri</tt></li>";
-					}
-
-					$success .= "</ul>";
-				} 
-				else 
-				{
-					$success .= "<p>No PAPE policies affected the authentication.</p>";
-				}
-
-				if ($pape_resp->auth_age) 
-				{
-					$age = escape($pape_resp->auth_age);
-					$success .= "<p>The authentication age returned by the server is: <tt>".$age."</tt></p>";
-				}
-
-				if ($pape_resp->nist_auth_level) 
-				{
-					$auth_level = escape($pape_resp->nist_auth_level);
-					$success .= "<p>The NIST auth level returned by the server is: <tt>".$auth_level."</tt></p>";
-				}
-			} 
-			else 
-			{
-				$success .= "<p>No PAPE response was sent by the provider.</p>";
-			}
-			*/
 		}
-
-		//echo $success;
-		// include 'index.php';
 	}
 
 	private function newAccount ()
@@ -748,13 +695,6 @@ $pape_policy_uris = array
 
 function &getStore() 
 {
-	/**
-	* This is where the example will store its OpenID information.
-	* You should change this path if you want the example store to be
-	* created elsewhere.  After you're done playing with the example
-	* script, you'll have to remove this directory manually.
-	*/
-
 	/*
 	$store_path = CACHE_DIR.'openid';
 
@@ -764,10 +704,14 @@ function &getStore()
 			" Please check the effective permissions.";
 		exit(0);
 	}
+
+	$obj = new Auth_OpenID_FileStore ($store_path);
+	return $obj;
 	*/
 
 	$connection = new Neuron_Auth_MySQLConnection ();
 	$obj = new Auth_OpenID_MySQLStore ($connection);
+	$obj->createTables ();
 	return $obj;
 }
 

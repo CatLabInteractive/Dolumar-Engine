@@ -31,10 +31,18 @@ class Neuron_Auth_MySQLConnection
         {
             $db = Neuron_DB_Database::getInstance ();
             $sql = str_replace ('?', '%s', $sql);
+            $sql = str_replace ('!', '%i', $sql);
 
             foreach ($params as $k => $v)
             {
-                $params[$k] = "'" . $db->escape ($v) . "'";
+                if (is_numeric ($v))
+                {
+                    $params[$k] = $v;
+                }
+                else
+                {
+                    $params[$k] = "'" . $db->escape ($v) . "'";
+                }
             }
 
             $sql = vsprintf ($sql, $params);
@@ -71,17 +79,19 @@ class Neuron_Auth_MySQLConnection
         $db = Neuron_DB_Database::getInstance ();
         $sql = $this->printf ($sql, $params);
 
-        echo $sql;
-
         try
         {
+            //echo $sql . "<br><br>";
+
             $data = $db->query ($sql);
+
             $this->error = false;
             return $data;
         }
         catch (Exception $e)
         {
             $this->error = true;
+            //echo 'error';
         }
     }
 
@@ -123,6 +133,8 @@ class Neuron_Auth_MySQLConnection
      */
     function getOne($sql, $params = array())
     {
+        //echo 'get one --- ';
+
         $data = $this->query ($sql, $params);
 
         if (count ($data) > 0)
@@ -130,7 +142,7 @@ class Neuron_Auth_MySQLConnection
             $data = array_values ($data[0]);
             return $data[0];
         }
-        return null;
+        return false;
     }
 
     /**
@@ -149,13 +161,20 @@ class Neuron_Auth_MySQLConnection
      */
     function getRow($sql, $params = array())
     {
+        //echo 'get row --- ';
+
         $data = $this->query ($sql, $params);
 
+        $row = false;
         if (count ($data) > 0)
         {
-            return $data[0];
+            $row = $data[0];
         }
-        return null;
+
+        //var_dump ($row);
+        //echo '<br><br>';
+
+        return $row;
     }
 
     /**
@@ -173,8 +192,9 @@ class Neuron_Auth_MySQLConnection
      */
     function getAll($sql, $params = array())
     {
-        $data = $this->query ($sql, $params);
+        //echo 'get all --- ';
 
+        $data = $this->query ($sql, $params);
         return $data;
     }
 

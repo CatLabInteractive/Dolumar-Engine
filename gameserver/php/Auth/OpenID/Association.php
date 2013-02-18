@@ -343,6 +343,7 @@ class Auth_OpenID_Association {
                                                            'openid.' .
                                                            $field, ''));
         }
+
         return $pairs;
     }
 
