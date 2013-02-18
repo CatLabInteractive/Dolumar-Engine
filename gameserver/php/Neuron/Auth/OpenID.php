@@ -453,6 +453,21 @@ class Neuron_Auth_OpenID
 		// This script should only be executed if an openid is set in the session
 		if (isset ($_SESSION['dolumar_openid_identity']))
 		{
+			$login = Neuron_Core_Login::__getInstance ();
+			$id = $login->registerAccount ();
+
+			if ($id > 0)
+			{
+				registerWithOpenid ($id, $_SESSION['dolumar_openid_identity']);
+			}
+			else
+			{
+				die ('Could not register a new account: '.$login->getError ());
+			}
+
+			// Skip all the login magic, combining account is now only done on a bigger level.
+			/*
+
 			header("Content-Type: text/html; charset=UTF-8");
 
 			$page = new Neuron_Core_Template ();
@@ -529,6 +544,7 @@ class Neuron_Auth_OpenID
 			$page->set ('header', $header);
 			
 			echo $page->parse ('openid/register.phpt');
+			*/
 		}
 		else
 		{
