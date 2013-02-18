@@ -208,6 +208,12 @@ class Neuron_GameServer
 		}
 	}
 
+	public function openid ()
+	{
+		$openid = new Neuron_OpenID ();
+		$openid->dispatch ();
+	}
+
 	/*
 		Get the output that is required.
 	*/
@@ -231,23 +237,7 @@ class Neuron_GameServer
 		switch ($sModule)
 		{
 			case 'openid':
-				require_once self::SCRIPT_PATH.'openid/common.php';
-	
-				$sAction = isset ($sInputs[1]) ? $sInputs[1] : null;
-				switch ($sAction)
-				{
-					case 'finish':
-						require_once (self::SCRIPT_PATH.'openid/finish_auth.php');
-					break;
-			
-					case 'register':
-						require_once (self::SCRIPT_PATH.'openid/new_account.php');
-					break;
-		
-					default:
-						require_once (self::SCRIPT_PATH.'openid/try_auth.php');
-					break;
-				}
+				$this->openid ();
 			break;
 
 			case 'dialog':
