@@ -25,6 +25,7 @@
 class Neuron_Auth_MySQLConnection 
     extends Auth_OpenID_DatabaseConnection {
 
+            private $debug = true;
             private $error = false;
     
         private function printf ($sql, $params)
@@ -79,11 +80,23 @@ class Neuron_Auth_MySQLConnection
         $db = Neuron_DB_Database::getInstance ();
         $sql = $this->printf ($sql, $params);
 
+        if ($this->debug)
+        {
+            echo $sql "<br><br>";
+        }
+
         try
         {
             //echo $sql . "<br><br>";
 
             $data = $db->query ($sql);
+
+            if ($this->debug)
+            {
+                echo '<pre>';
+                var_dump ($data);
+                echo "</pre><br><br>";
+            }
 
             $this->error = false;
             return $data;
@@ -91,7 +104,7 @@ class Neuron_Auth_MySQLConnection
         catch (Exception $e)
         {
             $this->error = true;
-            //echo 'error';
+            echo 'error';
         }
     }
 
