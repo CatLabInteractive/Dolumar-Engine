@@ -7,6 +7,7 @@ class Neuron_Auth_OpenID
 	{
 		$sInputs = explode ('/', isset ($_GET['module']) ? $_GET['module'] : '');
 		unset ($_GET['module']);
+		unset ($_REQUEST['module']);
 
 		if (isset ($openid_url) || !isset ($_GET['openid_url']))
 		{
