@@ -82,7 +82,7 @@ class Neuron_Auth_MySQLConnection
 
         if ($this->debug)
         {
-            echo $sql "<br><br>";
+            echo $sql . "<br><br>";
         }
 
         try
