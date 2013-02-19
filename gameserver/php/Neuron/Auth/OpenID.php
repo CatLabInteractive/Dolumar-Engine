@@ -432,8 +432,6 @@ class Neuron_Auth_OpenID
 				
 				$url = ABSOLUTE_URL.'dispatch.php?module=openid/register/&session_id='.session_id ();
 
-				echo $url;
-				exit;
 				header ('Location: ' . $url);
 			}
 			
@@ -454,10 +452,6 @@ class Neuron_Auth_OpenID
 
 	private function newAccount ()
 	{
-
-		var_dump ($_SESSION);
-		exit;
-
 		// This script should only be executed if an openid is set in the session
 		if (isset ($_SESSION['dolumar_openid_identity']))
 		{
