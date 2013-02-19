@@ -458,7 +458,7 @@ class Neuron_Auth_OpenID
 
 			if ($id > 0)
 			{
-				registerWithOpenid ($id, $_SESSION['dolumar_openid_identity']);
+				//registerWithOpenid ($id, $_SESSION['dolumar_openid_identity']);
 			}
 			else
 			{
