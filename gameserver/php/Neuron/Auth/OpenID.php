@@ -430,7 +430,7 @@ class Neuron_Auth_OpenID
 				$_SESSION['dolumar_openid_identity'] = $esc_identity;
 				$_SESSION['dolumar_openid_email'] = $email;
 				
-				//header ('Location: ' . $url = ABSOLUTE_URL.'dispatch.php?module=openid/register/&session_id='.session_id ());
+				header ('Location: ' . $url = ABSOLUTE_URL.'dispatch.php?module=openid/register/&session_id='.session_id ());
 			}
 			
 			// Update this ID
