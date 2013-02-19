@@ -191,7 +191,7 @@ class Neuron_GameServer_Player
 		
 		$string = '<span class="nickname '.$flags.'">';
 		$nickname = Neuron_Core_Tools::output_varchar ($this->getName ());
-		$string .= Neuron_URLBuilder::getInstance ()->getOpenUrl ('PlayerProfile', $nickname, array ('plid' => $this->getId ()));
+		$string .= Neuron_URLBuilder::getInstance ()->getOpenUrl ('player', $nickname, array ('plid' => $this->getId ()));
 		$string .= '</span>';
 	
 		return $string;
