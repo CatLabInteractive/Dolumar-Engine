@@ -383,7 +383,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		return $rank;
 	}
 
-	public static function countAll (Neuron_GameServer_Player $player)
+	public static function countAll ()
 	{
 		$db = Neuron_Core_Database::__getInstance ();
 
