@@ -31,7 +31,7 @@ class Neuron_GameServer_Windows_Imprint extends Neuron_GameServer_Windows_Help
 					SELECT
 						plid
 					FROM
-						players
+						n_players
 					WHERE
 						p_admin = {$k}
 				");

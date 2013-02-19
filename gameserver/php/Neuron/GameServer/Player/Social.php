@@ -19,7 +19,7 @@ class Neuron_GameServer_Player_Preferences
 					ps_targetid,
 					ps_status
 				FROM
-					players_social
+					n_players_social
 				WHERE
 					ps_plid = {$this->getId()}
 			");
@@ -44,7 +44,7 @@ class Neuron_GameServer_Player_Preferences
 			SELECT
 				ps_status
 			FROM
-				players_social
+				n_players_social
 			WHERE
 				ps_plid = {$this->getId()} 
 				AND ps_targetid = {$player->getId ()}
@@ -55,7 +55,7 @@ class Neuron_GameServer_Player_Preferences
 			$db->query
 			("
 				INSERT INTO
-					players_social
+					n_players_social
 				SET
 					ps_plid = {$this->getId()},
 					ps_targetid = {$player->getId ()},
@@ -67,7 +67,7 @@ class Neuron_GameServer_Player_Preferences
 			$db->query
 			("
 				UPDATE
-					players_social
+					n_players_social
 				SET
 					ps_status = '{$status}'
 				WHERE

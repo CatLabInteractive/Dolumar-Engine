@@ -9,7 +9,7 @@ $players = $db->query
 	SELECT
 		*
 	FROM
-		players
+		n_players
 	WHERE
 		plid > {$from}
 	ORDER BY

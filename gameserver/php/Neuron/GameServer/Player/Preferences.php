@@ -20,7 +20,7 @@ class Neuron_GameServer_Player_Preferences
 			SELECT
 				*
 			FROM
-				players_preferences
+				n_players_preferences
 			WHERE
 				p_plid = {$this->getId()}
 		");
@@ -41,7 +41,7 @@ class Neuron_GameServer_Player_Preferences
 			SELECT
 				*
 			FROM
-				players_preferences
+				n_players_preferences
 			WHERE
 				p_key = '{$db->escape($sKey)}'
 				AND p_plid = {$this->objProfile->getId()}
@@ -52,7 +52,7 @@ class Neuron_GameServer_Player_Preferences
 			$db->query
 			("
 				INSERT INTO
-					players_preferences
+					n_players_preferences
 				SET
 					p_key = '{$db->escape($sKey)}',
 					p_value = '{$db->escape($sValue)}',
@@ -64,7 +64,7 @@ class Neuron_GameServer_Player_Preferences
 			$db->query
 			("
 				UPDATE
-					players_preferences
+					n_players_preferences
 				SET
 					p_value = '{$db->escape($sValue)}'
 				WHERE

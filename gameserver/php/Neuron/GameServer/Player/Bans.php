@@ -22,7 +22,7 @@ class Neuron_GameServer_Player_Bans
 					bp_channel,
 					UNIX_TIMESTAMP(bp_end) AS datum
 				FROM
-					players_banned
+					n_players_banned
 				WHERE
 					plid = {$this->objProfile->getId ()}
 			");
@@ -58,7 +58,7 @@ class Neuron_GameServer_Player_Bans
 		$db->query
 		("
 			DELETE FROM
-				players_banned
+				n_players_banned
 			WHERE
 				plid = {$this->objProfile->getId()} AND
 				bp_channel = '{$db->escape ($sChannel)}'
@@ -72,7 +72,7 @@ class Neuron_GameServer_Player_Bans
 			$db->query
 			("
 				INSERT INTO
-					players_banned
+					n_players_banned
 				SET
 					plid = {$this->objProfile->getId ()},
 					bp_channel = '{$db->escape ($sChannel)}',

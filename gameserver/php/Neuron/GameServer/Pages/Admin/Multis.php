@@ -17,7 +17,7 @@ class Neuron_GameServer_Pages_Admin_Multis extends Neuron_GameServer_Pages_Admin
 				login_log.l_ip,
 				
 				GROUP_CONCAT(DISTINCT login_log.l_plid) AS plids,
-				GROUP_CONCAT(DISTINCT players.nickname) AS nicknames,
+				GROUP_CONCAT(DISTINCT n_players.nickname) AS nicknames,
 				
 				GROUP_CONCAT(c.pac_plid1) AS cleared_1,
 				GROUP_CONCAT(c.pac_plid2) AS cleared_2,
@@ -27,12 +27,12 @@ class Neuron_GameServer_Pages_Admin_Multis extends Neuron_GameServer_Pages_Admin
 			FROM
 				login_log
 			LEFT JOIN
-				players ON login_log.l_plid = players.plid
+				n_players ON login_log.l_plid = n_players.plid
 			LEFT JOIN
-				players_admin_cleared c ON (c.pac_plid1 = login_log.l_plid OR c.pac_plid2 = login_log.l_plid)
+				n_players_admin_cleared c ON (c.pac_plid1 = login_log.l_plid OR c.pac_plid2 = login_log.l_plid)
 			WHERE
 				login_log.l_datetime > FROM_UNIXTIME(".(NOW - $timeframe).") AND
-				players.isPlaying = 1
+				n_players.isPlaying = 1
 			GROUP BY
 				l_ip
 			HAVING

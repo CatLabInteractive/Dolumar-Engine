@@ -10,7 +10,7 @@ class Neuron_GameServer_Pages_Admin_Premium extends Neuron_GameServer_Pages_Admi
 			SELECT
 				*
 			FROM
-				players
+				n_players
 			WHERE
 				premiumEndDate > FROM_UNIXTIME('".NOW."')
 		");

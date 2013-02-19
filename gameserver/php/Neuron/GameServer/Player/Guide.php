@@ -12,7 +12,7 @@ class Neuron_GameServer_Player_Guide
 			SELECT
 				plid
 			FROM
-				players 
+				n_players 
 			WHERE
 				removalDate IS NULL
 		");

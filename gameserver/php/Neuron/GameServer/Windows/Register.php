@@ -116,14 +116,14 @@ class Neuron_GameServer_Windows_Register extends Neuron_GameServer_Windows_Windo
 			// Next step: checking username and stuff
 			$userCheck = $db->select
 			(
-				'players',
+				'n_players',
 				array ('plid'),
 				"nickname = '$username' AND isRemoved = 0"
 			);
 			
 			$mailCheck = $db->select
 			(
-				'players',
+				'n_players',
 				array ('plid'),
 				"email = '$email' AND isRemoved = 0"
 			);

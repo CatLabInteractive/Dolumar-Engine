@@ -29,23 +29,23 @@ else
 			$db->customQuery
 			("
 				SELECT
-					players.*, 
+					n_players.*, 
 					SUM(villages.networth) AS score
 				FROM
-					players
+					n_players
 				LEFT JOIN
-					villages ON villages.plid = players.plid
+					villages ON villages.plid = n_players.plid
 				WHERE
-					players.plid IS NOT NULL 
+					n_players.plid IS NOT NULL 
 					AND villages.vid IS NOT NULL
 					AND villages.isActive = 1
-					AND players.isPlaying = '1' 
-					AND players.isRemoved = '0'
+					AND n_players.isPlaying = '1' 
+					AND n_players.isRemoved = '0'
 				GROUP BY
-					players.plid
+					n_players.plid
 				ORDER BY
 					score DESC,
-					LOWER(players.nickname) ASC
+					LOWER(n_players.nickname) ASC
 			")
 		);
 	
@@ -87,9 +87,9 @@ else
 				LEFT JOIN
 					clan_members ON clans.c_id = clan_members.c_id AND clan_members.cm_active = 1
 				LEFT JOIN
-					players ON clan_members.plid = players.plid 
+					n_players ON clan_members.plid = n_players.plid 
 				LEFT JOIN
-					villages ON villages.plid = players.plid
+					villages ON villages.plid = n_players.plid
 				GROUP BY clans.c_id
 				ORDER BY
 					clans.c_score DESC

@@ -125,7 +125,7 @@ class Neuron_GameServer_Pages_Admin_Clearmultis extends Neuron_GameServer_Pages_
 		$db->query
 		("
 			DELETE FROM
-				players_admin_cleared
+				n_players_admin_cleared
 			WHERE
 				pac_id = {$id}
 		");
@@ -162,7 +162,7 @@ class Neuron_GameServer_Pages_Admin_Clearmultis extends Neuron_GameServer_Pages_
 				SELECT
 					*
 				FROM
-					players_admin_cleared
+					n_players_admin_cleared
 				WHERE
 					pac_plid1 = {$id1} AND
 					pac_plid2 = {$id2}
@@ -173,7 +173,7 @@ class Neuron_GameServer_Pages_Admin_Clearmultis extends Neuron_GameServer_Pages_
 				$db->query
 				("
 					INSERT INTO
-						players_admin_cleared
+						n_players_admin_cleared
 					SET
 						pac_plid1 = {$id1},
 						pac_plid2 = {$id2},
@@ -206,7 +206,7 @@ class Neuron_GameServer_Pages_Admin_Clearmultis extends Neuron_GameServer_Pages_
 			SELECT
 				*
 			FROM
-				players_admin_cleared
+				n_players_admin_cleared
 			WHERE
 				$sWhere
 		");

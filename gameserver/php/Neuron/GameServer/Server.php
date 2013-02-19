@@ -26,7 +26,7 @@ class Neuron_GameServer_Server
 
 		$l = $db->select
 		(
-			'players',
+			'n_players',
 			array ('*'),
 			"lastRefresh > '".Neuron_Core_Tools::timestampToMysqlDatetime ((time () - ONLINE_TIMEOUT))."' AND isPlaying = '1'",
 			'nickname ASC',
@@ -56,7 +56,7 @@ class Neuron_GameServer_Server
 			SELECT
 				COUNT(plid) as aantal
 			FROM
-				players
+				n_players
 			WHERE
 				lastRefresh > '".Neuron_Core_Tools::timestampToMysqlDatetime ((time () - $timeout))."'
 				AND isPlaying = '1'
@@ -80,7 +80,7 @@ class Neuron_GameServer_Server
 			SELECT
 				COUNT(plid) as aantal
 			FROM
-				players
+				n_players
 			WHERE
 				lastRefresh > '".Neuron_Core_Tools::timestampToMysqlDatetime ((time () - $timeout))."'
 				AND isPlaying = '1'
@@ -101,7 +101,7 @@ class Neuron_GameServer_Server
 			SELECT
 				COUNT(plid) as aantal
 			FROM
-				players
+				n_players
 			WHERE
 				sponsorEndDate > '".Neuron_Core_Tools::timestampToMysqlDatetime (time ())."'
 		"));
@@ -119,7 +119,7 @@ class Neuron_GameServer_Server
 			SELECT
 				COUNT(plid) as aantal
 			FROM
-				players
+				n_players
 		"));
 
 		return $l[0]['aantal'];
@@ -144,7 +144,7 @@ class Neuron_GameServer_Server
 			SELECT
 				COUNT(plid) as aantal
 			FROM
-				players
+				n_players
 			WHERE
 				$where
 		"));
@@ -171,7 +171,7 @@ class Neuron_GameServer_Server
 			SELECT
 				*
 			FROM
-				players
+				n_players
 			WHERE
 				$where AND
 				isRemoved = '0'
@@ -217,7 +217,7 @@ class Neuron_GameServer_Server
 			SELECT
 				authType
 			FROM
-				players
+				n_players
 			GROUP BY
 				authType
 		"));
@@ -341,7 +341,7 @@ class Neuron_GameServer_Server
 		
 		$l = $db->select
 		(
-			'players',
+			'n_players',
 			array ('plid', 'killCounter'),
 			"lastRefresh < '".$last."' AND isPlaying = 1"
 		);
@@ -352,7 +352,7 @@ class Neuron_GameServer_Server
 			{
 				$db->update
 				(
-					'players',
+					'n_players',
 					array
 					(
 						'killCounter' => '++'

@@ -45,7 +45,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$id = $db->query 
 		("
 			INSERT INTO
-				players
+				n_players
 			SET
 				creationDate = NOW()
 		");
@@ -103,7 +103,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		
 		$data = $db->select
 		(
-			'players',
+			'n_players',
 			array ('plid'),
 			"nickname = '".$db->escape ($nickname) . "' AND isRemoved = 0"
 		);
@@ -120,7 +120,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$db = Neuron_Core_Database::__getInstance ();
 		$l = $db->select
 		(
-			'players',
+			'n_players',
 			array ('plid'),
 			"email = '".$db->escape ($email)."'"
 		);
@@ -146,9 +146,9 @@ class Neuron_GameServer_Mappers_PlayerMapper
 			SELECT
 				*
 			FROM
-				players
+				n_players
 			WHERE
-				players.plid = '".$id."'
+				n_players.plid = '".$id."'
 		"));
 		
 		if (count ($r) == 1)
@@ -164,7 +164,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$db = Neuron_Core_Database::__getInstance ();
 		$db->update
 		(
-			'players',
+			'n_players',
 			array
 			(
 				'email_cert' => 1
@@ -179,7 +179,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 	
 		$db->update
 		(
-			'players',
+			'n_players',
 			array
 			(
 				'email' => $email,
@@ -196,7 +196,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 
 		$db->update
 		(
-			'players',
+			'n_players',
 			array
 			(
 				'nickname' => $nickname
@@ -214,7 +214,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$db->query
 		("
 			UPDATE
-				players
+				n_players
 			SET
 				p_admin = $status
 			WHERE
@@ -228,7 +228,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 
 		$db->update
 		(
-			'players',
+			'n_players',
 			array
 			(
 				'premiumEndDate' => Neuron_Core_Tools::timeStampToMysqlDatetime ($endtime)
@@ -244,7 +244,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$db->query
 		("
 			UPDATE
-				players
+				n_players
 			SET
 				p_lang = '{$db->escape ($sLang)}'
 			WHERE
@@ -292,7 +292,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 	{
 		$db->update
 		(
-			'players',
+			'n_players',
 			array
 			(
 				'tmp_key' => $key,
@@ -309,7 +309,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		// Make non playing
 		$db->update
 		(
-			'players',
+			'n_players',
 			array
 			(
 				'isPlaying' => 0,
@@ -327,7 +327,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$db->query
 		("
 			UPDATE
-				players
+				n_players
 			SET
 				startVacation = NOW()
 			WHERE
@@ -343,7 +343,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$db->query
 		("
 			UPDATE
-				players
+				n_players
 			SET
 				startVacation = NULL
 			WHERE
@@ -360,9 +360,9 @@ class Neuron_GameServer_Mappers_PlayerMapper
 			SELECT 
 				COUNT(*) AS rank
 			FROM
-				players a 
+				n_players a 
 			INNER JOIN
-				players b ON (a.p_score < b.p_score OR (a.p_score = b.p_score AND a.plid > b.plid)) AND b.isPlaying = 1
+				n_players b ON (a.p_score < b.p_score OR (a.p_score = b.p_score AND a.plid > b.plid)) AND b.isPlaying = 1
 			WHERE
 				a.plid = '".$player->getId ()."'
 			GROUP BY a.plid
@@ -389,7 +389,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 
 		$total = $db->select
 		(
-			'players',
+			'n_players',
 			array ('count(plid) AS total')
 		);
 
@@ -407,7 +407,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		$db->query
 		("
 			UPDATE
-				players
+				n_players
 			SET
 				p_score = {$score}
 			WHERE

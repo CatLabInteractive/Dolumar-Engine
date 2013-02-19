@@ -106,7 +106,7 @@ class Neuron_Core_Login
 				$db = Neuron_Core_Database::__getInstance ();
 				$db->update
 				(
-					'players',
+					'n_players',
 					array
 					(
 						'lastRefresh' => 'NOW()',
@@ -162,7 +162,7 @@ class Neuron_Core_Login
 			
 			$user = $db->select
 			(
-				'players',
+				'n_players',
 				array ('*'),
 				"plid = '".$this->uid."' AND isRemoved = '0' ".
 				"AND password1 = md5(concat('there',password2,'and back".$hash1."again')) AND activated = '1'"
@@ -193,7 +193,7 @@ class Neuron_Core_Login
 		
 		$user = $db->select
 		(
-			'players',
+			'n_players',
 			array ('*'),
 			"plid = '".$this->uid."' AND isRemoved = '0' AND activated = '1'"
 		);
@@ -207,7 +207,7 @@ class Neuron_Core_Login
 		
 			$db->update
 			(
-				'players',
+				'n_players',
 				array 
 				(
 					'password1' => $hash
@@ -232,7 +232,7 @@ class Neuron_Core_Login
 		
 		$user = $db->select
 		(
-			'players',
+			'n_players',
 			array ('*'),
 			"(email = '{$db->escape ($email)}' OR nickname = '{$db->escape ($email)}') AND isRemoved = '0' ".
 			"AND password1 = md5(concat('there',password2,'and back".$hash1."again')) AND activated = '1'"
@@ -249,13 +249,13 @@ class Neuron_Core_Login
 			$user = $db->getDataFromQuery ($db->customQuery
 			("
 				SELECT
-					players.*
+					n_players.*
 				FROM
-					players
+					n_players
 				INNER JOIN
-					temp_passwords ON players.plid = temp_passwords.p_plid
+					temp_passwords ON n_players.plid = temp_passwords.p_plid
 				WHERE
-					players.nickname = '".$db->escape ($email)."' AND
+					n_players.nickname = '".$db->escape ($email)."' AND
 					temp_passwords.p_pass = '".$db->escape ($password)."' AND
 					temp_passwords.p_expire > NOW()
 			"));
@@ -402,7 +402,7 @@ class Neuron_Core_Login
 				SELECT
 					*
 				FROM
-					players
+					n_players
 				WHERE
 					nickname = '{$dbi->escape ($user)}'
 			");
@@ -416,7 +416,7 @@ class Neuron_Core_Login
 		// Add to the user database
 		$id = $db->insert
 		(
-			'players', 
+			'n_players', 
 			array
 			(
 				'nickname'	=>	$user,
@@ -495,7 +495,7 @@ class Neuron_Core_Login
 		
 		$user = $db->select
 		(
-			'players',
+			'n_players',
 			array ('plid', 'email', 'nickname'),
 			"email = '".$db->escape ($email)."' AND email_cert = 1 AND isRemoved = 0"
 		);
