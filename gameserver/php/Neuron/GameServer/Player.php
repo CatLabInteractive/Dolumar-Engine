@@ -1271,7 +1271,7 @@ class Neuron_GameServer_Player
 	*/
 	public function setScore ($score)
 	{
-		Neuron_GameServer_Mappers_PlayerMapper::setScore ($score);
+		Neuron_GameServer_Mappers_PlayerMapper::setScore ($this, $score);
 
 		$this->loadData ();
 		$this->data['p_score'] = $score;
