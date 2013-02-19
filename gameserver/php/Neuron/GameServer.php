@@ -160,7 +160,7 @@ class Neuron_GameServer
 			SELECT
 				user_id
 			FROM
-				auth_openid
+				n_auth_openid
 			WHERE
 				MD5(openid_url) = '{$db->escape($openid)}'
 		");

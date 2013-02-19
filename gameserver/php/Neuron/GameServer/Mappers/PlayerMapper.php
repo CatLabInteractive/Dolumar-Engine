@@ -89,7 +89,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		// See if there is an account available
 		$acc = $db->select
 		(
-			'auth_openid',
+			'n_auth_openid',
 			array ('user_id'),
 			"openid_url = '".$db->escape ($openid)."'"
 		);
@@ -269,7 +269,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 				SELECT
 					*
 				FROM
-					auth_openid
+					n_auth_openid
 				WHERE
 					user_id = {$player->getId()}
 					AND notify_url IS NOT NULL
@@ -284,7 +284,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 				SELECT
 					*
 				FROM
-					auth_openid
+					n_auth_openid
 				WHERE
 					user_id = {$player->getId()}
 			");

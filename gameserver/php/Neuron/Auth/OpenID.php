@@ -396,7 +396,7 @@ class Neuron_Auth_OpenID
 			// See if there is an account available
 			$acc = $db->select
 			(
-				'auth_openid',
+				'n_auth_openid',
 				array ('user_id'),
 				"openid_url = '".$db->escape ($esc_identity)."'"
 			);
@@ -415,7 +415,7 @@ class Neuron_Auth_OpenID
 					// Create a new account
 					$db->insert
 					(
-						'auth_openid',
+						'n_auth_openid',
 						array
 						(
 							'openid_url' => $esc_identity,
@@ -436,7 +436,7 @@ class Neuron_Auth_OpenID
 			// Update this ID
 			$db->update
 			(
-				'auth_openid',
+				'n_auth_openid',
 				array
 				(
 					'notify_url' => $notify_url,
@@ -639,7 +639,7 @@ function registerWithOpenid ($id, $identity)
 	// Update this ID
 	$db->update
 	(
-		'auth_openid',
+		'n_auth_openid',
 		array
 		(
 			'user_id' => $id
@@ -653,7 +653,7 @@ function registerWithOpenid ($id, $identity)
 		SELECT
 			*
 		FROM
-			auth_openid
+			n_auth_openid
 		WHERE
 			openid_url = '".$db->escape ($identity)."'
 	");
