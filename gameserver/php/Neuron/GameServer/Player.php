@@ -1304,7 +1304,7 @@ class Neuron_GameServer_Player
 			'name' => $this->getName (),
 			'score' => $this->getScore (),
 			'openids' => $openids_out,
-			'join_date' => $isFound ? date (API_DATE_FORMAT, strtotime ($this->data['creationDate'])) : null
+			'join_date' => ($isFound ? date (API_DATE_FORMAT, strtotime ($this->data['creationDate'])) : null)
 		);
 	}
 	
