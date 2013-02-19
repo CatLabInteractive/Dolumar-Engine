@@ -40,22 +40,7 @@ class Neuron_GameServer_Player
 
 	public static function getFromOpenID ($openid)
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-
-		// See if there is an account available
-		$acc = $db->select
-		(
-			'auth_openid',
-			array ('user_id'),
-			"openid_url = '".$db->escape ($openid)."'"
-		);
-
-		if (count ($acc) > 0)
-		{
-			return self::getFromId ($acc[0]['user_id']);
-		}
-
-		return false;
+		return Neuron_GameServer_Mappers_PlayerMapper::getFromOpenID ($openid);
 	}
 	
 	/*
@@ -63,16 +48,8 @@ class Neuron_GameServer_Player
 	*/
 	public static function playerNameExists ($nickname)
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		
-		$data = $db->select
-		(
-			'players',
-			array ('plid'),
-			"nickname = '".$db->escape ($nickname) . "' AND isRemoved = 0"
-		);
-
-		return count ($data) > 0;
+		$player = Neuron_GameServer_Mappers_PlayerMapper::getFromNickname ($nickname);
+		return isset ($player);
 	}
 	
 	/*
@@ -80,20 +57,7 @@ class Neuron_GameServer_Player
 	*/
 	public static function getFromName ($nickname)
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		
-		$data = $db->select
-		(
-			'players',
-			array ('plid'),
-			"nickname = '".$db->escape ($nickname) . "' AND isRemoved = 0"
-		);
-		
-		if (count ($data) == 1)
-		{
-			return self::getFromId ($data[0]['plid']);
-		}
-		return false;
+		return Neuron_GameServer_Mappers_PlayerMapper::getFromNickname ($nickname);
 	}
 	
 	public static function getAdminModes ()
@@ -117,15 +81,8 @@ class Neuron_GameServer_Player
 	
 	private $gameTriggerObj = null;
 	public $error = null;
-	protected $village_insert_id = false;
 	
 	private $objCredits = null;
-	
-	private $sPreferences = array ();
-	
-	private $iSocialStatuses = null;
-	
-	private $bans = null;
 	
 	public function __construct ($playerId)
 	{
@@ -150,23 +107,12 @@ class Neuron_GameServer_Player
 	
 	private function loadData ()
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		
 		if (!isset ($this->data))
 		{
-			$r = $db->getDataFromQuery ($db->customQuery
-			("
-				SELECT
-					*
-				FROM
-					players
-				WHERE
-					players.plid = '".$this->getId ()."'
-			"));
-			
-			if (count ($r) == 1)
+			$data = Neuron_GameServer_Mappers_PlayerMapper::getDataFromId ($this->getId ());
+			if (isset ($data))
 			{
-				$this->setData ($r[0]);
+				$this->setData ($data);
 			}
 			
 			else 
@@ -305,16 +251,7 @@ class Neuron_GameServer_Player
 	{
 		$this->loadData ();
 	
-		$db = Neuron_Core_Database::__getInstance ();
-		$db->update
-		(
-			'players',
-			array
-			(
-				'email_cert' => 1
-			),
-			"plid = '".$this->getId ()."' AND email_cert_key = '".$db->escape ($key)."'"
-		);
+		Neuron_GameServer_Mappers_PlayerMapper::certifyEmail ($this, $key);
 		
 		$okay = $this->data['email_cert'] == 0;
 		$this->data['email_cert'] = 1;
@@ -334,38 +271,19 @@ class Neuron_GameServer_Player
 	
 	public function doesEmailExist ($email)
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		$l = $db->select
-		(
-			'players',
-			array ('plid'),
-			"email = '".$db->escape ($email)."'"
-		);
-		
-		return count ($l) > 0;
+		$acc = Neuron_GameServer_Mappers_PlayerMapper::getFromEmail ($email);
+		return isset ($acc);
 	}
 	
 	public function setEmail ($email)
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		
 		if (Neuron_Core_Tools::checkInput ($email, 'email'))
 		{
 			if (!$this->doesEmailExist ($email))
 			{
 				$key = md5 (time () + rand (0, 99999));
-			
-				$db->update
-				(
-					'players',
-					array
-					(
-						'email' => $email,
-						'email_cert' => 0,
-						'email_cert_key' => $key
-					),
-					"plid = '".$this->getId ()."'"
-				);
+
+				Neuron_GameServer_Mappers_PlayerMapper::setEmail ($this, $email, $key);
 			
 				$this->data['email'] = $email;
 				$this->data['email_cert'] = 0;
@@ -401,17 +319,7 @@ class Neuron_GameServer_Player
 	{
 		$status = intval ($status);
 		
-		$db = Neuron_DB_Database::getInstance ();
-		
-		$db->query
-		("
-			UPDATE
-				players
-			SET
-				p_admin = $status
-			WHERE
-				plid = {$this->getId ()}
-		");
+		Neuron_GameServer_Mappers_PlayerMapper::setAdminStatus ($this, $email, $key);
 		
 		$this->data['p_admin'] = $status;
 	}
@@ -487,21 +395,6 @@ class Neuron_GameServer_Player
 		$this->loadData ();
 		
 		return $this->getPremiumEndDate () > time ();
-
-		/*
-		if (strtotime ($this->data['creationDate']) > (time () - 24 * 60 * 60 * 7))
-		{
-			return true;
-		}
-		elseif (strtotime ($this->data['premiumEndDate']) > time ())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-		*/
 	}
 	
 	public function isProperPremium ()
@@ -541,8 +434,6 @@ class Neuron_GameServer_Player
 
 	public function extendPremiumAccount ($duration = 86400)
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		
 		$this->loadData ();
 		
 		if (strtotime ($this->data['premiumEndDate']) > time ())
@@ -554,15 +445,7 @@ class Neuron_GameServer_Player
 			$start = time ();
 		}
 
-		$db->update
-		(
-			'players',
-			array
-			(
-				'premiumEndDate' => Neuron_Core_Tools::timeStampToMysqlDatetime ($start + $duration)
-			),
-			"plid = '".$this->getId ()."'"
-		);
+		Neuron_GameServer_Mappers_PlayerMapper::extendPremiumAccount ($this, $start);
 		
 		$this->data['premiumEndDate'] = Neuron_Core_Tools::timeStampToMysqlDatetime ($start + $duration);
 	}
@@ -572,22 +455,12 @@ class Neuron_GameServer_Player
 	*/
 	public function setLanguage ($sLang)
 	{
-		$db = Neuron_DB_Database::getInstance ();
-		
 		if (strlen ($sLang) > 5)
 		{
 			return false;
 		}
-		
-		$db->query
-		("
-			UPDATE
-				players
-			SET
-				p_lang = '{$db->escape ($sLang)}'
-			WHERE
-				plid = {$this->getId ()}
-		");
+
+		Neuron_GameServer_Mappers_PlayerMapper::setLanguage ($this, $sLang);
 		
 		$this->reloadData ();
 	}
@@ -638,19 +511,7 @@ class Neuron_GameServer_Player
 	)
 	{
 		// First: load this users OpenID notification urls
-		$db = Neuron_DB_Database::__getInstance ();
-		
-		$openid_rows = $db->query
-		("
-			SELECT
-				notify_url
-			FROM
-				auth_openid
-			WHERE
-				user_id = {$this->getId()}
-				AND notify_url IS NOT NULL
-				AND notify_url != ''
-		");
+		$openid_rows = Neuron_GameServer_Mappers_PlayerMapper::getOpenIDs ($this);
 
 		$text = $this->getRightLanguage ();
 		
@@ -831,17 +692,7 @@ class Neuron_GameServer_Player
 		// First: load this users OpenID notification urls
 		$db = Neuron_DB_Database::__getInstance ();
 		
-		$openid_rows = $db->query
-		("
-			SELECT
-				notify_url
-			FROM
-				auth_openid
-			WHERE
-				user_id = {$this->getId()}
-				AND notify_url IS NOT NULL
-				AND notify_url != ''
-		");
+		$openid_rows = Neuron_GameServer_Mappers_PlayerMapper::getOpenIDs ($this);
 		
 		if (count ($openid_rows) > 0)
 		{
@@ -935,41 +786,7 @@ class Neuron_GameServer_Player
 	*/
 	public function updateProfilebox ()
 	{
-		/*
-		// First: load this users OpenID notification urls
-		$db = Neuron_DB_Database::__getInstance ();
-		
-		$openid_rows = $db->query
-		("
-			SELECT
-				profilebox_url
-			FROM
-				auth_openid
-			WHERE
-				user_id = {$this->getId()}
-				AND profilebox_url IS NOT NULL
-				AND profilebox_url != ''
-		");
-		
-		$village = $this->getMainVillage ();
-		
-		if ($village)
-		{
-			list ($x, $y) = $village->buildings->getTownCenterLocation ();
-		
-			$imgurl = ABSOLUTE_URL.'image/snapshot/?x='.$x.'&y='.$y.'&zoom=30&width=184&height=250&slogan='.urlencode ($village->getName ()).'&timestamp='.time();
-			$content = '<img src="'.$imgurl.'" alt="'.Neuron_Core_Tools::output_varchar ($village->getName ()).'" title="'.Neuron_Core_Tools::output_varchar ($village->getName ()).'" />';
-		
-			$objNot = new BrowserGamesHub_Profilebox ();
-			$objNot->setContent ($content);
-		
-			// Send the notification
-			foreach ($openid_rows as $v)
-			{
-				$objNot->send ($v['profilebox_url']);
-			}
-		}
-		*/
+
 	}
 	
 	/*
@@ -977,57 +794,11 @@ class Neuron_GameServer_Player
 	*/
 	private function sendUserData ()
 	{
-		/*
-		$profiler = Neuron_Profiler_Profiler::getInstance ();
-		
-		$profiler->start ('Sending user data to OpenID providers.');
-	
-		// First: load this users OpenID notification urls
-		$db = Neuron_DB_Database::__getInstance ();
-		
-		$openid_rows = $db->query
-		("
-			SELECT
-				userstats_url
-			FROM
-				auth_openid
-			WHERE
-				user_id = {$this->getId()}
-				AND userstats_url IS NOT NULL
-				AND userstats_url != ''
-		");
-		
-		if (count ($openid_rows) > 0)
-		{
-			$stats = new BrowserGamesHub_Userstats ();
-			
-			$stats->setData ($this->getBrowserBasedGamesData ());
-		
-			foreach ($openid_rows as $v)
-			{
-				//$profiler->start ('Contacting ' . $v['userstats_url']);
-				$stats->send ($v['userstats_url']);
-				//$profiler->stop ();
-			}
-		}
-		
-		$profiler->stop ();
-		*/
 
 		// First: load this users OpenID notification urls
 		$db = Neuron_DB_Database::__getInstance ();
 		
-		$openid_rows = $db->query
-		("
-			SELECT
-				notify_url
-			FROM
-				auth_openid
-			WHERE
-				user_id = {$this->getId()}
-				AND notify_url IS NOT NULL
-				AND notify_url != ''
-		");
+		$openid_rows = Neuron_GameServer_Mappers_PlayerMapper::getOpenIDs ($this);
 		
 		if (count ($openid_rows) > 0)
 		{
@@ -1066,80 +837,26 @@ class Neuron_GameServer_Player
 	*/
 	public function callGameTrigger ($function, $arguments = array ())
 	{
-		/*
-		if (!is_array ($arguments))
-		{
-			$arguments = array ($arguments);
-		}
-	
-		$this->loadData ();
 
-		if ($this->isPlaying () && !empty ($this->data['authType']))
-		{
-			$auth = 'OpenAuth_GameTriggers_' . ucfirst ($this->data['authType']);
-		
-			try
-			{
-				if ($this->gameTriggerObj === null)
-				{
-					if (file_exists ('openauth/'.strtolower ($auth).'/GameTriggers.php'))
-					{
-						include ('openauth/'.strtolower ($auth).'/GameTriggers.php');
-						if (class_exists ($auth))
-						{
-							$this->gameTriggerObj = new $auth ($this);
-						}
-						else
-						{
-							$this->gameTriggerObj = false;
-						}
-					}
-				}
-
-				if ($this->gameTriggerObj)
-				{
-					call_user_func_array (array ($this->gameTriggerObj, $function), $arguments);
-				}
-			}
-			catch (Exception $e)
-			{
-				throwAlertError (ucfirst ($this->data['authType']) . ' error: ' . $e->getMessage());
-			}
-		}
-		*/
 	}
 
 	public function setNickname ($nickname)
 	{
 		if (true)
 		{
-			$db = Neuron_Core_Database::__getInstance ();
 			$this->loadData ();
 			
 			if (!$this->isNicknameSet ())
 			{
 				if (Neuron_Core_Tools::checkInput ($nickname, 'username'))
 				{
-					$data = $db->select
-					(
-						'players',
-						array ('plid'),
-						"nickname = '{$nickname}' AND isRemoved = 0"
-					);
+					$data = Neuron_GameServer_Mappers_PlayerMapper::getFromNickname ($nickname);
 
-					if (count ($data) == 0)
+					if (!isset ($data))
 					{
 
 						// Everything seems to be okay. Let's go.
-						$db->update
-						(
-							'players',
-							array
-							(
-								'nickname' => $nickname
-							),
-							"plid = '".$this->getId ()."'"
-						);
+						Neuron_GameServer_Mappers_PlayerMapper::setNickname ($this, $nickname);
 
 						$this->data['nickname'] = $nickname;
 						return true;
@@ -1178,26 +895,12 @@ class Neuron_GameServer_Player
 		{
 			if (Neuron_Core_Tools::checkInput ($nickname, 'username'))
 			{
-				$data = $db->select
-				(
-					'players',
-					array ('plid'),
-					"nickname = '{$nickname}'"
-				);
+				$data = Neuron_GameServer_Mappers_PlayerMapper::getFromNickname ($nickname);
 
-				if (count ($data) == 0)
+				if (!isset ($data))
 				{
 
-					// Everything seems to be okay. Let's go.
-					$chk = $db->update
-					(
-						'players',
-						array
-						(
-							'nickname' => $nickname
-						),
-						"plid = '".$this->getId ()."' "
-					);
+					Neuron_GameServer_Mappers_PlayerMapper::setNickname ($this, $nickname);
 
 					if ($chk == 1)
 					{
@@ -1247,17 +950,8 @@ class Neuron_GameServer_Player
 			$db = Neuron_Core_Database::__getInstance ();
 			
 			$key = md5 (mt_rand (0, 1000000));
-			
-			$db->update
-			(
-				'players',
-				array
-				(
-					'tmp_key' => $key,
-					'tmp_key_end' => Neuron_Core_Tools::timestampToMysqlDatetime (time () + 60*60*24)
-				),
-				"plid = ".$this->getId ()
-			);
+
+			Neuron_GameServer_Mappers_PlayerMapper::setTemporaryKey ($this, $key, time () + 60*60*24);
 			
 			// Send the mail
 			$text = Neuron_Core_Text::__getInstance ();
@@ -1310,22 +1004,9 @@ class Neuron_GameServer_Player
 	*/
 	public function doResetAccount ()
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		
 		$this->doEndVacationMode ();
-		
-		// Make non playing
-		$db->update
-		(
-			'players',
-			array
-			(
-				'isPlaying' => 0,
-				'tmp_key' => NULL,
-				'tmp_key_end' => NULL
-			),
-			"plid = ".$this->getId ()
-		);
+
+		Neuron_GameServer_Mappers_PlayerMapper::resetAccount ($this);
 		
 		return true;
 	}
@@ -1474,7 +1155,7 @@ class Neuron_GameServer_Player
 
 	public function getCreditDisplay ($amount = 100)
 	{
-			$this->loadCredits ();
+		$this->loadCredits ();
 		return $this->objCredits->getCreditDisplay ($amount);
 	}
 	
@@ -1504,17 +1185,7 @@ class Neuron_GameServer_Player
 			return false;
 		}
 	
-		$db = Neuron_DB_Database::__getInstance ();
-		
-		$db->query
-		("
-			UPDATE
-				players
-			SET
-				startVacation = NOW()
-			WHERE
-				plid = {$this->getId()}
-		");
+		Neuron_GameServer_Mappers_PlayerMapper::startVacationMode ($this);
 		
 		return true;
 	}
@@ -1541,32 +1212,9 @@ class Neuron_GameServer_Player
 		return true;
 	}
 	
-	private function doEndVacationMode ()
+	protected function doEndVacationMode ()
 	{
-		$db = Neuron_DB_Database::__getInstance ();
-	
-		// Remove the vacation mode
-		$db->query
-		("
-			UPDATE
-				players
-			SET
-				startVacation = NULL
-			WHERE
-				plid = {$this->getId()}
-		");
-		
-		// Reset all resource times
-		$db->query
-		("
-			UPDATE
-				villages
-			SET
-				lastResRefresh = '".time()."'
-			WHERE
-				plid = {$this->getId()} AND
-				isActive = '1'
-		");
+		Neuron_GameServer_Mappers_PlayerMapper::endVacationMode ($this);
 	}
 	
 	/*
@@ -1593,39 +1241,9 @@ class Neuron_GameServer_Player
 	
 	public function getRank ()
 	{
-		$db = Neuron_Core_Database::__getInstance ();
-		
-		$rows = $db->getDataFromQuery ($db->customQuery
-		("
-			SELECT 
-				COUNT(*) AS rank
-			FROM
-				players a 
-			INNER JOIN
-				players b ON (a.p_score < b.p_score OR (a.p_score = b.p_score AND a.plid > b.plid)) AND b.isPlaying = 1
-			WHERE
-				a.plid = '".$this->getId ()."'
-			GROUP BY a.plid
-		"));
-		
-		$total = $db->select
-		(
-			'players',
-			array ('count(plid) AS total')
-		);
 
-		if (count ($rows) > 0)
-		{
-			$rank = $rows[0]['rank'];
-			$total = $total[0]['total'];
-		}
-		else
-		{
-			$rank = 0;
-			$total = count ($total) > 0 ? $total[0]['total'] : 1;
-		}
-		
-		$rank = $rank + 1;
+		$rank = Neuron_GameServer_Mappers_PlayerMapper::getRank ($this);
+		$total = Neuron_GameServer_Mappers_PlayerMapper::countAll ();
 		
 		//echo $total;
 		
@@ -1653,20 +1271,8 @@ class Neuron_GameServer_Player
 	*/
 	public function setScore ($score)
 	{
-		$db = Neuron_DB_Database::getInstance ();
-		
-		$score = intval ($score);
-		
-		$db->query
-		("
-			UPDATE
-				players
-			SET
-				p_score = {$score}
-			WHERE
-				plid = {$this->getId ()}
-		");
-		
+		Neuron_GameServer_Mappers_PlayerMapper::setScore ($score);
+
 		$this->loadData ();
 		$this->data['p_score'] = $score;
 	}
@@ -1706,15 +1312,7 @@ class Neuron_GameServer_Player
 	{
 		$db = Neuron_DB_Database::__getInstance ();
 		
-		$openids = $db->query
-		("
-			SELECT
-				*
-			FROM
-				auth_openid
-			WHERE
-				user_id = {$this->getId()}
-		");
+		$openids = Neuron_GameServer_Mappers_PlayerMapper::getOpenIDs ($this, false);
 		
 		$out = array ();
 		
@@ -1726,83 +1324,14 @@ class Neuron_GameServer_Player
 		return $out;
 	}
 	
-	/*
-		Preferences
-	*/
-	private function loadPreferences ()
-	{
-		$db = Neuron_DB_Database::getInstance ();
-		
-		$data = $db->query
-		("
-			SELECT
-				*
-			FROM
-				players_preferences
-			WHERE
-				p_plid = {$this->getId()}
-		");
-		
-		foreach ($data as $v)
-		{
-			$this->sPreferences[$v['p_key']] = $v['p_value'];
-		}
-	}
-	
 	public function setPreference ($sKey, $sValue)
 	{
-		$db = Neuron_DB_Database::getInstance ();
-	
-		// Check if exist
-		$check = $db->query
-		("
-			SELECT
-				*
-			FROM
-				players_preferences
-			WHERE
-				p_key = '{$db->escape($sKey)}'
-				AND p_plid = {$this->getId()}
-		");
-		
-		if (count ($check) == 0)
-		{
-			$db->query
-			("
-				INSERT INTO
-					players_preferences
-				SET
-					p_key = '{$db->escape($sKey)}',
-					p_value = '{$db->escape($sValue)}',
-					p_plid = {$this->getId ()}
-			");
-		}
-		else
-		{
-			$db->query
-			("
-				UPDATE
-					players_preferences
-				SET
-					p_value = '{$db->escape($sValue)}'
-				WHERE
-					p_key = '{$db->escape($sKey)}' AND
-					p_plid = {$this->getId ()}
-			");
-		}
+		$this->setPreference ($sKey, $sValue);
 	}
 	
 	public function getPreference ($sKey, $default = false)
 	{
-		$this->loadPreferences ();
-		if (isset ($this->sPreferences[$sKey]))
-		{
-			return $this->sPreferences[$sKey];
-		}
-		else
-		{
-			return $default;
-		}
+		return $this->preferences->getPreference ($sKey, $default);
 	}
 	
 	/*
@@ -1828,99 +1357,22 @@ class Neuron_GameServer_Player
 	*/
 	protected function setSocialStatus ($objUser, $status)
 	{
-		$db = Neuron_DB_Database::getInstance ();
-		
-		if ($objUser instanceof Neuron_GameServer_Player)
+		if (!$objUser instanceof Neuron_GameServer_Player)
 		{
-			$objUser = $objUser->getId ();
+			$objUser = Neuron_GameServer_Mappers_PlayerMapper::getFromId ($objUser);
 		}
-		
-		$objUser = intval ($objUser);
-		
-		$status = intval ($status);
-		
-		// Check if already in here.
-		$chk = $db->query
-		("
-			SELECT
-				ps_status
-			FROM
-				players_social
-			WHERE
-				ps_plid = {$this->getId()} 
-				AND ps_targetid = {$objUser}
-		");
-		
-		if (count ($chk) == 0)
-		{
-			$db->query
-			("
-				INSERT INTO
-					players_social
-				SET
-					ps_plid = {$this->getId()},
-					ps_targetid = {$objUser},
-					ps_status = '{$status}'
-			");
-		}
-		else
-		{
-			$db->query
-			("
-				UPDATE
-					players_social
-				SET
-					ps_status = '{$status}'
-				WHERE
-					ps_targetid = {$objUser} AND
-					ps_plid = {$this->getId()}
-			");
-		}
-	}
-	
-	private function loadSocialStatuses ()
-	{
-		if (!isset ($this->iSocialStatuses))
-		{
-			$db = Neuron_DB_Database::getInstance ();
-			$data = $db->query
-			("
-				SELECT
-					ps_targetid,
-					ps_status
-				FROM
-					players_social
-				WHERE
-					ps_plid = {$this->getId()}
-			");
-			
-			$this->iSocialStatuses = array ();
-			foreach ($data as $v)
-			{
-				$this->iSocialStatuses[$v['ps_targetid']] = $v['ps_status'];
-			}
-		}
+
+		$this->social->setSocialStatus ($objUser, $status);
 	}
 	
 	protected function getSocialStatus ($objUser)
 	{
-		if ($objUser instanceof Neuron_GameServer_Player)
+		if (!$objUser instanceof Neuron_GameServer_Player)
 		{
-			$objUser = $objUser->getId ();
+			$objUser = Neuron_GameServer_Mappers_PlayerMapper::getFromId ($objUser);
 		}
-		
-		$objUser = intval ($objUser);
-	
-		$this->loadSocialStatuses ();
-		
-		if (isset ($this->iSocialStatuses[$objUser]))
-		{
-			return $this->iSocialStatuses[$objUser];
-		}
-		else
-		{
-			return false;
-		}
+
+		return $this->social->getSocialStatus ($objUser);
 	}
 	
 	public function isIgnoring ($objUser)
@@ -1933,103 +1385,29 @@ class Neuron_GameServer_Player
 		$this->setSocialStatus ($objUser, $ignore == true ? -1 : 0);
 	}
 	
-	private function getSocialStatuses ($iStatus)
-	{
-		$this->loadSocialStatuses ();
-		
-		$out = array ();
-		foreach ($this->iSocialStatuses as $k => $v)
-		{
-			if ($v == $iStatus)
-			{
-				$out[] = Neuron_GameServer::getPlayer ($k);
-			}
-		}
-		
-		return $out;
-	}
-	
 	public function getIgnoredPlayers ()
 	{
-		return $this->getSocialStatuses (-1);
-	}
-	
-	private function loadBans ()
-	{
-		if (!isset ($this->bans))
-		{
-			$this->bans = array ();
-			
-			$db = Neuron_DB_Database::getInstance ();
-			
-			$chk = $db->query
-			("
-				SELECT
-					bp_channel,
-					UNIX_TIMESTAMP(bp_end) AS datum
-				FROM
-					players_banned
-				WHERE
-					plid = {$this->getId ()}
-			");
-			
-			foreach ($chk as $v)
-			{
-				$this->bans[$v['bp_channel']] = $v['datum'];
-				
-				if ($v['datum'] < time ())
-				{
-					$this->unban ($v['bp_channel']);
-				}
-			}
-		}
+		return $this->social->getSocialStatuses (-1);
 	}
 	
 	public function isBanned ($sChannel = 'chat')
 	{
-		$this->loadBans ();
-		return isset ($this->bans[$sChannel]) ? true : false;
+		return $this->bans->isBanned ($sChannel);
 	}
 	
 	public function getBanDuration ($sChannel)
 	{
-		$this->loadBans ();
-		return isset ($this->bans[$sChannel]) ? $this->bans[$sChannel] : false;
+		return $this->bans->getBanDuration ($sChannel);
 	}
 	
 	public function ban ($sChannel = 'chat', $duration = 3600, $ban = true)
 	{
-		$db = Neuron_DB_Database::getInstance ();
-
-		$db->query
-		("
-			DELETE FROM
-				players_banned
-			WHERE
-				plid = {$this->getId()} AND
-				bp_channel = '{$db->escape ($sChannel)}'
-		");
-		
-		$this->bans = null;
-		
-		// First unban
-		if ($ban)
-		{
-			$db->query
-			("
-				INSERT INTO
-					players_banned
-				SET
-					plid = {$this->getId ()},
-					bp_channel = '{$db->escape ($sChannel)}',
-					bp_end = FROM_UNIXTIME(".(time() + $duration).")
-			");
-		}
+		$this->bans->ban ($sChannel, $duration, $ban);
 	}
 	
 	public function unban ($sChannel = 'chat')
 	{
-		$this->ban ($sChannel, null, false);
+		$this->bans->ban ($sChannel, null, false);
 	}
 	
 	public function equals ($objPlayer)
@@ -2055,10 +1433,7 @@ class Neuron_GameServer_Player
 
 	public function countLogins ()
 	{
-		$db = Neuron_DB_Database::getInstance ();
-
-		$data = $db->query ("SELECT COUNT(*) AS aantal FROM login_log WHERE l_plid = {$this->getId ()}");
-		return $data[0]['aantal'];
+		return Neuron_GameServer_Mappers_PlayerMapper::countLogins ($this);
 	}
 	
 	public function __toString ()
@@ -2079,7 +1454,6 @@ class Neuron_GameServer_Player
 		//unset ( $this->data );
 		unset ( $this->gameTriggerObj );
 		unset ( $this->error );
-		unset ( $this->village_insert_id );
 		unset ( $this->id );
 		unset ( $this->gameData );
 		unset ( $this->isFound );

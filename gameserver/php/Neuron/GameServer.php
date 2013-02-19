@@ -8,10 +8,13 @@ class Neuron_GameServer
 	const SCRIPT_PATH = 'Neuron/GameServer/scripts/';
 	
 	// Initialization
-	private function __construct ()
+	protected final function __construct ()
 	{
 		Neuron_Core_Template::load ();
 		add_to_template_path (CATLAB_BASEPATH . 'templates');
+
+		Neuron_URLBuilder::getInstance ()->setOpenCallback (array ($this, 'getOpenUrl'));
+		Neuron_URLBuilder::getInstance ()->setUpdateCallback (array ($this, 'getUpdateUrl'));
 	}
 	
 	/*
@@ -90,9 +93,11 @@ class Neuron_GameServer
 	public static function getInstance ()
 	{
 		static $in;
+
+		$class = get_called_class();
 		if (!isset ($in))
 		{
-			$in = new self ();
+			$in = new $class ();
 		}
 		return $in;
 	}
@@ -223,9 +228,6 @@ class Neuron_GameServer
 		{
 			throw new Neuron_Core_Error ('Neuron_GameServer did not receive a Neuron_GameServer_Game object.');
 		}
-		
-		Neuron_URLBuilder::getInstance ()->setOpenCallback (array ($this, 'getOpenUrl'));
-		Neuron_URLBuilder::getInstance ()->setUpdateCallback (array ($this, 'getUpdateUrl'));
 	
 		$pgen = Neuron_Core_PGen::__getInstance ();
 		$pgen->start ();

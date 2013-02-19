@@ -200,7 +200,7 @@ class Neuron_Core_Login
 	
 		if (count ($user) == 1)
 		{
-			/* Make new password */
+			// Make new password
 			$hash1 = md5 ($newPassword);
 			$hash2 = $user[0]['password2'];
 			$hash = md5 ('there'.$hash2.'and back'.$hash1.'again');
