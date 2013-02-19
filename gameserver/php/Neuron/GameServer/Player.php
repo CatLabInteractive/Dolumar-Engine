@@ -445,7 +445,7 @@ class Neuron_GameServer_Player
 			$start = time ();
 		}
 
-		Neuron_GameServer_Mappers_PlayerMapper::extendPremiumAccount ($this, $start);
+		Neuron_GameServer_Mappers_PlayerMapper::extendPremiumAccount ($this, $start + $duration);
 		
 		$this->data['premiumEndDate'] = Neuron_Core_Tools::timeStampToMysqlDatetime ($start + $duration);
 	}

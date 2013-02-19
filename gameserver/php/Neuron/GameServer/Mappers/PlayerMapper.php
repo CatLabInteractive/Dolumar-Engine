@@ -222,7 +222,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		");
 	}
 
-	public static function extendPremiumAccount (Neuron_GameServer_Player $player, $duration = 86400)
+	public static function extendPremiumAccount (Neuron_GameServer_Player $player, $endtime)
 	{
 		$db = Neuron_Core_Database::__getInstance ();
 
@@ -231,7 +231,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 			'players',
 			array
 			(
-				'premiumEndDate' => Neuron_Core_Tools::timeStampToMysqlDatetime ($start + $duration)
+				'premiumEndDate' => Neuron_Core_Tools::timeStampToMysqlDatetime ($endtime)
 			),
 			"plid = '".$player->getId ()."'"
 		);
