@@ -53,7 +53,7 @@ class Neuron_URLBuilder
 	
 	public function getURL ($module, $data, $display, $title =  null)
 	{
-		return $this->getUrl ($module, $display, $data, $title);	
+		return $this->getOpenURL ($module, $display, $data, $title);
 	}
 	
 	public function getOpenUrl ($module, $display, $data, $title = null, $misc1 = null)
