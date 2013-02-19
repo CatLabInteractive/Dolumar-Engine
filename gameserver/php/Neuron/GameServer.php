@@ -567,7 +567,7 @@ class Neuron_GameServer
 			if (isset ($_COOKIE['session_id']))
 			{
 				// All is okay now
-				$url = ABSOLUTE_URL '?';
+				$url = ABSOLUTE_URL . '?';
 
 				foreach ($_GET as $k => $v)
 				{
