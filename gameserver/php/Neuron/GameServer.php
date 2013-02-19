@@ -573,7 +573,7 @@ class Neuron_GameServer
 				{
 					if ($k != 'session_id')
 					{
-						$url .= $k . '=' . urlencode ($v) . '&';
+						$url .= $k . '=' . $v . '&';
 					}
 					$url = substr ($url, 0, -1);
 				}
