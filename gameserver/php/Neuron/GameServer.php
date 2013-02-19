@@ -567,7 +567,16 @@ class Neuron_GameServer
 			if (isset ($_COOKIE['session_id']))
 			{
 				// All is okay now
-				$url = ABSOLUTE_URL;
+				$url = ABSOLUTE_URL '?';
+
+				foreach ($_GET as $k => $v)
+				{
+					if ($k != 'session_id')
+					{
+						$url .= $k . '=' . urlencode ($v) . '&';
+					}
+					$url = substr ($url, 0, -1);
+				}
 
 				header ("Location: " . $url);
 				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
