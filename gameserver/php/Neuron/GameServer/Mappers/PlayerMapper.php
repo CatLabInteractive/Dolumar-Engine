@@ -151,7 +151,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		
 		if (count ($r) == 1)
 		{
-			return $r[0]
+			return $r[0];
 		}
 		
 		return null;
