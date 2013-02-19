@@ -450,6 +450,9 @@ class Neuron_Auth_OpenID
 
 	private function newAccount ()
 	{
+
+		var_dump ($_SESSION);
+
 		// This script should only be executed if an openid is set in the session
 		if (isset ($_SESSION['dolumar_openid_identity']))
 		{
