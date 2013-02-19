@@ -84,7 +84,7 @@ class Neuron_GameServer_Player
 	
 	private $objCredits = null;
 	
-	public function __construct ($playerId)
+	public final function __construct ($playerId)
 	{
 		$this->id = $playerId;
 	}

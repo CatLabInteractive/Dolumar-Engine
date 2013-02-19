@@ -16,6 +16,8 @@ interface Neuron_GameServer_Interfaces_Game
 	
 	public function getMap ();
 
+	public function getServer ();
+	
 	/**
 	* If this function returns content, the page will be reloaded & the output will be showed;
 	*/

@@ -12,9 +12,6 @@ class Neuron_GameServer
 	{
 		Neuron_Core_Template::load ();
 		add_to_template_path (CATLAB_BASEPATH . 'templates');
-
-		Neuron_URLBuilder::getInstance ()->setOpenCallback (array ($this, 'getOpenUrl'));
-		Neuron_URLBuilder::getInstance ()->setUpdateCallback (array ($this, 'getUpdateUrl'));
 	}
 	
 	/*
@@ -56,7 +53,7 @@ class Neuron_GameServer
 	
 	public function getGame ()
 	{
-		if (!isset ($this->objGame))
+		if (!isset ($this->objGame) || !($this->objGame instanceof Neuron_GameServer_Interfaces_Game))
 		{
 			throw new Neuron_Core_Error ('You should call setGame before dispatching the game server request.');
 		}
@@ -94,10 +91,9 @@ class Neuron_GameServer
 	{
 		static $in;
 
-		$class = get_called_class();
 		if (!isset ($in))
 		{
-			$in = new $class ();
+			$in = new self ();
 		}
 		return $in;
 	}
@@ -145,7 +141,13 @@ class Neuron_GameServer
 		if (!isset ($in))
 		{
 			$server = self::getInstance ();
-			$in = $server->objGame->getServer ();
+			$game = $server->getGame ();
+			$in = $game->getServer ();
+
+			if (! ($in instanceof Neuron_GameServer_Server))
+			{
+				throw new Neuron_Exceptions_InvalidParameter ("Server should implement Neuron_GameServer_Server");
+			}
 		}
 		
 		return $in;
@@ -223,10 +225,24 @@ class Neuron_GameServer
 		Get the output that is required.
 	*/
 	public function dispatch ()
-	{
+	{		
 		if (!isset ($this->objGame))
 		{
 			throw new Neuron_Core_Error ('Neuron_GameServer did not receive a Neuron_GameServer_Game object.');
+		}
+
+		Neuron_URLBuilder::getInstance ()->setOpenCallback (array ($this, 'getOpenUrl'));
+		Neuron_URLBuilder::getInstance ()->setUpdateCallback (array ($this, 'getUpdateUrl'));
+
+		if ($this->objGame instanceof Neuron_GameServer_Interfaces_Dispatch)
+		{
+			if (!$this->getRidOfSessionID ())
+			{
+				return;
+			}
+
+			$this->objGame->dispatch ();
+			return;
 		}
 	
 		$pgen = Neuron_Core_PGen::__getInstance ();
