@@ -253,18 +253,18 @@ class Neuron_Core_Login
 				FROM
 					n_players
 				INNER JOIN
-					temp_passwords ON n_players.plid = temp_passwords.p_plid
+					n_temp_passwords ON n_players.plid = n_temp_passwords.p_plid
 				WHERE
 					n_players.nickname = '".$db->escape ($email)."' AND
-					temp_passwords.p_pass = '".$db->escape ($password)."' AND
-					temp_passwords.p_expire > NOW()
+					n_temp_passwords.p_pass = '".$db->escape ($password)."' AND
+					n_temp_passwords.p_expire > NOW()
 			"));
 			
 			if (count ($user) == 1)
 			{
 				$db->remove
 				(
-					'temp_passwords',
+					'n_temp_passwords',
 					"p_plid = ".$user[0]['plid']." OR p_expire < NOW()"
 				);
 			
@@ -443,7 +443,7 @@ class Neuron_Core_Login
 		$db = Neuron_Core_Database::__getInstance ();
 		$db->insert
 		(
-			'login_log',
+			'n_login_log',
 			array
 			(
 				'l_plid' => $userId,
@@ -474,7 +474,7 @@ class Neuron_Core_Login
 		$db->query
 		("
 			INSERT INTO
-				login_failures
+				n_login_failures
 			SET
 				l_plid = {$userId},
 				l_ip = '{$db->escape ($this->getIp ())}',
@@ -512,14 +512,14 @@ class Neuron_Core_Login
 		// Remove all other temporary password from this user
 		$db->remove
 		(
-			'temp_passwords',
+			'n_temp_passwords',
 			"p_plid = ".$user[0]['plid']." OR p_expire < NOW()"
 		);
 		
 		// Add this new one
 		$db->insert
 		(
-			'temp_passwords',
+			'n_temp_passwords',
 			array
 			(
 				'p_plid' => $user[0]['plid'],

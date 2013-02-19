@@ -26,7 +26,7 @@ class Neuron_GameServer_Pages_Admin_Execute extends Neuron_GameServer_Pages_Admi
 			SELECT
 				*
 			FROM
-				mod_actions
+				n_mod_actions
 			WHERE
 				ma_processed = 0
 			ORDER BY
@@ -84,7 +84,7 @@ class Neuron_GameServer_Pages_Admin_Execute extends Neuron_GameServer_Pages_Admi
 				SELECT
 					*
 				FROM
-					mod_actions
+					n_mod_actions
 				WHERE
 					ma_id = {$id}
 			");
@@ -98,7 +98,7 @@ class Neuron_GameServer_Pages_Admin_Execute extends Neuron_GameServer_Pages_Admi
 		$db->query
 		("
 			UPDATE
-				mod_actions
+				n_mod_actions
 			SET
 				ma_processed = 1,
 				ma_executed = ".($bExecute ? '1' : '0')."

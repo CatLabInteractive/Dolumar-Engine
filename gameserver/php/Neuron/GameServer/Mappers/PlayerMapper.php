@@ -424,7 +424,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 	{
 		$db = Neuron_DB_Database::getInstance ();
 
-		$data = $db->query ("SELECT COUNT(*) AS aantal FROM login_log WHERE l_plid = {$player->getId ()}");
+		$data = $db->query ("SELECT COUNT(*) AS aantal FROM n_login_log WHERE l_plid = {$player->getId ()}");
 		return $data[0]['aantal'];
 	}
 }

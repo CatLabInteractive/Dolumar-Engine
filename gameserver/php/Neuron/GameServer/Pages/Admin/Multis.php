@@ -14,9 +14,9 @@ class Neuron_GameServer_Pages_Admin_Multis extends Neuron_GameServer_Pages_Admin
 		$data = $db->query
 		("
 			SELECT
-				login_log.l_ip,
+				n_login_log.l_ip,
 				
-				GROUP_CONCAT(DISTINCT login_log.l_plid) AS plids,
+				GROUP_CONCAT(DISTINCT n_login_log.l_plid) AS plids,
 				GROUP_CONCAT(DISTINCT n_players.nickname) AS nicknames,
 				
 				GROUP_CONCAT(c.pac_plid1) AS cleared_1,
@@ -25,13 +25,13 @@ class Neuron_GameServer_Pages_Admin_Multis extends Neuron_GameServer_Pages_Admin
 				
 				COUNT(DISTINCT l_plid) AS aantal
 			FROM
-				login_log
+				n_login_log
 			LEFT JOIN
-				n_players ON login_log.l_plid = n_players.plid
+				n_players ON n_login_log.l_plid = n_players.plid
 			LEFT JOIN
-				n_players_admin_cleared c ON (c.pac_plid1 = login_log.l_plid OR c.pac_plid2 = login_log.l_plid)
+				n_players_admin_cleared c ON (c.pac_plid1 = n_login_log.l_plid OR c.pac_plid2 = n_login_log.l_plid)
 			WHERE
-				login_log.l_datetime > FROM_UNIXTIME(".(NOW - $timeframe).") AND
+				n_login_log.l_datetime > FROM_UNIXTIME(".(NOW - $timeframe).") AND
 				n_players.isPlaying = 1
 			GROUP BY
 				l_ip

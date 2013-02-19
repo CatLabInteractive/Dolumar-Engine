@@ -404,7 +404,7 @@ class Neuron_GameServer_Server
 		}
 		
 		// Remove old login data (2 weeks old)
-		$rem = $db->remove ('login_log', "l_datetime < '".date ('Y-m-d H:i:s', time () - 60*60*24*7*2)."'");
+		$rem = $db->remove ('n_login_log', "l_datetime < '".date ('Y-m-d H:i:s', time () - 60*60*24*7*2)."'");
 		$log[] = "Removed ".$rem." login logs.\n";
 		
 		// Remove old game log data (2 months old)
@@ -435,7 +435,7 @@ class Neuron_GameServer_Server
 			
 			$l = $db->select
 			(
-				'server_data',
+				'n_server_data',
 				array ('*')
 			);
 			
@@ -493,7 +493,7 @@ class Neuron_GameServer_Server
 		$db = Neuron_Core_Database::__getInstance ();
 		$db->insert
 		(
-			'server_data',
+			'n_server_data',
 			array
 			(
 				's_name' => 'servername',
@@ -503,7 +503,7 @@ class Neuron_GameServer_Server
 		
 		$db->insert
 		(
-			'server_data',
+			'n_server_data',
 			array
 			(
 				's_name' => 'serverid',
@@ -518,7 +518,7 @@ class Neuron_GameServer_Server
 		
 		$db->update
 		(
-			'server_data',
+			'n_server_data',
 			array
 			(
 				's_value' => $sName
@@ -537,7 +537,7 @@ class Neuron_GameServer_Server
 			SELECT
 				s_value
 			FROM
-				server_data
+				n_server_data
 			WHERE
 				s_name = '{$db->escape ($sKey)}'
 		");
@@ -547,7 +547,7 @@ class Neuron_GameServer_Server
 			$db->query
 			("
 				UPDATE
-					server_data
+					n_server_data
 				SET
 					s_value = '{$db->escape ($sData)}'
 				WHERE
@@ -559,7 +559,7 @@ class Neuron_GameServer_Server
 			$db->query
 			("
 				INSERT INTO
-					server_data
+					n_server_data
 				SET
 					s_value = '{$db->escape ($sData)}',
 					s_name = '{$db->escape ($sKey)}'
@@ -584,7 +584,7 @@ class Neuron_GameServer_Server
 		{
 			$db->update
 			(
-				'server_data',
+				'n_server_data',
 				array ('s_value' => $now),
 				"s_name = 'lastDaily'"
 			);
@@ -593,7 +593,7 @@ class Neuron_GameServer_Server
 		{
 			$db->insert
 			(
-				'server_data',
+				'n_server_data',
 				array
 				(	
 					's_name' => 'lastDaily',
@@ -624,7 +624,7 @@ class Neuron_GameServer_Server
 					SELECT
 						*
 					FROM
-						server_text
+						n_server_text
 					WHERE
 						s_lang = '{$db->escape ($lang)}'
 				");

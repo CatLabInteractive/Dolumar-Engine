@@ -95,7 +95,7 @@ class Neuron_GameServer_LogSerializer
 				SELECT
 					*
 				FROM
-					game_logables
+					n_logables
 			");
 			
 			$classes['names'] = array ();
@@ -132,7 +132,7 @@ class Neuron_GameServer_LogSerializer
 			$db->query
 			("
 				INSERT INTO
-					game_logables
+					n_logables
 				SET
 					l_name = '".$name."'
 			");

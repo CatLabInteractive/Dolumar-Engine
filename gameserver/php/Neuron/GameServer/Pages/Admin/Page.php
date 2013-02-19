@@ -87,7 +87,7 @@ class Neuron_GameServer_Pages_Admin_Page extends Neuron_GameServer_Pages_Page
 		$db->query
 		("
 			INSERT INTO
-				mod_actions
+				n_mod_actions
 			SET
 				ma_action = '".$db->escape ($sAction)."',
 				ma_data = '".$db->escape (json_encode ($mParams))."',

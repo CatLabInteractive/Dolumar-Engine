@@ -179,7 +179,7 @@ class Neuron_GameServer_Pages_Admin_User extends Neuron_GameServer_Pages_Admin_P
 				*,
 				UNIX_TIMESTAMP(ma_date) AS datum
 			FROM
-				mod_actions
+				n_mod_actions
 			WHERE
 				ma_target = {$objUser->getId ()}
 			ORDER BY

@@ -44,11 +44,11 @@ class Neuron_Core_Lock
 			$db = Neuron_Core_Database::__getInstance ();
 		
 			// Lock the table
-			$db->customQuery ("LOCK TABLES locks WRITE");
+			$db->customQuery ("LOCK TABLES n_locks WRITE");
 		
 			$chk = $db->select
 			(
-				'locks',
+				'n_locks',
 				array ('l_id', 'l_date'),
 				"l_type = '".$sType."' AND l_lid = ".intval ($id)
 			);
@@ -57,7 +57,7 @@ class Neuron_Core_Lock
 			{
 				$id = $db->insert
 				(
-					'locks',
+					'n_locks',
 					array
 					(
 						'l_type' => $sType,
@@ -113,7 +113,7 @@ class Neuron_Core_Lock
 		
 		$db->remove 
 		(
-			'locks',
+			'n_locks',
 			"l_type = '".$sType."' AND l_lid = ".intval ($id)
 		);
 		
