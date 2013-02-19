@@ -231,9 +231,6 @@ class Neuron_GameServer
 			throw new Neuron_Core_Error ('Neuron_GameServer did not receive a Neuron_GameServer_Game object.');
 		}
 
-		Neuron_URLBuilder::getInstance ()->setOpenCallback (array ($this, 'getOpenUrl'));
-		Neuron_URLBuilder::getInstance ()->setUpdateCallback (array ($this, 'getUpdateUrl'));
-
 		if ($this->objGame instanceof Neuron_GameServer_Interfaces_Dispatch)
 		{
 			if (!$this->getRidOfSessionID ())
@@ -244,6 +241,9 @@ class Neuron_GameServer
 			$this->objGame->dispatch ();
 			return;
 		}
+
+		Neuron_URLBuilder::getInstance ()->setOpenCallback (array ($this, 'getOpenUrl'));
+		Neuron_URLBuilder::getInstance ()->setUpdateCallback (array ($this, 'getUpdateUrl'));
 	
 		$pgen = Neuron_Core_PGen::__getInstance ();
 		$pgen->start ();
