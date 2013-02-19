@@ -139,6 +139,8 @@ class Neuron_GameServer_Mappers_PlayerMapper
 	{
 		$db = Neuron_Core_Database::__getInstance ();
 
+		$id = intval ($id);
+
 		$r = $db->getDataFromQuery ($db->customQuery
 		("
 			SELECT
@@ -146,7 +148,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 			FROM
 				players
 			WHERE
-				players.plid = '".$this->getId ()."'
+				players.plid = '".$id."'
 		"));
 		
 		if (count ($r) == 1)
