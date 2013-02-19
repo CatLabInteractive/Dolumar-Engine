@@ -18,6 +18,11 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		return $code;
 	}
 
+	public static function getFromId ($id)
+	{
+		return Neuron_GameServer::getPlayer ($id);
+	}
+
 	public static function createTemporaryPlayer ()
 	{
 		$db = Neuron_DB_Database::getInstance ();
