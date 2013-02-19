@@ -452,6 +452,7 @@ class Neuron_Auth_OpenID
 	{
 
 		var_dump ($_SESSION);
+		exit;
 
 		// This script should only be executed if an openid is set in the session
 		if (isset ($_SESSION['dolumar_openid_identity']))
