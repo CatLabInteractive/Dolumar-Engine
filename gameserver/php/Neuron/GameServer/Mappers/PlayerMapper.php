@@ -262,7 +262,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 			$openid_rows = $db->query
 			("
 				SELECT
-					notify_url
+					*
 				FROM
 					auth_openid
 				WHERE
@@ -277,7 +277,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 			$openid_rows = $db->query
 			("
 				SELECT
-					notify_url
+					*
 				FROM
 					auth_openid
 				WHERE
