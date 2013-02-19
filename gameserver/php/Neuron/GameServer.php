@@ -573,6 +573,7 @@ class Neuron_GameServer
 				$url = ABSOLUTE_URL . $module . '?';
 
 				unset ($_GET['module']);
+				unset ($_GET['session_pass']);
 
 				foreach ($_GET as $k => $v)
 				{
