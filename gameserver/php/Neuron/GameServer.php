@@ -580,8 +580,8 @@ class Neuron_GameServer
 					{
 						$url .= $k . '=' . $v . '&';
 					}
-					$url = substr ($url, 0, -1);
 				}
+				$url = substr ($url, 0, -1);
 
 				header ("Location: " . $url);
 				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
