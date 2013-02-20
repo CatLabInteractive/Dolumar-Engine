@@ -380,7 +380,7 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		}
 		else
 		{
-			$total = count ($total) > 0 ? $total[0]['total'] : 1;
+			$rank = self::countAll ();
 		}
 		
 		$rank = $rank + 1;
