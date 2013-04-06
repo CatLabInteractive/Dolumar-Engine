@@ -22,6 +22,19 @@ class Neuron_Auth_OAuth
 				echo $page->parse ('oauth/index.phpt');
 			break;
 
+			case 'accesstoken':
+				$this->accesstoken ();
+			break;
+
+			case 'authorize':
+				$page->set ('content', $this->authorize ());
+				echo $page->parse ('oauth/index.phpt');
+			break;
+
+			case 'requesttoken':
+				$this->requesttoken ();
+			break;
+
 			case 'applications':
 			default:
 				$page->set ('content', $this->getApplications ());
@@ -108,5 +121,91 @@ class Neuron_Auth_OAuth
 		$store->install ();
 
 		return 'Installed.';
+	}
+
+	private function accesstoken ()
+	{
+		Neuron_Auth_OAuthStore::getStore (); 
+		$server = new OAuthServer();
+		$token = $server->accessToken();
+	}
+
+	private function authorize ()
+	{
+		$player = Neuron_GameServer::getPlayer ();
+
+		if (!$player)
+		{
+			$html = '<p>' . __('This page is only available for registered users.') . '</p>';
+
+			/*
+
+			$_SESSION['after_login_redirect'] = Neuron_URLBuilder::getURL 
+			(
+				'oauth/authorize', 
+				array 
+				(
+					'oauth_token' => Neuron_Core_Tools::getInput ('_GET', 'oauth_token', 'varchar')
+				)
+			);
+
+			header ('Location: ' . Neuron_URLBuilder::getURL ('login'));
+
+			return;
+			*/
+
+			return $thml;
+		}
+		
+		// The current user
+		$user_id = $player->getId ();
+
+		// Fetch the oauth store and the oauth server.
+		$store = Neuron_Auth_OAuthStore::getStore (); 
+		$server = new OAuthServer();
+
+		try
+		{
+			// Check if there is a valid request token in the current request
+			// Returns an array with the consumer key, consumer secret, token, token secret and token type.
+			$rs = $server->authorizeVerify();
+
+			if ($_SERVER['REQUEST_METHOD'] == 'POST')
+			{
+				// See if the user clicked the 'allow' submit button (or whatever you choose)
+				$authorized = true;
+
+				// Set the request token to be authorized or not authorized
+				// When there was a oauth_callback then this will redirect to the consumer
+				$server->authorizeFinish($authorized, $user_id);
+
+				// No oauth_callback, show the user the result of the authorization
+				// ** your code here **
+				unset ($_GET['rewritepagemodule']);
+				$url = Neuron_URLBuilder::getInstance ()->getRawURL ('oauth/authorize', $_GET);
+				$html = '<form method="post" action="' . $url . '"><button>Accept</button></form>';
+			}
+			else
+			{
+				unset ($_GET['rewritepagemodule']);
+				$url = Neuron_URLBuilder::getInstance ()->getRawURL ('oauth/authorize', $_GET);
+				$html = '<form method="post" action="' . $url . '"><button>Accept</button></form>';
+			}
+		}
+		catch (OAuthException $e)
+		{
+			// No token to be verified in the request, show a page where the user can enter the token to be verified
+			// **your code here**
+			$html = 'oops';
+		}
+
+		return $html;
+	}
+
+	private function requesttoken ()
+	{
+		Neuron_Auth_OAuthStore::getStore (); 
+		$server = new OAuthServer();
+		$token = $server->requestToken();
 	}
 }

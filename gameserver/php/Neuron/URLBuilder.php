@@ -55,6 +55,20 @@ class Neuron_URLBuilder
 	{
 		return $this->getOpenURL ($module, $display, $data, $title);
 	}
+
+	public function getRawURL ($module, $data)
+	{
+		$query = '?';
+		
+		foreach ($data as $k => $v)
+		{
+			$query .= $k . '=' . urlencode ($v) . '&';
+		}
+		
+		$query = substr ($query, 0, -1);
+
+		return ABSOLUTE_URL . $module . $query;
+	}
 	
 	public function getOpenUrl ($module, $display, $data, $title = null, $misc1 = null)
 	{
