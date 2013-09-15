@@ -626,6 +626,20 @@ class Neuron_GameServer
 			return;
 		}
 
+		// Check for cache dir
+		if (!file_exists (CACHE_DIR) || !is_writable (CACHE_DIR))
+		{
+			echo CACHE_DIR . ' should be writeable';
+			exit;
+		}
+
+		// Cache for memcache
+		if (!class_exists ('Memcache'))
+		{
+			echo 'Memcache php module must be installed.';
+			exit;
+		}
+
 		$page = new Neuron_Core_Template ();
 		
 		$page->set ('server', $this);

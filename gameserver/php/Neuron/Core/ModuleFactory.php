@@ -52,7 +52,6 @@ abstract class Neuron_Core_ModuleFactory
 		{
 			foreach ($this->oModules as $k => $v)
 			{
-				$v->__destruct ();
 				unset ($this->oModules[$k]);
 			}
 		}
