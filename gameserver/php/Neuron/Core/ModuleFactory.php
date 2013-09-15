@@ -28,6 +28,11 @@ abstract class Neuron_Core_ModuleFactory
 	
 	private function doLoadModule ($sModule)
 	{
+		if (!isset ($this->oModules))
+		{
+			$this->oModules = array ();
+		}
+
 		if (!isset ($this->oModules[$sModule]))
 		{
 			$this->oModules[$sModule] = $this->loadModule ($sModule);
@@ -52,6 +57,7 @@ abstract class Neuron_Core_ModuleFactory
 		{
 			foreach ($this->oModules as $k => $v)
 			{
+				//$v->__destruct ();
 				unset ($this->oModules[$k]);
 			}
 		}
