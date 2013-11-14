@@ -394,7 +394,8 @@ class Neuron_GameServer
 				$sClassname = 'Neuron_GameServer_Pages_'.ucfirst (strtolower ($sPage));
 		
 				$myself = Neuron_GameServer::getPlayer ();
-		
+
+				var_dump ($sPage);
 				if ($objPage = $this->objGame->getPage ($sPage))
 				{
 				}
