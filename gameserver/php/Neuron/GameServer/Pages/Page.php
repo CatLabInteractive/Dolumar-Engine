@@ -61,9 +61,8 @@ class Neuron_GameServer_Pages_Page
 	protected function getParameter ($id)
 	{
 		$id = intval ($id);
-	
-		$module = Neuron_Core_Tools::getInput ('_REQUEST', 'module', 'varchar');
-		$data = explode ('/', $module);
+
+		$data = explode ('/', isset ($_GET['module']) ? $_GET['module'] : null);
 
 		if (isset ($data[$id]))
 		{
