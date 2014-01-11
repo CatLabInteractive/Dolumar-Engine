@@ -993,7 +993,8 @@ class Neuron_Core_Tools
 		$perpage = 10, 
 		$maxAantalSnelclicks = 10, 
 		$action = '', 
-		$module = 'module'
+		$module = 'module',
+		$pagetoken = 'page'
 	)
 	{
 		$pages = ceil ($total / $perpage);
@@ -1058,11 +1059,11 @@ class Neuron_Core_Tools
 			}
 		}			
 		
-		$page->set ('pagelist_firstpage_url', self::splitInPages_getPageUrl ($module, 1, $l_action, '&lt;'));
-		$page->set ('pagelist_previous_url', self::splitInPages_getPageUrl ($module, $current - 1, $l_action, '&laquo;'));
+		$page->set ('pagelist_firstpage_url', self::splitInPages_getPageUrl ($pagetoken, $module, 1, $l_action, '&lt;'));
+		$page->set ('pagelist_previous_url', self::splitInPages_getPageUrl ($pagetoken, $module, $current - 1, $l_action, '&laquo;'));
 		
-		$page->set ('pagelist_lastpage_url', self::splitInPages_getPageUrl ($module, $pages, $l_action, '&gt;'));
-		$page->set ('pagelist_nextpage_url', self::splitInPages_getPageUrl ($module, $current + 1, $l_action, '&raquo;'));
+		$page->set ('pagelist_lastpage_url', self::splitInPages_getPageUrl ($pagetoken, $module, $pages, $l_action, '&gt;'));
+		$page->set ('pagelist_nextpage_url', self::splitInPages_getPageUrl ($pagetoken, $module, $current + 1, $l_action, '&raquo;'));
 		
 		$shortcuts = array ();
 		for ($i = $pS; $i <= $pE; $i ++)
@@ -1070,7 +1071,7 @@ class Neuron_Core_Tools
 			$shortcuts[] = array
 			(
 				'page' => $i,
-				'url' => self::splitInPages_getPageUrl ($module, $i, $l_action, $i)
+				'url' => self::splitInPages_getPageUrl ($pagetoken, $module, $i, $l_action, $i)
 			);
 		}
 		
@@ -1084,9 +1085,9 @@ class Neuron_Core_Tools
 		);
 	}
 	
-	private static function splitInPages_getPageUrl ($module, $page, $data, $name)
+	private static function splitInPages_getPageUrl ($pagetoken, $module, $page, $data, $name)
 	{
-		$data['page'] = $page;
+		$data[$pagetoken] = $page;
 	
 		return Neuron_URLBuilder::getInstance ()->getUpdateUrl 
 		(
