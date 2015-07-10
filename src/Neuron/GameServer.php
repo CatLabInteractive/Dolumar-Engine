@@ -639,7 +639,7 @@ class Neuron_GameServer
 		
 		$page->set ('server', $this);
 		
-		$page->set ('static_client_url', BASE_URL . 'gameserver/');
+		$page->set ('static_client_url', BASE_URL . 'vendor/catlabinteractive/dolumar-engine/');
 		
 		if (defined ('IS_TESTSERVER') && IS_TESTSERVER)
 		{

@@ -1,8 +1,5 @@
 <?php 
 
-	// Let's overwrite this for kick start
-	define ('PIWIK_ANALYTICS', 2);
-	
 	// Fetch server name
 	$server = Neuron_GameServer::getServer ();
 	$name = $server->getServerName ();
