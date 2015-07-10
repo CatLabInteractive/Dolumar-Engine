@@ -17,16 +17,15 @@ define ('CATLAB_BASEPATH', dirname (dirname (__FILE__)) . '/');
 define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
 define ('PEAR_BASEPATH', dirname (dirname (dirname (__FILE__))) . '/pear/');
 
+if (!defined ('IS_TESTSERVER'))
+	define ('IS_TESTSERVER', false);
+
 // Setting basic constants.
 if (!defined ('BASE_PATH'))
 	define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
 if (!defined ('ABSOLUTE_URL'))
 	define ('ABSOLUTE_URL', 'http://'.$_SERVER['SERVER_NAME'] . '/');
-
-if (file_exists (BASE_PATH . 'config/serverconfig.php')) {
-	include (BASE_PATH . 'config/serverconfig.php');
-}
 
 if (!defined ('SPEED_FACTOR'))
 	define ('SPEED_FACTOR', 1);
