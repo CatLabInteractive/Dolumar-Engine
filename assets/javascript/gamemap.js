@@ -683,7 +683,7 @@ Game.map =
 		
 		// Put a huge image on top of the region
 		var overlay = document.createElement ('img');
-		overlay.src = CONFIG_GAMESERVER_URL+'assets/images/spacer.gif';
+		overlay.src = CONFIG_GAMESERVER_URL+'images/spacer.gif';
 		overlay.style.width = div.style.width;
 		overlay.style.height = div.style.height;
 		overlay.style.position = 'absolute';
