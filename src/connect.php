@@ -17,6 +17,126 @@ define ('CATLAB_BASEPATH', dirname (dirname (__FILE__)) . '/');
 define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
 define ('PEAR_BASEPATH', dirname (dirname (dirname (__FILE__))) . '/pear/');
 
+// Setting basic constants.
+define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
+
+if (!defined ('ABSOLUTE_URL'))
+	define ('ABSOLUTE_URL', 'http://'.$_SERVER['SERVER_NAME'] . '/');
+
+if (file_exists (BASE_PATH . 'config/serverconfig.php')) {
+	include (BASE_PATH . 'config/serverconfig.php');
+}
+
+if (!defined ('SPEED_FACTOR'))
+	define ('SPEED_FACTOR', 1);
+
+if (!defined ('STATIC_ABSOLUTE_URL'))
+	define ('STATIC_ABSOLUTE_URL', ABSOLUTE_URL);
+
+if (!defined ('GAME_NAME'))
+	define ('GAME_NAME', 'Dolumar');
+
+// API
+if (!defined ('API_FULL_URL'))
+	define ('API_FULL_URL', ABSOLUTE_URL.'api/');
+
+if (!defined ('API_OPENID_URL'))
+	define ('API_OPENID_URL', ABSOLUTE_URL.'openid/');
+
+if (!defined ('DEBUG_LOGS'))
+	define ('DEBUG_LOGS', false);
+
+if (!defined ('BASE_URL'))
+	define ('BASE_URL', ABSOLUTE_URL);
+
+if (!defined ('ONLINE_TIMEOUT'))
+	define ('ONLINE_TIMEOUT', 90);
+
+if (!defined ('DATE'))
+	define ('DATE', 'd.m.Y');
+
+if (!defined ('DATETIME'))
+	define ('DATETIME', 'd.m.Y H:i');
+
+// URLS
+if (!defined ('STATIC_URL'))
+	define ('STATIC_URL', BASE_URL . 'static/');
+
+if (!defined ('STATIC_PATH'))
+	define ('STATIC_PATH', BASE_PATH.'static/');
+
+if (!defined ('IMAGE_URL'))
+	define ('IMAGE_URL', STATIC_URL.'images/');
+
+if (!defined ('IMAGE_PATH'))
+	define ('IMAGE_PATH', BASE_PATH.'static/images/');
+
+if (!defined ('SMILEY_DIR'))
+	define ('SMILEY_DIR', IMAGE_URL.'smileys/blue/');
+
+if (!defined ('SMILEY_PATH'))
+	define ('SMILEY_PATH', IMAGE_PATH.'smileys/blue/');
+
+if (!defined ('PUBLIC_PATH'))
+	define ('PUBLIC_PATH', BASE_PATH.'public/');
+
+if (!defined ('PUBLIC_URL'))
+	define ('PUBLIC_URL', BASE_URL.'public/');
+
+// Paths
+if (!defined ('TEMPLATE_DIR'))
+	define ('TEMPLATE_DIR', BASE_PATH.'dolumar/templates/default/');
+
+if (!defined ('LANGUAGE_DIR'))
+	define ('LANGUAGE_DIR', BASE_PATH.'static/language/');
+
+if (!defined ('STATS_DIR'))
+	define ('STATS_DIR', BASE_PATH.'static/stats/');
+
+if (!defined ('RANDMAPFACTOR'))
+	define ('RANDMAPFACTOR', 'Funky Dolumar Game 2008');
+
+if (!defined ('COOKIE_PREFIX'))
+	define ('COOKIE_PREFIX', 'PJX');
+
+if (!defined ('COOKIE_LIFE'))
+	define ('COOKIE_LIFE', 60 * 60 * 24 * 31 * 12);
+
+// Outside  URLS
+if (!defined ('WIKI_GUIDE_URL'))
+	define ('WIKI_GUIDE_URL', false);
+
+if (!defined ('WIKI_EDIT_URL'))
+	define ('WIKI_EDIT_URL', false);
+
+if (!defined ('WIKI_PREFIX'))
+	define ('WIKI_PREFIX', false);
+
+if (!defined ('FORUM_URL'))
+	define ('FORUM_URL', false);
+
+if (!defined ('CONTACT_URL'))
+	define ('CONTACT_URL', false);
+
+if (!defined ('PREMIUM_URL'))
+	define ('PREMIUM_URL', false);
+
+if (!defined ('TRACKER_URL'))
+	define ('TRACKER_URL', false);
+
+if (!defined ('PREMIUM_API_KEY'))
+	define ('PREMIUM_API_KEY', false);
+
+if (!defined ('SERVERLIST_URL'))
+	define ('SERVERLIST_URL', false);
+
+if (!defined ('OPENID_SKIP_LOGIN'))
+	define ('OPENID_SKIP_LOGIN', true);
+
+if (!defined ('OPENID_SKIP_NICKNAME'))
+	define ('OPENID_SKIP_NICKNAME', true);
+
+
 // Define cookie path
 $base_path = ABSOLUTE_URL;
 $base_path = explode ('/', $base_path);
