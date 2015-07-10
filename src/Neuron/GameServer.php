@@ -292,20 +292,6 @@ class Neuron_GameServer
 				require_once (self::SCRIPT_PATH.'image/image.php');
 			break;
 	
-			case 'opensocial':
-				$sAction = isset ($sInputs[1]) ? $sInputs[1] : null;
-				switch ($sAction)
-				{
-					case 'login':
-						require_once (self::SCRIPT_PATH.'opensocial/login.php');
-					break;
-			
-					default:
-						require_once (self::SCRIPT_PATH.'opensocial/module.php');
-					break;
-				}
-			break;
-	
 			case 'test':
 				// Close the session (lock)
 				session_write_close ();

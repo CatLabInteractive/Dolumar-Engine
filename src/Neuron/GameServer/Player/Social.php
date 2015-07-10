@@ -1,5 +1,5 @@
 <?php
-class Neuron_GameServer_Player_Preferences
+class Neuron_GameServer_Player_Social
 {
 	private $iSocialStatuses = null;
 	
