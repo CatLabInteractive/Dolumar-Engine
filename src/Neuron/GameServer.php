@@ -629,7 +629,7 @@ class Neuron_GameServer
 		}
 
 		// Cache for memcache
-		if (!class_exists ('Memcache'))
+		if (defined ('MEMCACHE_IP') && MEMCACHE_IP && !class_exists ('Memcache'))
 		{
 			echo 'Memcache php module must be installed.';
 			exit;
