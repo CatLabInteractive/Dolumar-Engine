@@ -13,6 +13,26 @@ class Neuron_GameServer
 		Neuron_Core_Template::load ();
 		add_to_template_path (CATLAB_BASEPATH . 'templates');
 	}
+
+	public static function getInstance ()
+	{
+		static $in;
+
+		if (!isset ($in))
+		{
+			$in = new self ();
+		}
+		return $in;
+	}
+
+	/**
+	 * Bootstrap. Hacky, but well, old.
+	 */
+	public static function bootstrap()
+	{
+		require_once '../connect.php';
+		return self::getInstance();
+	}
 	
 	/*
 		This method let's you set the URL that will
@@ -85,17 +105,6 @@ class Neuron_GameServer
 		}
 		
 		return $this->objMap;
-	}
-	
-	public static function getInstance ()
-	{
-		static $in;
-
-		if (!isset ($in))
-		{
-			$in = new self ();
-		}
-		return $in;
 	}
 	
 	/*

@@ -171,47 +171,6 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
     $stripslashes_deep($_REQUEST, $stripslashes_deep);
 }
 
-
-/*
-	Auto load function:
-	Real OOP!
-	
-	Loads the class /php/group/class.php by calling "new Group_Class ();"
-*/
-function __autoload ($class_name) 
-{
-	$v = explode ('_', $class_name);
-	
-	$p = count ($v) - 1;
-	
-	$url = '';
-	foreach ($v as $k => $vv)
-	{
-		if ($k == $p)
-		{
-			$url .= '/'.$vv.'.php';
-		}
-		else 
-		{
-			$url .= '/'.$vv;
-		}
-	}
-	
-	foreach (explode (PATH_SEPARATOR, get_include_path ()) as $v)
-	{
-		if (file_exists ($v . $url))
-		{
-			require_once ($v . $url);
-			return true;
-		}
-	}
-	
-	//echo get_include_path ();
-	//throw new Exception ("Could not load class: " . $class_name);
-	
-	return false;
-}
-
 /*
 	Replace the "mail" function by something more flexible.
 */
