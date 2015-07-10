@@ -18,7 +18,8 @@ define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
 define ('PEAR_BASEPATH', dirname (dirname (dirname (__FILE__))) . '/pear/');
 
 // Setting basic constants.
-define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
+if (!defined ('BASE_PATH'))
+	define ('BASE_PATH', dirname(dirname(__FILE__)).'/');
 
 if (!defined ('ABSOLUTE_URL'))
 	define ('ABSOLUTE_URL', 'http://'.$_SERVER['SERVER_NAME'] . '/');
