@@ -30,7 +30,7 @@ class Neuron_GameServer
 	 */
 	public static function bootstrap()
 	{
-		require_once '../connect.php';
+		require_once __DIR__ . '/../connect.php';
 		return self::getInstance();
 	}
 	
