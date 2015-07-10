@@ -4,8 +4,8 @@ class Neuron_GameServer
 	private $objGame;
 	private $objMap;
 	private $dispatch_url = ABSOLUTE_URL;
-	
-	const SCRIPT_PATH = 'Neuron/GameServer/scripts/';
+
+	const SCRIPT_PATH = __DIR__ . '/GameServer/scripts/';
 	
 	// Initialization
 	protected final function __construct ()
