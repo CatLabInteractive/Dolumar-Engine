@@ -23,7 +23,7 @@
 			
 			var CONFIG_GAME_NAME = 'Dolumar';
 			
-			var CONFIG_GAMESERVER_URL = '<?=ABSOLUTE_URL?>gameserver/';
+			var CONFIG_GAMESERVER_URL = '<?=GAMESERVER_ASSET_URL?>';
 			var CONFIG_GAME_URL = '<?=ABSOLUTE_URL?>';
 			var CONFIG_DISPATCH_URL = '<?=$dispatch_url?>';
 			var CONFIG_GAME_DOMAIN = '<?=$_SERVER['SERVER_NAME']?>';

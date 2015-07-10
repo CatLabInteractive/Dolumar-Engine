@@ -17,6 +17,8 @@ define ('CATLAB_BASEPATH', dirname (dirname (__FILE__)) . '/');
 define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
 define ('PEAR_BASEPATH', dirname (dirname (dirname (__FILE__))) . '/pear/');
 
+define ('GAMESERVER_ASSET_URL', BASE_URL . 'vendor/catlabinteractive/dolumar-engine/assets/');
+
 if (!defined ('IS_TESTSERVER'))
 	define ('IS_TESTSERVER', false);
 
