@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "Hidden"
-AuthUserFile "/home/d6557dol/.htpasswds/public_html/game/php/passwd"
-require valid-user
