@@ -22,6 +22,7 @@ class Neuron_GameServer_Credits
 			$out->setPrivateKey (file_get_contents (BASE_PATH . 'certificates/credits_private.cert'));
 		}
 
+
 		return $out;
 	}
 
