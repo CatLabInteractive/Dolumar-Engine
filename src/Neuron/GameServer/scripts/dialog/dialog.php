@@ -39,7 +39,7 @@ function handleOpenWindowRequest ($windows)
 		if ($window)
 		{
 			$window->setSettings ();
-		
+
 			$window->setDom ($dom);
 
 			// Append new window xml
@@ -47,7 +47,7 @@ function handleOpenWindowRequest ($windows)
 			if ($node)
 			{
 				$root->appendChild ($node);
-			}	
+			}
 		}
 	}
 }
@@ -77,23 +77,23 @@ if (is_array ($openwindows))
 					{
 						$window->setRequestData ($v['sRequestData']);
 					}
-					
+
 					$window->setJsonInputData ($v['sInputData']);
-					
+
 					// Append to array
 					$windows[] = $window;
 				}
-				
+
 				handleOpenWindowRequest ($windows);
 
 				$profiler->stop ();
-			}		
+			}
 		}
 		catch (Exception $e)
 		{
 			// Send a mail
 			error_log ((string)$e);
-			
+
 			if (defined ('OUTPUT_DEBUG_DATA') && OUTPUT_DEBUG_DATA)
 			{
 				echo $e;
@@ -110,7 +110,7 @@ foreach ($updatewindows as $window)
 {
 	// Put everything in a big TRY
 	$profiler->start ('Processing window '.$window->getWindowId ());
-	
+
 	try
 	{
 		$window->setDom ($dom);
@@ -129,12 +129,12 @@ foreach ($updatewindows as $window)
 
 		else if ($window->getInput ('action') == '__reloadContent__')
 		{
-			$window->reloadContent ();			
+			$window->reloadContent ();
 		}
-	
+
 		// Load updates
 		$updates = $window->getDOMRefresh ();
-	
+
 		if ($updates)
 		{
 			// Append new window xml
@@ -145,13 +145,13 @@ foreach ($updatewindows as $window)
 	{
 		// Send a mail
 		error_log ((string)$e);
-		
+
 		if (defined ('OUTPUT_DEBUG_DATA') && OUTPUT_DEBUG_DATA)
 		{
 			echo $e;
 		}
 	}
-	
+
 	$profiler->stop ();
 }
 
@@ -198,5 +198,3 @@ $dom->appendChild ($root);
 $output = $dom->saveXML();
 
 echo $output;
-
-?>

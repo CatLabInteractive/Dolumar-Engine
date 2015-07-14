@@ -86,8 +86,8 @@ class Neuron_GameServer_Windows_Window
 
 	public static function getWindow ($v)
 	{
-		eval ('$a = new Neuron_GameServer_Windows_'.ucfirst ($v).' ();');
-		return $a;
+		$classname = 'Neuron_GameServer_Windows_'.ucfirst ($v);
+		return new $classname ();
 	}
 	
 	public function setUrlCallback ($callback)

@@ -7,34 +7,40 @@ class Neuron_GameServer_Credits
 {
 	private $objUser;
 	private $sToken;
-	
+
 	private $error;
-	
+
 	private $objCredits;
-	
+
 	private $convertcache = array ();
 
 	public static function getPureCreditsObject ()
 	{
 		$out = new BBGS_Credits (PREMIUM_GAME_TOKEN);
-		$out->setPrivateKey (file_get_contents (BASE_PATH . 'gameserver/php/Neuron/GameServer/certificates/credits_private.cert'));
+
+		if (file_exists(BASE_PATH . 'certificates/credits_private.cert')) {
+			$out->setPrivateKey (file_get_contents (BASE_PATH . 'certificates/credits_private.cert'));
+		}
 
 		return $out;
 	}
-	
+
 	public function __construct (Neuron_GameServer_Player $objUser)
 	{
 		$this->objUser = $objUser;
-		
+
 		$this->objCredits = self::getPureCreditsObject ();
-		
+		if (!$this->objCredits) {
+			return;
+		}
+
 		if ($this->objUser->isEmailCertified ())
 		{
 			$this->objCredits->setEmail ($this->getEmail ());
 		}
-		
+
 		$this->objCredits->setReferal ($objUser->getReferal ());
-		
+
 		/*
 		$openid = isset ($_SESSION['neuron_openid_identity']) ? 
 			$_SESSION['neuron_openid_identity'] : null;
@@ -44,38 +50,38 @@ class Neuron_GameServer_Credits
 			$this->objCredits->setOpenID ($openid);
 		}
 		*/
-		
+
 		foreach ($objUser->getOpenIDs () as $v)
 		{
 			$this->objCredits->addOpenID ($v);
 		}
-			
+
 		$container = isset ($_SESSION['opensocial_container']) ?
 			$_SESSION['opensocial_container'] : null;
-		
+
 		if (isset ($container))
 		{
 			$this->objCredits->setContainer ($container);
 		}
-		
+
 		$fullscreen = isset ($_SESSION['fullscreen']) && $_SESSION['fullscreen'] ? 1 : 0;
 		$this->objCredits->setFullscreen ($fullscreen);
-		
+
 		$this->objCredits->setLanguage (Neuron_Core_Text::getInstance ()->getCurrentLanguage ());
-		
+
 		$this->objCredits->setUserId ($objUser->getId ());
-		
+
 		if (isset ($_SESSION['birthday']))
 		{
 			$this->objCredits->setBirthday ($_SESSION['birthday']);
 		}
-		
+
 		if (isset ($_SESSION['gender']))
 		{
 			$this->objCredits->setGender (strtolower ($_SESSION['gender']) == 'm' ? 'male' : 'female');
 		}
 	}
-	
+
 	private function getEmail ()
 	{
 		return trim (strtolower ($this->objUser->getEmail ()));
@@ -94,27 +100,27 @@ class Neuron_GameServer_Credits
 		}
 		catch (BadMethodCallException $e)
 		{
-			$this->error = 'email_not_set'; 
-			return false; 
+			$this->error = 'email_not_set';
+			return false;
 		}
 	}
-	
+
 	public function useCredit ()
 	{
 		return true;
 	}
-	
+
 	public function getBuyUrl ()
 	{
 		//return PREMIUM_URL . '?email='.$this->getEmail().'&token='.$this->sToken;
 		return $this->objCredits->buyCredits ();
 	}
-	
+
 	public function refundCredits ($amount, $description, $action)
 	{
 		return $this->objCredits->refundCredits ($amount, $description, $action);
 	}
-	
+
 	/*
 		This function connects to the credit gateway
 		and checks if a certain transaction exists.
@@ -152,16 +158,16 @@ class Neuron_GameServer_Credits
 			return false;
 		}
 		*/
-		
+
 		if (isset ($_POST['transaction_id']) && isset ($_POST['transaction_secret']))
 		{
 			$valid = $this->objCredits->isRequestValid ($_POST['transaction_id'], $_POST['transaction_secret']);
-	
+
 			if ($valid)
 			{
 				$amount = $_POST['transaction_amount'];
 				$this->objUser->useCredit ($amount, $data);
-				
+
 				return true;
 			}
 			else
@@ -173,16 +179,16 @@ class Neuron_GameServer_Credits
 		{
 			$this->error = 'No post data received.';
 		}
-		
+
 		return false;
 	}
-	
+
 	public function getUseUrl ($amount = 1, $data = array (), $description = 'Premium features', $action = 'premium')
 	{
 		$callback = API_FULL_URL.'spendCredit/'.
 			'?key='.md5($this->getEmail()).
 			'&id='.$this->objUser->getId();
-		
+
 		foreach ($data as $k => $v)
 		{
 			$callback .= '&' . urlencode ($k) . '=' . urlencode ($v);
@@ -194,11 +200,11 @@ class Neuron_GameServer_Credits
 		}
 		catch (BadMethodCallException $e)
 		{
-			$this->error = 'email_not_set'; 
-			return false; 
+			$this->error = 'email_not_set';
+			return false;
 		}
 	}
-	
+
 	private function getConvertData ($amount = 1)
 	{
 		if (!isset ($this->convertcache[$amount]))
@@ -207,7 +213,7 @@ class Neuron_GameServer_Credits
 		}
 		return $this->convertcache[$amount];
 	}
-	
+
 	public function convertCredits ($amount = 1)
 	{
 		/*
@@ -228,19 +234,19 @@ class Neuron_GameServer_Credits
 		
 		return json_decode ($data);
 		*/
-		
+
 		//return $amount;
-		
+
 		$data = $this->getConvertData ($amount);
 		return $data['amount'];
 	}
-	
+
 	public function getCreditDisplay ($amount, $html = false)
 	{
 		$data = $this->getConvertData ($amount);
-		return $html ? $data['html'] : $data['text'];	
+		return $html ? $data['html'] : $data['text'];
 	}
-	
+
 	/*
 		@param $sTracker ID of the tracker, for example: "registration"
 	*/
@@ -254,10 +260,13 @@ class Neuron_GameServer_Credits
 		
 		return $this->getSignedUrl (TRACKER_URL, $parameters);
 		*/
-		
+		if (!$this->objCredits->isValidData()) {
+			return null;
+		}
+
 		return $this->objCredits->getTrackerUrl ($sTracker);
 	}
-	
+
 	public function getError ()
 	{
 		return $this->error;
