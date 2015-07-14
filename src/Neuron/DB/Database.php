@@ -48,6 +48,7 @@ abstract class Neuron_DB_Database
 	}
 	
 	// Abstract functions
+	public abstract function multiQuery($sSQL);
 	public abstract function query ($sSQL);
 	public abstract function escape ($txt);
 	
