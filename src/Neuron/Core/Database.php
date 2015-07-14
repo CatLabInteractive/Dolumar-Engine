@@ -34,6 +34,15 @@ class Neuron_Core_Database
 		
 		return $data;
 	}
+
+	public function multiQuery ($sql_query)
+	{
+		$pr = Neuron_Profiler_Profiler::getInstance ();
+
+		$data = $this->db->multiQuery ($sql_query);
+
+		return $data;
+	}
 	
 	public function insert ($table, $data)
 	{
