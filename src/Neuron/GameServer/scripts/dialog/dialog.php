@@ -13,9 +13,6 @@ function throwAlertError ($msg)
 	$GLOBALS['javascriptAlertErrors'][] = $msg;
 }
 
-// Set header to xml
-header("Content-Type: text/xml; charset=utf-8;");
-
 // Creat new xml file
 global $dom;
 global $root;
@@ -196,5 +193,8 @@ $dom->appendChild ($root);
 
 // Output XML
 $output = $dom->saveXML();
+
+// Set header to xml
+header("Content-Type: text/xml; charset=utf-8;");
 
 echo $output;
