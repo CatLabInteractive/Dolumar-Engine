@@ -19,12 +19,37 @@ class Neuron_Core_Memcache
 	
 	private function __construct ()
 	{
-		if (defined ('MEMCACHE_IP') && defined ('MEMCACHE_PORT'))
+		if (defined ('MEMCACHE_SERVERS'))
 		{
 			try
 			{
-				$this->objCache = new Memcache ();
-				@$this->objCache->connect (MEMCACHE_IP, MEMCACHE_PORT);
+				// create a new persistent client
+				$m = new Memcached("memcached_pool");
+				$m->setOption(Memcached::OPT_BINARY_PROTOCOL, TRUE);
+
+				// some nicer default options
+				$m->setOption(Memcached::OPT_NO_BLOCK, TRUE);
+				$m->setOption(Memcached::OPT_AUTO_EJECT_HOSTS, TRUE);
+				$m->setOption(Memcached::OPT_CONNECT_TIMEOUT, 2000);
+				$m->setOption(Memcached::OPT_POLL_TIMEOUT, 2000);
+				$m->setOption(Memcached::OPT_RETRY_TIMEOUT, 2);
+
+				// setup authentication
+				if (defined ('MEMCACHE_USERNAME') && defined ('MEMCACHE_PASSWORD')) {
+					$m->setSaslAuthData( MEMCACHE_USERNAME, MEMCACHE_PASSWORD );
+				}
+
+				// We use a consistent connection to memcached, so only add in the
+				// servers first time through otherwise we end up duplicating our
+				// connections to the server.
+				if (!$m->getServerList()) {
+					// parse server config
+					$servers = explode(",", MEMCACHE_SERVERS);
+					foreach ($servers as $s) {
+						$parts = explode(":", $s);
+						$m->addServer($parts[0], $parts[1]);
+					}
+				}
 			}
 			catch (Exception $e)
 			{
