@@ -6,7 +6,7 @@ class Neuron_GameServer
 	private $dispatch_url = ABSOLUTE_URL;
 
 	const SCRIPT_PATH = __DIR__ . '/GameServer/scripts/';
-	
+
 	// Initialization
 	protected final function __construct ()
 	{
@@ -33,7 +33,7 @@ class Neuron_GameServer
 		require_once __DIR__ . '/../connect.php';
 		return self::getInstance();
 	}
-	
+
 	/*
 		This method let's you set the URL that will
 		be contacted with the ajax requests. The API call
@@ -46,20 +46,20 @@ class Neuron_GameServer
 	{
 		$this->dispatch_url = $url;
 	}
-	
+
 	public function getDispatchURL ()
 	{
 		if (isset ($this->dispatch_url))
 		{
 			return $this->dispatch_url;
 		}
-		
+
 		else
 		{
 			return ABSOLUTE_URL;
 		}
 	}
-	
+
 	public function setGame (Neuron_GameServer_Interfaces_Game $objGame)
 	{
 		/*
@@ -70,7 +70,7 @@ class Neuron_GameServer
 		*/
 		$this->objGame = $objGame;
 	}
-	
+
 	public function getGame ()
 	{
 		if (!isset ($this->objGame) || !($this->objGame instanceof Neuron_GameServer_Interfaces_Game))
@@ -79,7 +79,7 @@ class Neuron_GameServer
 		}
 		return $this->objGame;
 	}
-	
+
 	public function setMap ($objMap)
 	{
 		if (!$objMap instanceof Neuron_GameServer_Map_Map)
@@ -88,7 +88,7 @@ class Neuron_GameServer
 		}
 		$this->objMap = $objMap;
 	}
-	
+
 	public function getMap ()
 	{
 		if (!isset ($this->objMap))
@@ -103,19 +103,19 @@ class Neuron_GameServer
 				$this->objMap = false;
 			}
 		}
-		
+
 		return $this->objMap;
 	}
-	
+
 	/*
 		Return a (checked) player object
 		@param id: If null, return the currently logged in user.
 		@param data: MAY contain the user data loaded by the loadData function.
 	*/
 	public static function getPlayer ($id = null, $data = null)
-	{		
+	{
 		static $in;
-		
+
 		if (!isset ($id))
 		{
 			$login = Neuron_Core_Login::getInstance ();
@@ -128,7 +128,7 @@ class Neuron_GameServer
 				return false;
 			}
 		}
-		
+
 		if (!defined ('DISABLE_STATIC_FACTORY'))
 		{
 			if (!isset ($in[$id]))
@@ -142,11 +142,11 @@ class Neuron_GameServer
 			return self::getFreshPlayer ($id, $data);
 		}
 	}
-	
+
 	public static function getServer ()
 	{
 		static $in;
-		
+
 		if (!isset ($in))
 		{
 			$server = self::getInstance ();
@@ -158,14 +158,14 @@ class Neuron_GameServer
 				throw new Neuron_Exceptions_InvalidParameter ("Server should implement Neuron_GameServer_Server");
 			}
 		}
-		
+
 		return $in;
 	}
-	
+
 	public static function getPlayerFromOpenID ($openid, $isHashed = false)
 	{
 		$db = Neuron_DB_Database::getInstance ();
-		
+
 		$user = $db->query
 		("
 			SELECT
@@ -175,7 +175,7 @@ class Neuron_GameServer
 			WHERE
 				MD5(openid_url) = '{$db->escape($openid)}'
 		");
-		
+
 		if (count ($user) == 1)
 		{
 			return self::getPlayer ($user[0]['user_id']);
@@ -185,14 +185,14 @@ class Neuron_GameServer
 			return false;
 		}
 	}
-	
+
 	/*
 		A help function for getPlayer.
 	*/
 	private static function getFreshPlayer ($id, $data)
 	{
 		$server = self::getInstance ();
-		
+
 		$player = $server->objGame->getPlayer ($id);
 		if ($player instanceof Neuron_GameServer_Player)
 		{
@@ -203,15 +203,15 @@ class Neuron_GameServer
 					$player->setData ($data);
 				}
 			}
-			
+
 			catch (Exception $e)
 			{
-			
+
 				echo $e;
 			}
-			
+
 			$player->init ();
-			
+
 			return $player;
 		}
 		elseif ($player === false)
@@ -234,7 +234,7 @@ class Neuron_GameServer
 		Get the output that is required.
 	*/
 	public function dispatch ()
-	{		
+	{
 		if (!isset ($this->objGame))
 		{
 			throw new Neuron_Core_Error ('Neuron_GameServer did not receive a Neuron_GameServer_Game object.');
@@ -253,7 +253,7 @@ class Neuron_GameServer
 
 		Neuron_URLBuilder::getInstance ()->setOpenCallback (array ($this, 'getOpenUrl'));
 		Neuron_URLBuilder::getInstance ()->setUpdateCallback (array ($this, 'getUpdateUrl'));
-	
+
 		$pgen = Neuron_Core_PGen::__getInstance ();
 		$pgen->start ();
 
@@ -265,7 +265,30 @@ class Neuron_GameServer
 		{
 			case 'openid':
 				$this->openid ();
-			break;
+				break;
+
+			case 'gameserver':
+
+				array_shift ($sInputs);
+				array_shift ($sInputs);
+
+				$assetPath = realpath (__DIR__ . '/../../assets/');
+				$filename = $assetPath . '/' . implode ('/', $sInputs);
+
+				if (file_exists($filename)) {
+					$finfo = finfo_open(FILEINFO_MIME_TYPE);
+					$mimetype = finfo_file($finfo, $filename);
+					finfo_close($finfo);
+
+					header ('Content-Type: ' . $mimetype);
+					echo file_get_contents($filename);
+				}
+				else {
+					http_response_code(404);
+					echo 'File not found: ' . implode ('/', $sInputs);
+				}
+
+				break;
 
 			case 'dialog':
 
@@ -274,42 +297,42 @@ class Neuron_GameServer
 				if ($output)
 				{
 					header("Content-Type: text/xml; charset=utf-8;");
-					
+
 					echo '<?xml version="1.0" encoding="utf-8"?>';
 					echo '<root><command command="refresh"></command></root>';
-					return;	
+					return;
 				}
 
 				require_once (self::SCRIPT_PATH.'dialog/dialog.php');
-			break;
-	
+				break;
+
 			case 'api':
 				require_once (self::SCRIPT_PATH.'api/api.php');
-			break;
-	
+				break;
+
 			case 'map':
 				// Close the session (lock)
 				//session_write_close ();
-	
+
 				require_once (self::SCRIPT_PATH.'map/map.php');
-			break;
-	
+				break;
+
 			case 'image':
 				// Close the session (lock)
 				session_write_close ();
-		
+
 				require_once (self::SCRIPT_PATH.'image/image.php');
-			break;
-	
+				break;
+
 			case 'test':
 				// Close the session (lock)
 				session_write_close ();
-				
+
 				// Login
 				$player = Neuron_GameServer::getPlayer ();
-				
+
 				$overwritelogin = true;
-				
+
 				if ((!$player || !$player->isAdmin ()) && !$overwritelogin)
 				{
 					echo 'You must login.';
@@ -341,12 +364,12 @@ class Neuron_GameServer
 						echo "File not found: " . self::SCRIPT_PATH.'tests/'.$file.'.php';
 					}*/
 				}
-			break;
-	
+				break;
+
 			case 'admin':
 				// Check for page
-				setcookie ('session_id', session_id (), 0, COOKIE_BASE_PATH.'admin/');		
-				
+				setcookie ('session_id', session_id (), 0, COOKIE_BASE_PATH.'admin/');
+
 				$login = Neuron_Core_Login::getInstance (1);
 				if (!$login->isLogin ())
 				{
@@ -356,15 +379,15 @@ class Neuron_GameServer
 				{
 					$sPage = isset ($sInputs[1]) ? $sInputs[1] : 'Index';
 					$sClassname = 'Neuron_GameServer_Pages_Admin_'.ucfirst (strtolower ($sPage));
-	
+
 					$myself = Neuron_GameServer::getPlayer ();
-	
+
 					if ($myself && $myself->isChatModerator ())
 					{
 						if ($objPage = $this->objGame->getAdminPage ($sPage))
 						{
-						}				
-				
+						}
+
 						elseif (class_exists ($sClassname))
 						{
 							$objPage = new $sClassname ();
@@ -379,21 +402,21 @@ class Neuron_GameServer
 						$objPage = new Neuron_GameServer_Pages_Admin_Invalid ();
 					}
 				}
-	
+
 				echo $objPage->getHTML ();
-			break;
-			
+				break;
+
 			case 'page':
 				// Check for page
 				$sPage = isset ($sInputs[1]) ? $sInputs[1] : 'Index';
 				$sClassname = 'Neuron_GameServer_Pages_'.ucfirst (strtolower ($sPage));
-		
+
 				$myself = Neuron_GameServer::getPlayer ();
 
 				if ($objPage = $this->objGame->getPage ($sPage))
 				{
 				}
-		
+
 				else if (class_exists ($sClassname))
 				{
 					$objPage = new $sClassname ();
@@ -402,14 +425,14 @@ class Neuron_GameServer
 				{
 					$objPage = new Neuron_GameServer_Pages_Index ();
 				}
-		
+
 				echo $objPage->getOutput ();
-			break;
-			
+				break;
+
 			case 'time':
 				echo 'time=' . round (microtime (true) * 1000);
-			break;
-			
+				break;
+
 			case '':
 				$_SESSION['tmp'] = null;
 
@@ -434,18 +457,18 @@ class Neuron_GameServer
 				{
 					$this->showIndexPage ();
 				}
-			break;
+				break;
 
 			case 'favicon.ico':
 			case 'favicon.icon':
 				header ('Content-type: image/x-icon');
 				echo file_get_contents ('./favicon.ico');
-			break;
-	
+				break;
+
 			default:
 				//throw new Exception ('Invalid API call: module "'.$sModule.'" not found.');
 				echo '<p>Invalid module: '.$sModule.'</p>';
-			break;
+				break;
 		}
 
 		if (isset ($profiler) && defined (USE_PROFILE) && USE_PROFILE)
@@ -481,55 +504,55 @@ class Neuron_GameServer
 			for ($i = 0; $i < $aantal; $i ++)
 			{
 				$vervangen = $i;
-				
+
 				// Loop trough last, fine the one with more input.
 				for ($j = $i + 1; $j < $aantal; $j ++)
 				{
-					if 
+					if
 					(
-						isset  ($updatewindows[$j]['sInputData']) && 
+						isset  ($updatewindows[$j]['sInputData']) &&
 						strlen ($updatewindows[$j]['sInputData']) > strlen ($updatewindows[$vervangen]['sInputData'])
 					)
 					{
 						$vervangen = $j;
 					}
 				}
-				
+
 				// Vervangen
 				$temp = $updatewindows[$i];
 				$updatewindows[$i] = $updatewindows[$vervangen];
 				$updatewindows[$vervangen] = $temp;
 			}
-			
+
 			$profiler->stop ();
 
 			//foreach ($updatewindows as $v)
 			for ($i = 0; $i < count ($updatewindows); $i ++)
 			{
 				$v = $updatewindows[$i];
-			
+
 				if (is_array ($v) && count ($v) == 4)
 				{
 					// Put everything in a big TRY
 					$profiler->start ('Loading window '.$v['sWindowId']);
-					
+
 					try
 					{
 						$window = $this->getWindow ($v['sWindowId']);
-					
+
 						if ($window)
 						{
 							$window->setDivId ($v['sDialogId']);
-						
+
 							// Set request data
 							if (isset ($v['sRequestData']))
 							{
 								$window->setRequestData ($v['sRequestData']);
 							}
-						
+
 							// Set input data
 							$window->setJsonInputData ($v['sInputData']);
-						
+
 							// Initialize
 							$window->setSettings ();
 						}
@@ -540,13 +563,13 @@ class Neuron_GameServer
 					{
 						// Send a mail
 						error_log ((string)$e);
-						
+
 						if (defined ('OUTPUT_DEBUG_DATA') && OUTPUT_DEBUG_DATA)
 						{
 							echo $e;
 						}
 					}
-					
+
 					$profiler->stop ();
 				}
 			}
@@ -581,7 +604,7 @@ class Neuron_GameServer
 
 				header ("Location: " . $url);
 				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
-				
+
 				return false;
 			}
 
@@ -597,15 +620,15 @@ class Neuron_GameServer
 				$url = ABSOLUTE_URL . '?session_id=' . $_GET['session_id'] . '&session_pass=1';
 
 				header ("Location: " . $url);
-				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';	
-				
+				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
+
 				return false;
 			}
 		}
 
 		return true;
 	}
-	
+
 	private function showIndexPage ()
 	{
 		// A little overwrite 
@@ -636,11 +659,11 @@ class Neuron_GameServer
 		}
 
 		$page = new Neuron_Core_Template ();
-		
+
 		$page->set ('server', $this);
-		
+
 		$page->set ('static_client_url', GAMESERVER_ASSET_URL);
-		
+
 		if (defined ('IS_TESTSERVER') && IS_TESTSERVER)
 		{
 			$page->set ('application_version', time ());
@@ -649,43 +672,43 @@ class Neuron_GameServer
 		{
 			$page->set ('application_version', APP_VERSION);
 		}
-		
+
 		// Plugins
 		$header = '';
 		if (Neuron_Core_Template::hasTemplate ('gameserver/index/header.phpt'))
 			$header = $page->parse ('gameserver/index/header.phpt');
-			
+
 		$body = '';
 		if (Neuron_Core_Template::hasTemplate ('gameserver/index/body.phpt'))
 			$body = $page->parse ('gameserver/index/body.phpt');
-			
+
 		$jssettings = '';
 		if (Neuron_Core_Template::hasTemplate ('gameserver/index/jssettings.phpt'))
 			$jssettings = $page->parse ('gameserver/index/jssettings.phpt');
-		
+
 		$page->set ('header', $header);
 		$page->set ('body', $body);
 		$page->set ('jssettings', $jssettings);
-		
+
 		$page->set ('dispatch_url', $this->getDispatchURL ());
-		
+
 		$size = $this->getMap ()->getBackgroundManager ()->getTileSize ();
 		$page->set ('map_tile_size', json_encode ($size));
 
 		$premium = false;
-	
+
 		// Load start location
 		if (!isset ($_GET['x']) || !isset ($_GET['y']))
 		{
 			$location = $this->getInitialLocation ();
-			
+
 			if (isset ($location))
 			{
 				$_GET['x'] = $location[0];
-				$_GET['y'] = $location[1];			
+				$_GET['y'] = $location[1];
 			}
 		}
-		
+
 		// IS premium
 		$player = Neuron_GameServer::getPlayer ();
 		if ($player)
@@ -696,21 +719,21 @@ class Neuron_GameServer
 		{
 			$page->set ('premium', false);
 		}
-		
+
 		echo $page->parse ('gameserver/index.phpt');
 	}
-	
+
 	private function getInitialLocation ()
 	{
 		$location = $this->getGame ()->getMap ()->getInitialLocation ();
-		
+
 		if (isset ($location))
 		{
 			return $location;
 		}
 		return null;
 	}
-	
+
 	public function getOpenUrl ($module, $display, $data, $title = null, $url = null)
 	{
 		if ($url === null)
@@ -722,14 +745,14 @@ class Neuron_GameServer
 		$json = str_replace ('"', "'", $json);
 		return '<a href="'.$url.'" onclick="openWindow(\''.$module.'\','.$json.'); return false;" title="'.$title.'">'.$display.'</a>';
 	}
-	
+
 	public function getUpdateUrl ($module, $display, $data, $title = null)
 	{
 		$json = json_encode ($data);
 		$json = str_replace ('"', "'", $json);
 		return '<a href="javascript:void(0);" onclick="windowAction(this,'.$json.');" title="'.$title.'">'.$display.'</a>';
 	}
-	
+
 	/*
 		Return the right window object
 	*/
@@ -749,15 +772,15 @@ class Neuron_GameServer
 			}
 			else
 			{
-				throw new Neuron_Core_Error ('Window not found: '.$sWindow); 
+				throw new Neuron_Core_Error ('Window not found: '.$sWindow);
 			}
 		}
-		
+
 		$window->setServer ($this);
-		
+
 		return $window;
 	}
-	
+
 	public function openWindow ($sWindow, $aParams)
 	{
 		$window = $this->getWindow ($sWindow);
@@ -772,23 +795,23 @@ class Neuron_GameServer
 				return;
 			}
 		}
-	
+
 		handleOpenWindowRequest (array ($window));
-	}	
-	
+	}
+
 	/*
 		Get initial windows
 	*/
 	public function getInitialWindows ()
 	{
 		$windows = $this->objGame->getInitialWindows ($this);
-		
+
 		// The map updater will make sure the map is up to date.
 		$windows[] = $this->getWindow ('MapUpdater');
-		
+
 		return $windows;
 	}
-	
+
 	/*
 		Map logs
 	*/
@@ -798,19 +821,19 @@ class Neuron_GameServer
 		{
 			case 'BUILD':
 			case 'DESTROY':
-				
-			break;
-			
+
+				break;
+
 			default:
 				$action = 'BUILD';
-			break;
+				break;
 		}
-		
+
 		$db = Neuron_DB_Database::getInstance ();
-		
+
 		$x = intval ($x);
 		$y = intval ($y);
-		
+
 		$db->query
 		("
 			INSERT INTO
