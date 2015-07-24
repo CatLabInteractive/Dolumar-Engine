@@ -660,8 +660,10 @@ class Neuron_GameServer
 		// Check for cache dir
 		if (!file_exists (CACHE_DIR) || !is_writable (CACHE_DIR))
 		{
-			echo CACHE_DIR . ' should be writeable';
-			exit;
+			if (!mkdir (CACHE_DIR)) {
+				echo CACHE_DIR . ' should be writeable';
+				exit;
+			}
 		}
 
 		// Cache for memcache
