@@ -335,6 +335,8 @@ function customMail ($target, $subject, $msg)
 	
 	$mail->Subject  =  $subject;
 	$mail->Body = $msg;
+
+	var_dump ($mail);
 	
 	$mail->Send ();
 }

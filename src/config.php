@@ -13,4 +13,5 @@ define ('EMAIL_SMTP_SERVER', 'localhost');
 define ('EMAIL_SMTP_PORT', 587);
 define ('EMAIL_SMTP_USERNAME', 'abc');
 define ('EMAIL_SMTP_PASSWORD', 'abc');
+define ('EMAIL_SMTP_SECURITY', 'tls');
 */

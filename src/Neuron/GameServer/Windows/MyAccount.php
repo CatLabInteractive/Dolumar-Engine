@@ -364,6 +364,7 @@ class Neuron_GameServer_Windows_MyAccount extends Neuron_GameServer_Windows_Wind
 			if (isset ($input['action']) && $input['action'] == 'resend')
 			{
 				$me->sendCertificationMail ();
+				return '<p>Your verification email is sent.</p>';
 			}
 		
 			$page->set ('section', 'notcertified');
