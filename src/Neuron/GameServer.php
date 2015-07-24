@@ -276,11 +276,24 @@ class Neuron_GameServer
 				$filename = $assetPath . '/' . implode ('/', $sInputs);
 
 				if (file_exists($filename)) {
-					$finfo = finfo_open(FILEINFO_MIME_TYPE);
-					$mimetype = finfo_file($finfo, $filename);
-					finfo_close($finfo);
 
-					header ('Content-Type: ' . $mimetype);
+					$ext = explode ('.', $filename);
+					$ext = array_pop ($ext);
+
+					switch ($ext)
+					{
+						case 'css':
+							header ('Content-Type: text/css');
+							break;
+
+						default;
+							$finfo = finfo_open(FILEINFO_MIME_TYPE);
+							$mimetype = finfo_file($finfo, $filename);
+							finfo_close($finfo);
+
+							header ('Content-Type: ' . $mimetype);
+						break;
+					}
 					echo file_get_contents($filename);
 				}
 				else {

@@ -99,8 +99,8 @@
 		<script type="text/javascript" src="<?=$static_client_url?>javascript/lightbox/lightbox.js?version=<?=$application_version?>"></script>
 		<script type="text/javascript">
 			LightboxOptions.resizeImages = true;
-			LightboxOptions.fileLoadingImage = CONFIG_GAME_URL + 'gameserver/javascript/lightbox/images/loading.gif';
-			LightboxOptions.fileBottomNavCloseImage = CONFIG_GAME_URL + 'gameserver/javascript/lightbox/images/closelabel.gif';
+			LightboxOptions.fileLoadingImage = CONFIG_GAMESERVER_URL + 'javascript/lightbox/images/loading.gif';
+			LightboxOptions.fileBottomNavCloseImage = CONFIG_GAMESERVER_URL + 'javascript/lightbox/images/closelabel.gif';
 		</script>
 			
 		<script type="text/javascript" src="<?=$static_client_url?>javascript/canvas/canvastext.js?version=<?=$application_version?>"></script>
