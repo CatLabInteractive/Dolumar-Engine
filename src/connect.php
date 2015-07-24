@@ -15,9 +15,11 @@ ini_set ('session.use_only_cookies', 0);
 
 define ('CATLAB_BASEPATH', dirname (dirname (__FILE__)) . '/');
 define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
-define ('PEAR_BASEPATH', dirname (dirname (dirname (__FILE__))) . '/pear/');
+define ('PEAR_BASEPATH', (dirname (dirname (__FILE__))) . '/pear/');
 
 define ('GAMESERVER_ASSET_URL', BASE_URL . '/gameserver/assets/');
+
+require_once 'config.php';
 
 if (!defined ('MAX_MEMORY_USAGE')) {
 	define ('MAX_MEMORY_USAGE', 25000000);
@@ -305,15 +307,21 @@ function customMail ($target, $subject, $msg)
 	require_once ('Neuron/Core/PHPMailer.php');
 	$mail = new Neuron_Core_PHPMailer ();
 
-	$mail->IsSMTP();                                   // send via SMTP
-	$mail->Host     = "mail.dolumar.be"; // SMTP servers
-	$mail->Port = 587;
-	$mail->SMTPAuth = true;     // turn on SMTP authentication
-	$mail->Username = "noreply+dolumar.be";  // SMTP username
-	$mail->Password = "aukv0006"; // SMTP password
-	
-	$mail->From     = "no-reply@dolumar.be";
-	$mail->FromName = "Dolumar";
+	if (defined ('EMAIL_SMTP_SERVER')) {
+
+		$mail->IsSMTP ();                                   // send via SMTP
+		$mail->Host = EMAIL_SMTP_SERVER; // SMTP servers
+		$mail->Port = EMAIL_SMTP_PORT;
+
+		if (defined ('EMAIL_SMTP_USERNAME')) {
+			$mail->SMTPAuth = true;     // turn on SMTP authentication
+			$mail->Username = EMAIL_SMTP_USERNAME;  // SMTP username
+			$mail->Password = EMAIL_SMTP_PASSWORD; // SMTP password
+		}
+	}
+
+	$mail->From = EMAIL_FROM;
+	$mail->FromName = EMAIL_FROM_NAME;
 
 	$mail->CharSet  = 'utf-8';
 	
