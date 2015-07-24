@@ -4,7 +4,8 @@
 
   "require": {
     "ext-memcached" : "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "ext-gd": "*"
   },
 
   "autoload": {
