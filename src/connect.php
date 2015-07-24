@@ -304,8 +304,8 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
 */
 function customMail ($target, $subject, $msg)
 {
-	require_once ('Neuron/Core/PHPMailer.php');
-	$mail = new Neuron_Core_PHPMailer ();
+	//require_once ('Neuron/Core/PHPMailer.php');
+	$mail = new PHPMailer ();
 
 	if (defined ('EMAIL_SMTP_SERVER')) {
 
@@ -315,6 +315,10 @@ function customMail ($target, $subject, $msg)
 
 		if (defined ('EMAIL_SMTP_USERNAME')) {
 			$mail->SMTPAuth = true;     // turn on SMTP authentication
+
+			if (defined ('EMAIL_SMTP_SECURE'))
+				$mail->SMTPSecure = EMAIL_SMTP_SECURE;
+
 			$mail->Username = EMAIL_SMTP_USERNAME;  // SMTP username
 			$mail->Password = EMAIL_SMTP_PASSWORD; // SMTP password
 		}
