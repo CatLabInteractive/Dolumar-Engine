@@ -19,6 +19,10 @@ define ('PEAR_BASEPATH', dirname (dirname (dirname (__FILE__))) . '/pear/');
 
 define ('GAMESERVER_ASSET_URL', BASE_URL . '/gameserver/assets/');
 
+if (!defined ('MAX_MEMORY_USAGE')) {
+	define ('MAX_MEMORY_USAGE', 25000000);
+}
+
 if (!defined ('IS_TESTSERVER'))
 	define ('IS_TESTSERVER', false);
 

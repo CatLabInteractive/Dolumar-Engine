@@ -144,7 +144,7 @@ if (isset ($_GET['x']) && isset ($_GET['y']))
 	
 	else
 	{
-		$cache->setCache ($cachename, 'locked');
+		//$cache->setCache ($cachename, 'locked');
 	
 		$x = $_GET['x'];
 		$y = $_GET['y'];
