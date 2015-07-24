@@ -330,7 +330,6 @@ function customMail ($target, $subject, $msg)
 	$mail->CharSet  = 'utf-8';
 	
 	$mail->isHtml (false);
-	
 	$mail->AddAddress($target); 
 	
 	$mail->Subject  =  $subject;
