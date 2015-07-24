@@ -308,7 +308,6 @@ function customMail ($target, $subject, $msg)
 	$mail = new PHPMailer ();
 
 	if (defined ('EMAIL_SMTP_SERVER')) {
-
 		$mail->IsSMTP ();                                   // send via SMTP
 		$mail->Host = EMAIL_SMTP_SERVER; // SMTP servers
 		$mail->Port = EMAIL_SMTP_PORT;
@@ -326,7 +325,6 @@ function customMail ($target, $subject, $msg)
 
 	$mail->From = EMAIL_FROM;
 	$mail->FromName = EMAIL_FROM_NAME;
-
 	$mail->CharSet  = 'utf-8';
 	
 	$mail->isHtml (false);
