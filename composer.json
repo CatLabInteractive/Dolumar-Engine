@@ -3,7 +3,8 @@
   "license" : "GPL-2.0",
 
   "require": {
-    "ext-memcached" : "*"
+    "ext-memcached" : "*",
+    "ext-mbstring": "*"
   },
 
   "autoload": {
