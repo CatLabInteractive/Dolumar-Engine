@@ -336,9 +336,9 @@ function customMail ($target, $subject, $msg)
 	$mail->Subject  =  $subject;
 	$mail->Body = $msg;
 
-	var_dump ($mail);
-	
-	$mail->Send ();
+	if(!$mail->send()) {
+		throw new \Exception("Mail could not be send: " . $mail->ErrorInfo);
+	}
 }
 
 /*
