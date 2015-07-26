@@ -327,7 +327,12 @@ function customMail ($target, $subject, $msg)
 
 	$mail->SMTPDebug = EMAIL_DEBUG_LEVEL;
 
-	$mail->From = EMAIL_FROM;
+	$from = EMAIL_FROM;
+	if (empty($from)) {
+		$from = 'support@catlab.be';
+	}
+	$mail->From = $from;
+
 	$mail->FromName = EMAIL_FROM_NAME;
 	$mail->CharSet  = 'utf-8';
 	
