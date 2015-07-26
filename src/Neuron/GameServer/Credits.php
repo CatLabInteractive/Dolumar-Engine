@@ -14,6 +14,9 @@ class Neuron_GameServer_Credits
 
 	private $convertcache = array ();
 
+	/**
+	 * @return BBGS_Credits|null
+	 */
 	public static function getPureCreditsObject ()
 	{
 		if (
@@ -29,6 +32,9 @@ class Neuron_GameServer_Credits
 		return $out;
 	}
 
+	/**
+	 * @param Neuron_GameServer_Player $objUser
+	 */
 	public function __construct (Neuron_GameServer_Player $objUser)
 	{
 		$this->objUser = $objUser;
@@ -38,33 +44,20 @@ class Neuron_GameServer_Credits
 			return;
 		}
 
-		if ($this->objUser->isEmailCertified ())
-		{
+		if ($this->objUser->isEmailCertified ()) {
 			$this->objCredits->setEmail ($this->getEmail ());
 		}
 
 		$this->objCredits->setReferal ($objUser->getReferal ());
 
-		/*
-		$openid = isset ($_SESSION['neuron_openid_identity']) ? 
-			$_SESSION['neuron_openid_identity'] : null;
-		
-		if (isset ($openid))
-		{
-			$this->objCredits->setOpenID ($openid);
-		}
-		*/
-
-		foreach ($objUser->getOpenIDs () as $v)
-		{
+		foreach ($objUser->getOpenIDs () as $v) {
 			$this->objCredits->addOpenID ($v);
 		}
 
 		$container = isset ($_SESSION['opensocial_container']) ?
 			$_SESSION['opensocial_container'] : null;
 
-		if (isset ($container))
-		{
+		if (isset ($container)) {
 			$this->objCredits->setContainer ($container);
 		}
 
@@ -86,15 +79,25 @@ class Neuron_GameServer_Credits
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	private function getEmail ()
 	{
 		return trim (strtolower ($this->objUser->getEmail ()));
 	}
 
+	/**
+	 * @return array|bool|int|mixed|null
+	 * @throws Exception
+	 */
 	public function getCredits ()
 	{
-		if (!$this->objCredits->isValidData (false))
-		{
+		if (!$this->objCredits) {
+			return null;
+		}
+
+		if (!$this->objCredits->isValidData (false)) {
 			return 0;
 		}
 
@@ -109,59 +112,59 @@ class Neuron_GameServer_Credits
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function useCredit ()
 	{
 		return true;
 	}
 
+	/**
+	 * @return null|string
+	 */
 	public function getBuyUrl ()
 	{
+		if (!$this->objCredits) {
+			return null;
+		}
+
 		//return PREMIUM_URL . '?email='.$this->getEmail().'&token='.$this->sToken;
 		return $this->objCredits->buyCredits ();
 	}
 
+	/**
+	 * @param $amount
+	 * @param $description
+	 * @param $action
+	 * @return bool|null
+	 */
 	public function refundCredits ($amount, $description, $action)
 	{
+		if (!$this->objCredits) {
+			return null;
+		}
+
 		return $this->objCredits->refundCredits ($amount, $description, $action);
 	}
 
-	/*
-		This function connects to the credit gateway
-		and checks if a certain transaction exists.
-		
-		If the transaction exists, it handles it
-		and returns TRUE.
-	*/
+	/**
+	 * This function connects to the credit gateway
+	 * and checks if a certain transaction exists.
+	 *
+	 * If the transaction exists, it handles it
+	 * and returns TRUE.
+	 *
+	 * @param $data
+	 * @param $transactionId
+	 * @param $transactionKey
+	 * @return bool|null
+	 */
 	public function handleUseRequest ($data, $transactionId, $transactionKey)
 	{
-		/*
-		$transaction = PREMIUM_URL . '?action=transaction'.
-			'&transaction_id='.urlencode ($transactionId).
-			'&transaction_key='.urlencode ($transactionKey).
-			'&output=serialize';
-		
-		$credits = file_get_contents ($transaction);
-		$credits = @unserialize ($credits);
-		
-		$content = $credits['content'];
-	
-		$status = isset ($content['status']) ? $content['status'] : null;
-		$transaction = isset ($content['transaction']) ? $content['transaction'] : null;
-		
-		if ($status == 1 && is_array ($transaction))
-		{
-			$amount = isset ($transaction['amount']) ? $transaction['amount'] : null;
-			$this->objUser->useCredit ($amount, $data);
-			
-			return true;
+		if (!$this->objCredits) {
+			return null;
 		}
-		
-		else
-		{
-			$this->error = 'Transaction not found.';
-			return false;
-		}
-		*/
 
 		if (isset ($_POST['transaction_id']) && isset ($_POST['transaction_secret']))
 		{
@@ -187,8 +190,19 @@ class Neuron_GameServer_Credits
 		return false;
 	}
 
+	/**
+	 * @param int $amount
+	 * @param array $data
+	 * @param string $description
+	 * @param string $action
+	 * @return bool|null|string
+	 */
 	public function getUseUrl ($amount = 1, $data = array (), $description = 'Premium features', $action = 'premium')
 	{
+		if (!$this->objCredits) {
+			return null;
+		}
+
 		$callback = API_FULL_URL.'spendCredit/'.
 			'?key='.md5($this->getEmail()).
 			'&id='.$this->objUser->getId();
@@ -209,62 +223,46 @@ class Neuron_GameServer_Credits
 		}
 	}
 
+	/**
+	 * @param int $amount
+	 * @return mixed
+	 */
 	private function getConvertData ($amount = 1)
 	{
-		if (!isset ($this->convertcache[$amount]))
-		{
+		if (!isset ($this->convertcache[$amount])) {
 			$this->convertcache[$amount] = $this->objCredits->convert ($amount);
 		}
 		return $this->convertcache[$amount];
 	}
 
+	/**
+	 * @param int $amount
+	 * @return mixed
+	 */
 	public function convertCredits ($amount = 1)
 	{
-		/*
-		$parameters = array
-		(
-			'action' => 'convert',
-			'email' => $this->getEmail (),
-			'amount' => $amount,
-			'callback' => 
-			(
-				API_FULL_URL.'convert/'.
-				'?key='.md5($this->getEmail()).
-				'&id='.$this->objUser->getId()
-			)
-		);
-		
-		$data = file_get_contents ($this->getSignedUrl (PREMIUM_URL, $parameters));
-		
-		return json_decode ($data);
-		*/
-
-		//return $amount;
-
 		$data = $this->getConvertData ($amount);
 		return $data['amount'];
 	}
 
+	/**
+	 * @param $amount
+	 * @param bool|false $html
+	 * @return mixed
+	 */
 	public function getCreditDisplay ($amount, $html = false)
 	{
 		$data = $this->getConvertData ($amount);
 		return $html ? $data['html'] : $data['text'];
 	}
 
-	/*
-		@param $sTracker ID of the tracker, for example: "registration"
-	*/
+	/**
+	 * @param $sTracker $sTracker ID of the tracker, for example: "registration"
+	 * @return null|string
+	 * @throws Exception
+	 */
 	public function getTrackerUrl ($sTracker)
 	{
-		/*
-		$parameters = array
-		(
-			'tracker' => $sTracker
-		);
-		
-		return $this->getSignedUrl (TRACKER_URL, $parameters);
-		*/
-		$this->objCredits = self::getPureCreditsObject ();
 		if (!$this->objCredits) {
 			return null;
 		}
@@ -276,6 +274,9 @@ class Neuron_GameServer_Credits
 		return $this->objCredits->getTrackerUrl ($sTracker);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getError ()
 	{
 		return $this->error;
