@@ -16,11 +16,16 @@ class Neuron_GameServer_Credits
 
 	public static function getPureCreditsObject ()
 	{
-		$out = new BBGS_Credits (PREMIUM_GAME_TOKEN);
-
-		if (file_exists(BASE_PATH . 'certificates/credits_private.cert')) {
-			$out->setPrivateKey (file_get_contents (BASE_PATH . 'certificates/credits_private.cert'));
+		if (
+			!defined('CREDITS_GAME_TOKEN') ||
+			!defined('CREDITS_PRIVATE_KEY') ||
+			!defined('CREDITS_URL')
+		) {
+			return null;
 		}
+
+		$out = new BBGS_Credits(CREDITS_GAME_TOKEN);
+		$out->setPrivateKey (CREDITS_PRIVATE_KEY);
 
 		return $out;
 	}
