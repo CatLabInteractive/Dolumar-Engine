@@ -18,8 +18,7 @@ class Neuron_GameServer_Credits
 	{
 		if (
 			!defined('CREDITS_GAME_TOKEN') ||
-			!defined('CREDITS_PRIVATE_KEY') ||
-			!defined('CREDITS_URL')
+			!defined('CREDITS_PRIVATE_KEY')
 		) {
 			return null;
 		}
