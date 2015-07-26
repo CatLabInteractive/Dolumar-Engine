@@ -264,6 +264,11 @@ class Neuron_GameServer_Credits
 		
 		return $this->getSignedUrl (TRACKER_URL, $parameters);
 		*/
+		$this->objCredits = self::getPureCreditsObject ();
+		if (!$this->objCredits) {
+			return null;
+		}
+
 		if (!$this->objCredits->isValidData()) {
 			return null;
 		}
