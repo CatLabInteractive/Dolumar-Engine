@@ -144,6 +144,8 @@ if (!defined ('OPENID_SKIP_LOGIN'))
 if (!defined ('OPENID_SKIP_NICKNAME'))
 	define ('OPENID_SKIP_NICKNAME', true);
 
+if (!defined ('EMAIL_DEBUG_LEVEL'))
+	define ('EMAIL_DEBUG_LEVEL', 1);
 
 // Define cookie path
 $base_path = ABSOLUTE_URL;
@@ -322,6 +324,8 @@ function customMail ($target, $subject, $msg)
 			$mail->Password = EMAIL_SMTP_PASSWORD; // SMTP password
 		}
 	}
+
+	$mail->SMTPDebug = EMAIL_DEBUG_LEVEL;
 
 	$mail->From = EMAIL_FROM;
 	$mail->FromName = EMAIL_FROM_NAME;
