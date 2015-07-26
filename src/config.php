@@ -1,10 +1,10 @@
 <?php
 
-if (!defined ('EMAIL_FROM')) {
+if (!defined ('EMAIL_FROM') || !EMAIL_FROM) {
 	define ('EMAIL_FROM', 'support@catlab.eu');
 }
 
-if (!defined ('EMAIL_FROM_NAME')) {
+if (!defined ('EMAIL_FROM_NAME') || !EMAIL_FROM_NAME) {
 	define ('EMAIL_FROM_NAME', 'Dolumar');
 }
 
