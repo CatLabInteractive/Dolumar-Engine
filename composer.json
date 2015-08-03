@@ -12,6 +12,13 @@
     "ext-bcmath" : "*"
   },
 
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:CatLabInteractive/php-openid.git"
+    }
+  ],
+
   "autoload": {
     "classmap" : [
       "src"
