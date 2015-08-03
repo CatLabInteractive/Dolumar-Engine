@@ -666,40 +666,6 @@ function registerWithOpenid ($id, $identity)
 	loginAndRedirect ($id);
 }
 
-function doIncludes() {
-
-	// Handled by autoload now.
-	return;
-
-    /**
-     * Require the OpenID consumer code.
-     */
-    require_once "Auth/OpenID/Consumer.php";
-
-    /**
-     * Require the "file store" module, which we'll need to store
-     * OpenID information.
-     */
-    require_once "Auth/OpenID/FileStore.php";
-
-    /**
-     * Require the Simple Registration extension API.
-     */
-    require_once "Auth/OpenID/SReg.php";
-
-    /**
-     * Require the AX extension API
-     */    
-    require_once "Auth/OpenID/AX.php";
-
-    /**
-     * Require the PAPE extension module.
-     */
-    require_once "Auth/OpenID/PAPE.php";
-}
-
-doIncludes();
-
 function displayError($message) 
 {
 	echo '<p>'.$message.'</p>';
