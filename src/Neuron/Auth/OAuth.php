@@ -1,5 +1,5 @@
 <?php
-require_once 'OAuth/OAuthServer.php';
+//require_once 'OAuth/OAuthServer.php';
 
 class Neuron_Auth_OAuth
 {

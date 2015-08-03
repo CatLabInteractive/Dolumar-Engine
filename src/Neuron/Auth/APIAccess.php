@@ -1,5 +1,5 @@
 <?php
-require_once 'OAuth/OAuthServer.php';
+//require_once 'OAuth/OAuthServer.php';
 
 class Neuron_Auth_APIAccess
 {
@@ -10,7 +10,7 @@ class Neuron_Auth_APIAccess
 
 	public static function getUser ()
 	{
-		if ($this->isValid ())
+		if (self::isValid ())
 		{
 			return self::getInstance ()->_getUser ();
 		}

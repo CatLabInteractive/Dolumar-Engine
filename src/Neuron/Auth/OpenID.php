@@ -667,6 +667,10 @@ function registerWithOpenid ($id, $identity)
 }
 
 function doIncludes() {
+
+	// Handled by autoload now.
+	return;
+
     /**
      * Require the OpenID consumer code.
      */
