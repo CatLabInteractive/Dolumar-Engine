@@ -9,7 +9,7 @@
     "ext-memcached" : "*",
     "ext-mbstring": "*",
     "ext-gd": "*",
-    "ext-gmp" : "*"
+    "ext-bcmath" : "*"
   },
 
   "autoload": {
