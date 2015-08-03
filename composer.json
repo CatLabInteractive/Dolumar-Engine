@@ -4,7 +4,7 @@
 
   "require": {
     "phpmailer/phpmailer": "~5.2",
-    "openid/php-openid" : "2.3.0",
+    "openid/php-openid" : "dev-master",
 
     "ext-memcached" : "*",
     "ext-mbstring": "*",
