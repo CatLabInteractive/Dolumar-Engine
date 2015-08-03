@@ -8,7 +8,8 @@
 
     "ext-memcached" : "*",
     "ext-mbstring": "*",
-    "ext-gd": "*"
+    "ext-gd": "*",
+    "ext-gmp" : "*"
   },
 
   "autoload": {
