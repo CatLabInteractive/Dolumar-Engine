@@ -1,6 +1,6 @@
 {
   "name": "catlabinteractive/dolumar-engine",
-  "license" : "GPL-2.0",
+  "license" : "GPL-3.0",
 
   "require": {
     "phpmailer/phpmailer": "~5.2",
