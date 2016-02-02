@@ -28,12 +28,11 @@ class Neuron_Core_Login
 	
 	private $isChecked = false;
 
-	/*
-	
-		Returns an Neuron_Core_Login object.
-		Only one / level allowed, so you always get the same object.
-	
-	*/
+	/**
+	 * @param int $level
+	 * @param bool $registerRefresh
+	 * @return Neuron_Core_Login
+	 */
 	static public function __getInstance ($level = 0, $registerRefresh = true)
 	{
 		static $in;

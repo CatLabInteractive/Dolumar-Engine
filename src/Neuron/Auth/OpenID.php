@@ -428,7 +428,7 @@ class Neuron_Auth_OpenID
 			if (count ($acc) == 1 && $acc[0]['user_id'] > 0)
 			{
 				$id = $acc[0]['user_id'];
-				loginAndRedirect ($acc[0]['user_id']);
+				loginAndRedirect ($acc[0]['user_id'], $email);
 			}
 			else
 			{
@@ -477,12 +477,14 @@ class Neuron_Auth_OpenID
 		// This script should only be executed if an openid is set in the session
 		if (isset ($_SESSION['dolumar_openid_identity']))
 		{
+			$email = $_SESSION['dolumar_openid_email'];
+
 			$login = Neuron_Core_Login::__getInstance ();
-			$id = $login->registerAccount ();
+			$id = $login->registerAccount (null, $email);
 
 			if ($id > 0)
 			{
-				registerWithOpenid ($id, $_SESSION['dolumar_openid_identity']);
+				registerWithOpenid ($id, $_SESSION['dolumar_openid_identity'], $email);
 			}
 			else
 			{
@@ -635,7 +637,7 @@ $path = $path_extra . PATH_SEPARATOR . $path;
 ini_set('include_path', $path);
 */
 
-function loginAndRedirect ($id)
+function loginAndRedirect ($id, $email)
 {
 	$login = Neuron_Core_Login::__getInstance ();
 
@@ -656,7 +658,7 @@ function loginAndRedirect ($id)
 	}
 }
 
-function registerWithOpenid ($id, $identity)
+function registerWithOpenid ($id, $identity, $email)
 {
 	$db = Neuron_Core_Database::__getInstance ();
 
@@ -685,7 +687,7 @@ function registerWithOpenid ($id, $identity)
 	$id = $data[0]['user_id'];
 	
 	// now login and redirect.
-	loginAndRedirect ($id);
+	loginAndRedirect ($id, $email);
 }
 
 function displayError($message) 

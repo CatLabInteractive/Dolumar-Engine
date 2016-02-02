@@ -129,11 +129,12 @@ class Neuron_GameServer
 		return $this->objMap;
 	}
 
-	/*
-		Return a (checked) player object
-		@param id: If null, return the currently logged in user.
-		@param data: MAY contain the user data loaded by the loadData function.
-	*/
+	/**
+	 * @param null $id
+	 * @param null $data
+	 * @return Neuron_GameServer_Player
+	 * @throws Neuron_Core_Error
+	 */
 	public static function getPlayer ($id = null, $data = null)
 	{
 		static $in;
@@ -208,9 +209,12 @@ class Neuron_GameServer
 		}
 	}
 
-	/*
-		A help function for getPlayer.
-	*/
+	/**
+	 * @param $id
+	 * @param $data
+	 * @return Neuron_GameServer_Player
+	 * @throws Neuron_Core_Error
+	 */
 	private static function getFreshPlayer ($id, $data)
 	{
 		$server = self::getInstance ();
