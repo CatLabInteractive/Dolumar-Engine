@@ -310,10 +310,11 @@ class Neuron_Core_Login
 	/**
 	 * @param $user
 	 * @param bool $cookies
+	 * @param string $email
 	 * @return bool
 	 * @throws Neuron_Exceptions_InvalidParameter
 	 */
-	public function doLogin ($user, $cookies = false)
+	public function doLogin ($user, $cookies = false, $email = null)
 	{
 		$server = Neuron_GameServer::getServer();
 		if (!$server->isOnline ()) {
@@ -331,6 +332,11 @@ class Neuron_Core_Login
 	
 		// Login is accepted 
 		if ($user) {
+
+			if ($email) {
+				$user->setEmail($email);
+			}
+
 			$admins = getAdminUserEmailAddresses();
 			$email = strtolower($user->getEmail());
 

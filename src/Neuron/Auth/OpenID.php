@@ -641,7 +641,7 @@ function loginAndRedirect ($id, $email)
 {
 	$login = Neuron_Core_Login::__getInstance ();
 
-	if ($login->doLogin ($id))
+	if ($login->doLogin ($id, false, $email))
 	{
 		//$_SESSION['just_logged_in'] = true;
 	
