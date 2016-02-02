@@ -341,7 +341,7 @@ class Neuron_GameServer_Player
 	{
 		$status = intval ($status);
 		
-		Neuron_GameServer_Mappers_PlayerMapper::setAdminStatus ($this, $email, $key);
+		Neuron_GameServer_Mappers_PlayerMapper::setAdminStatus ($this, $status);
 		
 		$this->data['p_admin'] = $status;
 	}
