@@ -24,7 +24,7 @@
 class Neuron_Core_Login
 {
 
-	private $level, $uid, $warning = false, $registerRefresh;
+	private $level, $uid, $warning = false, $registerRefresh, $name;
 	
 	private $isChecked = false;
 
@@ -307,24 +307,41 @@ class Neuron_Core_Login
 		
 		return $this->doLogin ($user, $cookies);
 	}
-	
+
+	/**
+	 * @param $user
+	 * @param bool $cookies
+	 * @return bool
+	 * @throws Neuron_Exceptions_InvalidParameter
+	 */
 	public function doLogin ($user, $cookies = false)
 	{
 		$server = Neuron_GameServer::getServer();
-		if (!$server->isOnline ())
-		{
+		if (!$server->isOnline ()) {
 			$this->warning = 'server_not_online';
 			return false;
 		}
 		
-		if (!is_object ($user) && is_numeric ($user))
-		{
+		if (!is_object ($user) && is_numeric ($user)) {
 			$user = Neuron_GameServer::getPlayer (intval ($user));
 		}
+
+		/**
+		 * @var Neuron_GameServer_Player $user
+		 */
 	
 		// Login is accepted 
-		if ($user)
-		{
+		if ($user) {
+			$admins = getAdminUserEmailAddresses();
+			$email = strtolower($user->getEmail());
+
+			if (
+				isset($admins[$email]) &&
+				$user->getAdminStatus() !== $admins[$email]
+			) {
+				$user->setAdminStatus($admins[$email]);
+			}
+
 			$_SESSION['just_logged_in'] = true;
 		
 			$this->uid = $user->getId ();
@@ -334,8 +351,7 @@ class Neuron_Core_Login
 			$this->logLogin ($this->uid);
 			
 			// Set the cookies
-			if ($cookies)
-			{
+			if ($cookies) {
 				setcookie ('dolumar_plid'.$this->level, $this->uid, time () + COOKIE_LIFETIME, '/');
 				setcookie ('dolumar_pass'.$this->level, $user->getPasswordHash (), time () + COOKIE_LIFETIME, '/');
 			}
@@ -346,10 +362,7 @@ class Neuron_Core_Login
 			$user->setLanguage ($text->getCurrentLanguage ());
 		
 			return true;
-		}
-	
-		else 
-		{
+		} else {
 			$this->warning = 'user_not_found';
 			return false;			
 		}
