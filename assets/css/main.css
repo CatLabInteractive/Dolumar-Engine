@@ -404,9 +404,10 @@ ol.regular
 
 .chatwindow .chat-container
 {
-	height: 80%;
 	margin: 0;
 	padding: 0;
+	height: 75%;
+	height: calc(100% - 60px);
 }
 
 .chatwindow .messagecontainer
@@ -418,7 +419,6 @@ ol.regular
 .chatwindow .send 
 {
 	background: white;
-	height: 20px;
 }
 
 .chatwindow .send form ol li
