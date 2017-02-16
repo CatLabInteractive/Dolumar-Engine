@@ -145,7 +145,7 @@ if (!defined ('OPENID_SKIP_NICKNAME'))
 	define ('OPENID_SKIP_NICKNAME', true);
 
 if (!defined ('EMAIL_DEBUG_LEVEL'))
-	define ('EMAIL_DEBUG_LEVEL', 1);
+	define ('EMAIL_DEBUG_LEVEL', 0);
 
 // Define cookie path
 $base_path = ABSOLUTE_URL;
