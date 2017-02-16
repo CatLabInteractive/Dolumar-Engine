@@ -1357,7 +1357,7 @@ class Neuron_GameServer_Player
 
     public function setPreference ($sKey, $sValue)
     {
-        $this->setPreference ($sKey, $sValue);
+        $this->preferences->setPreference ($sKey, $sValue);
     }
 
     public function getPreference ($sKey, $default = false)
