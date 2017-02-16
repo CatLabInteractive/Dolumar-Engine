@@ -325,7 +325,7 @@ function customMail ($target, $subject, $msg)
 		}
 	}
 
-	$mail->SMTPDebug = EMAIL_DEBUG_LEVEL;
+	$mail->SMTPDebug = false;
 
 	$from = EMAIL_FROM;
 	if (empty($from)) {
