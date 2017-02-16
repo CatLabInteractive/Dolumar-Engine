@@ -217,20 +217,22 @@ class Neuron_GameServer_Mappers_PlayerMapper
 		);
 	}
 
-	public static function setNickname (Neuron_GameServer_Player $player, $nickname)
-	{
-		$db = Neuron_Core_Database::__getInstance ();
+    public static function setNickname (Neuron_GameServer_Player $player, $nickname)
+    {
+        $db = Neuron_Core_Database::__getInstance ();
 
-		$db->update
-		(
-			'n_players',
-			array
-			(
-				'nickname' => $nickname
-			),
-			"plid = '".$player->getId ()."'"
-		);
-	}
+        $db->update
+        (
+            'n_players',
+            array
+            (
+                'nickname' => $nickname
+            ),
+            "plid = '".$player->getId ()."'"
+        );
+
+        return true;
+    }
 
 	public static function setAdminStatus (Neuron_GameServer_Player $player, $status)
 	{

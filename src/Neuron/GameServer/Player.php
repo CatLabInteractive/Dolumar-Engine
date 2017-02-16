@@ -931,9 +931,9 @@ class Neuron_GameServer_Player
                 if (!isset ($data))
                 {
 
-                    Neuron_GameServer_Mappers_PlayerMapper::setNickname ($this, $nickname);
+                    $chk = Neuron_GameServer_Mappers_PlayerMapper::setNickname ($this, $nickname);
 
-                    if ($chk == 1)
+                    if ($chk)
                     {
                         $this->data['nickname'] = $nickname;
                         return true;
