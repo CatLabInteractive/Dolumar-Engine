@@ -44,7 +44,7 @@ class Neuron_GameServer_Player_Preferences
 			FROM
 				n_players_preferences
 			WHERE
-				p_plid = {$this->getId()}
+				p_plid = {$this->objProfile->getId()}
 		");
 		
 		foreach ($data as $v)
