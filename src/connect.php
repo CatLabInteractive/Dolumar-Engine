@@ -7,6 +7,7 @@
 // Report all PHP errors
 //error_reporting(E_ALL);
 ignore_user_abort (true);
+error_reporting(E_ERROR);
 
 session_name ('dolumar_session');
 
