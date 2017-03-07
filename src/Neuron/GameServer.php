@@ -621,22 +621,27 @@ class Neuron_GameServer
 	{
 		if (isset ($_GET['session_id']))
 		{
+            $baseUrl = $this->getDispatchURL();
+            if (strpos($baseUrl, '?') !== false) {
+                $baseUrl .= '?';
+            } else {
+                $baseUrl .= '&';
+            }
+
 			if (isset ($_COOKIE['session_id']))
 			{
 
 				$module = isset ($_GET['module']) ? $_GET['module'] : null;
 
 				// All is okay now
-				$url = $this->getDispatchURL() . $module . '?';
+				$url = $baseUrl . 'module=' . $module . '&';
 
 				unset ($_GET['module']);
 				unset ($_GET['session_pass']);
 
-				foreach ($_GET as $k => $v)
-				{
-					if ($k != 'session_id')
-					{
-						$url .= $k . '=' . $v . '&';
+				foreach ($_GET as $k => $v) {
+					if ($k != 'session_id') {
+						$url .= $k . '=' . urlencode($v) . '&';
 					}
 				}
 				$url = substr ($url, 0, -1);
@@ -657,7 +662,12 @@ class Neuron_GameServer
 			{
 				setcookie ('session_id', $_GET['session_id'], null, '/');
 
-				$url = $this->getDispatchURL() . '&session_id=' . $_GET['session_id'] . '&session_pass=1';
+				$url = $baseUrl . '&session_id=' . $_GET['session_id'] . '&session_pass=1&';
+                foreach ($_GET as $k => $v) {
+                    if ($k != 'session_id') {
+                        $url .= $k . '=' . urlencode($v) . '&';
+                    }
+                }
 
 				header ("Location: " . $url);
 				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
