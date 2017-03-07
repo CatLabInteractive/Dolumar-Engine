@@ -623,8 +623,11 @@ class Neuron_GameServer
 		{
 		    $parameters = $_GET;
 
+		    $session_id = $_GET['session_id'];
+
             $module = isset ($_GET['module']) ? $_GET['module'] : '';
             unset ($parameters['module']);
+            unset ($parameters['session_id']);
 
             $baseUrl = $this->getDispatchURL() . $module;
             if (strpos($baseUrl, '?') !== false) {
@@ -633,18 +636,17 @@ class Neuron_GameServer
                 $baseUrl .= '&';
             }
 
+
+
 			if (isset ($_COOKIE['session_id']))
 			{
 				// All is okay now
-				$url = $baseUrl;
-				unset ($_GET['session_pass']);
+				unset ($parameters['session_pass']);
 
-				foreach ($parameters as $k => $v) {
-					if ($k != 'session_id') {
-						$url .= $k . '=' . urlencode($v) . '&';
-					}
-				}
-				$url = substr ($url, 0, -1);
+                foreach ($parameters as $k => $v) {
+                    $baseUrl .= $k . '=' . urlencode($v) . '&';
+                }
+				$url = substr ($baseUrl, 0, -1);
 
 				header ("Location: " . $url);
 				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
@@ -652,7 +654,7 @@ class Neuron_GameServer
 				return false;
 			}
 
-			else if (isset ($_GET['session_pass']))
+			else if (isset ($parameters['session_pass']))
 			{
 				// Seems like cookies aren't permitted. Do nothing
 				return true;
@@ -660,14 +662,15 @@ class Neuron_GameServer
 
 			else
 			{
-				setcookie ('session_id', $_GET['session_id'], null, '/');
+				setcookie ('session_id', $session_id, null, '/');
 
-				$url = $baseUrl . '&session_id=' . $_GET['session_id'] . '&session_pass=1&';
-                foreach ($_GET as $k => $v) {
-                    if ($k != 'session_id') {
-                        $url .= $k . '=' . urlencode($v) . '&';
-                    }
+				$parameters['session_id'] = $session_id;
+				$parameters['session_pass'] = 1;
+
+                foreach ($parameters as $k => $v) {
+                    $baseUrl .= $k . '=' . urlencode($v) . '&';
                 }
+                $url = substr ($baseUrl, 0, -1);
 
 				header ("Location: " . $url);
 				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
