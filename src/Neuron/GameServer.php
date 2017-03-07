@@ -619,7 +619,7 @@ class Neuron_GameServer
 
 	private function getRidOfSessionID ()
 	{
-	    return false;
+	    return true;
 		if (isset ($_GET['session_id']))
 		{
 			if (isset ($_COOKIE['session_id']))
