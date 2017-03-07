@@ -161,7 +161,10 @@ define ('COOKIE_BASE_PATH', $base_path);
 define ('API_DATE_FORMAT', 'Y-m-d\TH:i:s');
 
 // Set session ID if provided
-if (isset ($_GET['phpSessionId']) && !empty ($_GET['phpSessionId']))
+if (isset($_GET['session_id']) && !empty($_GET['session_id'])) {
+    session_id ($_GET['session_id']);
+    session_start();
+} elseif (isset ($_GET['phpSessionId']) && !empty ($_GET['phpSessionId']))
 {
 	session_id ($_GET['phpSessionId']);
 	session_start();
