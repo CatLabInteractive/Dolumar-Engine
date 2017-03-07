@@ -627,7 +627,7 @@ class Neuron_GameServer
 				$module = isset ($_GET['module']) ? $_GET['module'] : null;
 
 				// All is okay now
-				$url = ABSOLUTE_URL . $module . '?';
+				$url = $this->getDispatchURL() . $module . '?';
 
 				unset ($_GET['module']);
 				unset ($_GET['session_pass']);
@@ -656,7 +656,8 @@ class Neuron_GameServer
 			else
 			{
 				setcookie ('session_id', $_GET['session_id'], null, '/');
-				$url = ABSOLUTE_URL . '?session_id=' . $_GET['session_id'] . '&session_pass=1';
+
+				$url = $this->getDispatchURL() . '&session_id=' . $_GET['session_id'] . '&session_pass=1';
 
 				header ("Location: " . $url);
 				echo '<p>Redirecting to <a href="' . $url . '">' . $url . '</a>.';
