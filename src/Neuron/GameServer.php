@@ -630,7 +630,7 @@ class Neuron_GameServer
             unset ($parameters['session_id']);
 
             $baseUrl = $this->getDispatchURL() . $module;
-            if (strpos($baseUrl, '?') !== false) {
+            if (strpos($baseUrl, '?') === false) {
                 $baseUrl .= '?';
             } else {
                 $baseUrl .= '&';
