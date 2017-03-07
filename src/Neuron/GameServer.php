@@ -655,7 +655,7 @@ class Neuron_GameServer
 
 			else
 			{
-				setcookie ('session_id', $_GET['session_id']);
+				setcookie ('session_id', $_GET['session_id'], null, '/');
 				$url = ABSOLUTE_URL . '?session_id=' . $_GET['session_id'] . '&session_pass=1';
 
 				header ("Location: " . $url);
