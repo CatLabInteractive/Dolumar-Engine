@@ -621,7 +621,12 @@ class Neuron_GameServer
 	{
 		if (isset ($_GET['session_id']))
 		{
-            $baseUrl = $this->getDispatchURL();
+		    $parameters = $_GET;
+
+            $module = isset ($_GET['module']) ? $_GET['module'] : '';
+            unset ($parameters['module']);
+
+            $baseUrl = $this->getDispatchURL() . $module;
             if (strpos($baseUrl, '?') !== false) {
                 $baseUrl .= '?';
             } else {
@@ -630,16 +635,11 @@ class Neuron_GameServer
 
 			if (isset ($_COOKIE['session_id']))
 			{
-
-				$module = isset ($_GET['module']) ? $_GET['module'] : null;
-
 				// All is okay now
-				$url = $baseUrl . 'module=' . $module . '&';
-
-				unset ($_GET['module']);
+				$url = $baseUrl;
 				unset ($_GET['session_pass']);
 
-				foreach ($_GET as $k => $v) {
+				foreach ($parameters as $k => $v) {
 					if ($k != 'session_id') {
 						$url .= $k . '=' . urlencode($v) . '&';
 					}
