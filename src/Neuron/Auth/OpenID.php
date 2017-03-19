@@ -277,6 +277,11 @@ class Neuron_Auth_OpenID
 	{
 		$consumer = getConsumer();
 
+		// Hacky hacky: something is going wrong with the url encoding, so fixing it here.
+        if (isset($_GET['openid.sig'])) {
+            $_GET['openid.sig'] = urlencode($_GET['openid.sig']);
+        }
+
 		// Complete the authentication process using the server's
 		// response.
 		$return_to = getReturnTo();
