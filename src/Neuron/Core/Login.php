@@ -449,6 +449,10 @@ class Neuron_Core_Login
 				$user = null;
 			}
 		}
+
+		if (!is_numeric($referrer)) {
+            $referrer = 0;
+		}
 		
 		// Add to the user database
 		$id = $db->insert
