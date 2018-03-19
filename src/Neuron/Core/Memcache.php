@@ -69,6 +69,9 @@ class Neuron_Core_Memcache
 					$servers = explode(",", MEMCACHE_SERVERS);
 					foreach ($servers as $s) {
 						$parts = explode(":", $s);
+						if (!isset($parts[1])) {
+							$parts[1] = 11211;
+						}
 						$m->addServer($parts[0], $parts[1]);
 					}
 				}
