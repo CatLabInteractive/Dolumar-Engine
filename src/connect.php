@@ -461,5 +461,9 @@ if (isset ($_GET['bonus']))
 	setcookie ('player_bonus', $_GET['bonus'], time () + 60*60, '/');
 }
 
+if (!defined('SHOW_ADS')) {
+    define('SHOW_ADS', false);
+}
+
 // Crazy hacks because of my outdated code
 $_REQUEST = $_REQUEST;

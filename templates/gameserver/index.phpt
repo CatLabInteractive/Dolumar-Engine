@@ -166,7 +166,7 @@
 		
 	</head>
 	
-	<body class="<?php $premium ? 'premium' : false; ?> <?php if (isset ($_SESSION['hide_advertisement']) && $_SESSION['hide_advertisement']) { ?>no-advertisement<?php } ?>">
+	<body class="<?php $premium ? 'premium' : false; ?> <?php if (!SHOW_ADS || isset ($_SESSION['hide_advertisement']) && $_SESSION['hide_advertisement']) { ?>no-advertisement<?php } ?>">
 	
 		<!-- plugin for body -->
 		<?=$body?>
