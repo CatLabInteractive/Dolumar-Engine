@@ -188,7 +188,7 @@ print '<table id="topicAdmin">
 			<a href="javascript:void(0);" onclick="windowAction (this, 'action=viewTopic&amp;topic=<?=$topic['id']?>');"><?=$topic['title']?></a>
 		</td>
 		<td class="Two CB">
-			<? labelUp($topic['type'], $topic['id'], $topic['type']); ?>
+			<?php labelUp($topic['type'], $topic['id'], $topic['type']); ?>
 		</td>
 		<td class="Six CB">
 			<span style="border:1px solid #401; background-color:#E8A8C8; padding:3px 5px;">
@@ -224,10 +224,10 @@ foreach ($boards as $board) {
 	<td style="width:20px;"><img src="static/images/forum/ArrowUp.png" alt="Move up" onclick="Shift(this, -1);" /><img src="static/images/forum/ArrowDown.png" alt="Move down" onclick="Shift(this, 1);" /></td>
 	<td style="width:1%;"><span style="display:none;"><?=$board['id']?></span><input type="hidden" class="hidden" name="Position<?=$board['id']?>" value="<?=$X?>" /></td>
 	<td class="ghostRow"><input type="text" class="nameBox" name="TitleNum<?=$board['id']?>" value="<?=$board['title']?>" /> <input type="text" class="descBox" name="DescNum<?=$board['id']?>" value="<?=$board['desc']?>" /></td>
-	<td style="width:62px; text-align:right; padding-left:0px;"><label>Private? <input type="checkbox" name="Priv<?=$board['id']?>" id="Priv<?=$board['id']?>"<? $board['private'] == 1 ? print ' checked="checked"' : print '' ?> /></label> <label>Guests? <input type="checkbox" name="guest_<?=$board['id']?>" <?=(($board['guestable'] == 1) ? ' checked="checked"' : '')?> /></label></td>
+	<td style="width:62px; text-align:right; padding-left:0px;"><label>Private? <input type="checkbox" name="Priv<?=$board['id']?>" id="Priv<?=$board['id']?>"<?php $board['private'] == 1 ? print ' checked="checked"' : print '' ?> /></label> <label>Guests? <input type="checkbox" name="guest_<?=$board['id']?>" <?=(($board['guestable'] == 1) ? ' checked="checked"' : '')?> /></label></td>
 	<td style="width:1%;">
 		<input type="hidden" class="hidden" name="Existing<?=$board['id']?>" value="<?=$board['id']?>" />
-		<? if ($board['id'] != 0) { ?><img id="<?=$board['id']?>" name="<?=$board['id']?>" src="static/images/forum/Cross.png" alt="Delete?" onclick="Purge(this, <?=$board['id']?>, 'this board');" /><?}?>
+		<?php if ($board['id'] != 0) { ?><img id="<?=$board['id']?>" name="<?=$board['id']?>" src="static/images/forum/Cross.png" alt="Delete?" onclick="Purge(this, <?=$board['id']?>, 'this board');" /><?php }?>
 		<input type="hidden" class="hidden" name="DelNum<?=$board['id']?>" id="DelNum<?=$board['id']?>" value="Preserve" />
 	</td>
 </tr><?
