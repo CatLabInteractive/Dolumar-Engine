@@ -60,7 +60,7 @@ class Neuron_GameServer_Pages_Page
 		return $page->parse ('pages/body.phpt');
 	}
 	
-	public function getUrl ($sUrl, $sArrs = array (), $sBase = 'page/')
+	public static function getUrl ($sUrl, $sArrs = array (), $sBase = 'page/')
 	{
 		if (!isset ($_COOKIE['session_id']))
 		{

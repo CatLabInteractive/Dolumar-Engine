@@ -83,7 +83,7 @@ class Neuron_GameServer_Pages_Admin_Page extends Neuron_GameServer_Pages_Page
 		return $page->parse ('pages/admin/page.phpt');
 	}
 	
-	public function getUrl ($sUrl, $sArrs = null, $sBase = 'admin/')
+	public static function getUrl ($sUrl, $sArrs = null, $sBase = 'admin/')
 	{
 		return parent::getUrl ($sUrl, $sArrs, $sBase);
 	}
