@@ -78,7 +78,7 @@ if (!defined ('IMAGE_URL'))
 	define ('IMAGE_URL', STATIC_URL.'images/');
 
 if (!defined ('IMAGE_PATH'))
-	define ('IMAGE_PATH', BASE_PATH.'static/images/');
+	define ('IMAGE_PATH', BASE_PATH.'public/static/images/');
 
 if (!defined ('SMILEY_DIR'))
 	define ('SMILEY_DIR', IMAGE_URL.'smileys/blue/');
@@ -378,6 +378,7 @@ function return_bytes($val)
 {
 	$val = trim($val);
 	$last = strtolower($val[strlen($val)-1]);
+	$val = intval(substr($val, 0, strlen($val)-1));
 	switch($last) 
 	{
 		// The 'G' modifier is available since PHP 5.1.0
@@ -459,6 +460,10 @@ if (isset ($_GET['pref']))
 if (isset ($_GET['bonus']))
 {
 	setcookie ('player_bonus', $_GET['bonus'], time () + 60*60, '/');
+}
+
+if (!defined('SHOW_ADS')) {
+    define('SHOW_ADS', false);
 }
 
 // Crazy hacks because of my outdated code

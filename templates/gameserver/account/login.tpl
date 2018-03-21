@@ -33,5 +33,5 @@
 </p>
 
 <p class="openid">
-	<a href="<?=ABSOLUTE_URL?>openid/login/?openid_url=<?=urlencode ('id.catlab.eu');?>"><?=$this->getText ('gambic')?></a>
+	<a href="<?=ABSOLUTE_URL?>openid/login/?openid_url=<?=urlencode ('https://id.catlab.eu');?>"><?=$this->getText ('gambic')?></a>
 </p>

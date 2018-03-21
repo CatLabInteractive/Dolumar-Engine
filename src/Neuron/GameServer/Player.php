@@ -356,48 +356,24 @@ class Neuron_GameServer_Player
     public function isDeveloper ()
     {
         $this->loadData ();
-
-        if (!isset ($this->data['p_admin']))
-        {
-            throw new Neuron_Core_Error ('Data could not be loaded: ' . $this->id);
-        }
-
         return $this->data['p_admin'] >= 9;
     }
 
     public function isAdmin ()
     {
         $this->loadData ();
-
-        if (!isset ($this->data['p_admin']))
-        {
-            throw new Neuron_Core_Error ('Data could not be loaded: ' . $this->id);
-        }
-
         return $this->data['p_admin'] >= 6;
     }
 
     public function isModerator ()
     {
         $this->loadData ();
-
-        if (!isset ($this->data['p_admin']))
-        {
-            throw new Neuron_Core_Error ('Data could not be loaded: ' . $this->id);
-        }
-
         return $this->data['p_admin'] >= 4;
     }
 
     public function isChatModerator ()
     {
         $this->loadData ();
-
-        if (!isset ($this->data['p_admin']))
-        {
-            throw new Neuron_Core_Error ('Data could not be loaded.');
-        }
-
         return $this->data['p_admin'] >= 2;
     }
 

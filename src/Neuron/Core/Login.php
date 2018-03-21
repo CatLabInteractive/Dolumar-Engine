@@ -149,16 +149,13 @@ class Neuron_Core_Login
 	{
 		$this->checkIfLoggedIn ();
 	
-		if ($this->uid == 1 || $this->uid == 137)
-		{
+		if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
 			// Check for $_GET
-			if (isset ($_GET['user']))
-			{
+			if (isset ($_GET['user'])) {
 				$_SESSION['admin-user-overwrite'] = $_GET['user'] > 0 ? intval ($_GET['user']) : null;
 			}
 			
-			if (isset ($_SESSION['admin-user-overwrite']))
-			{
+			if (isset ($_SESSION['admin-user-overwrite'])) {
 				return $_SESSION['admin-user-overwrite'];
 			}
 		}
@@ -348,6 +345,7 @@ class Neuron_Core_Login
 			}
 
 			$_SESSION['just_logged_in'] = true;
+            $_SESSION['is_admin'] = $user->isAdmin();
 		
 			$this->uid = $user->getId ();
 			$this->name = $user->getNickname ();
@@ -450,6 +448,10 @@ class Neuron_Core_Login
 			{
 				$user = null;
 			}
+		}
+
+		if (!is_numeric($referrer)) {
+            $referrer = 0;
 		}
 		
 		// Add to the user database

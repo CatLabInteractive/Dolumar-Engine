@@ -22,8 +22,8 @@
 	<?=$description?>
 <?php } ?>
 
-<? $toForum = $this->getClickTo ('toForum'); ?>
-<? $toLogs = $this->getClickTo ('toLogs'); ?>
+<?php $toForum = $this->getClickTo ('toForum'); ?>
+<?php $toLogs = $this->getClickTo ('toLogs'); ?>
 
 <!--
 <p>
