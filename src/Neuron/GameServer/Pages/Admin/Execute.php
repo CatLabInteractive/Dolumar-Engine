@@ -83,8 +83,8 @@ class Neuron_GameServer_Pages_Admin_Execute extends Neuron_GameServer_Pages_Admi
 					'reason' => !empty ($v['ma_reason']) ? 
 						Neuron_Core_Tools::output_text ($v['ma_reason'])
 						: null,
-					'accept_url' => self::getUrl ('execute', array ('id' => $v['ma_id'], 'action' => 'accept')),
-					'deny_url' => self::getUrl ('execute', array ('id' => $v['ma_id'], 'action' => 'deny')),
+					'accept_url' => $this->getUrl ('execute', array ('id' => $v['ma_id'], 'action' => 'accept')),
+					'deny_url' => $this->getUrl ('execute', array ('id' => $v['ma_id'], 'action' => 'deny')),
 				)
 			);
 		}

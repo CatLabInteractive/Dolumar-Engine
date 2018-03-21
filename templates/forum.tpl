@@ -1,4 +1,6 @@
-<div id="forum"><div id="forumWrap"><?
+<div id="forum"><div id="forumWrap">
+
+<?php
 
 if ($mode == 'banned') {
 	print "<p>$content</p>";
@@ -30,10 +32,10 @@ $rowItt = 0;
 if ($mode == 'index') {
 
 	if ($scopeBuster->forum->isMod) { print '<div class="nav top"><span style="top:11px; position:relative; display:block; margin:5px 0; height:20px; width:100%" class="adNav"><a href="javascript:void(0);" onclick="windowAction (this, \'action=boardAdmin\');">Board Admin</a><a href="javascript:void(0);" onclick="windowAction (this, \'action=banAdmin\');">Ban Admin</a></span></div>'; }
-	
+
 	print '<table id="index">';
 		foreach ($boards as $board) {
-		
+
 			if($board['guestable'] == '0' && $board['private'] != '1') {
 				$Waff = ' <span style="display:block; padding-top:5px;">[Guest Read Only]</span>';
 			} elseif($board['private'] == '1') {
@@ -42,7 +44,7 @@ if ($mode == 'index') {
 				$Waff = '';
 			}
 			print "<tr class=\"R{$rowItt}\"><td class=\"boardSummary CA\"><a href=\"#\" onclick=\"windowAction (this, 'action=viewBoard&amp;board=$board[id]');\">$board[title]</a><p>$board[desc]{$Waff}</p></td><td class=\"boardStats CB\">$board[post_count] posts in $board[topic_count] topics.</td><td class=\"boardLatest CA\">";
-			
+
 			if (($board['last_topic_id'] == '') || (intval($board['last_topic_id']) == 0)) {
 				print '<p>No topics present yet.</p>';
 			} else {
@@ -62,9 +64,9 @@ if ($mode == 'index') {
 	if ($scopeBuster->forum->isMod) { print '<span class="adNav"><a href="javascript:void(0);" onclick="windowAction (this, \'action=topicAdmin&amp;board='.$info['board'].'&amp;pageNumber='.(array_key_exists('pageNumber', $scopeBuster->input) ? $scopeBuster->input['pageNumber'] : 0).'\');">Topic Admin</a></span>'; }
 
 	print '</div>'."<h2 class=\"boardTitle\">Viewing board: <span>$info[boardTitle]</span></h2><table id=\"topicList\"><thead><tr><th class=\"CA\">Post Title</th><th class=\"CB\">Created</th><th class=\"CA\">Replies</th><th class=\"CB\">Last post</th></tr></thead><tbody>";
-	
+
 	if ($info['empty'] == 'true') {
-	
+
 		print "<tr class=\"R0\"><td class=\"post CA\" colspan=\"4\"><p class=\"cellNotice\">No topics to display.</p></td></tr>";
 
 	} else {
@@ -111,20 +113,20 @@ if ($mode == 'index') {
 			$rowItt = ($rowItt==0) ? 1 : 0;
 		}
 		print '</table><div class="entry"><input type="hidden" class="hidden" name="action" value="reply" /><input type="hidden" class="hidden" name="topic" value="'.$info['topic'].'" /><textarea name="post"></textarea><input id="save" name="Save" type="submit" value="Reply" /></div><div class="nav base"><a href="javascript:void(0);" onclick="windowAction (this, \'action=forum\');">Forum Home</a><a href="javascript:void(0);" onclick="windowAction (this, \'action=viewBoard&amp;board='.$info['board'].'\');">Return to '.$info['boardTitle'].'</a></div>';
-		
+
 $theNumbers->draw('viewTopic', 'topic', $info['topic']);
 
 
 
 } elseif ($mode == 'editPost') {
-	
+
 	print '<div class="nav top"><a href="javascript:void(0);" onclick="windowAction (this, \'action=forum\');">Forum Home</a><a href="javascript:void(0);" onclick="windowAction (this, \'action=viewBoard&amp;board='.$info['board'].'\');">'.$info['boardTitle'].'</a><a href="javascript:void(0);" onclick="windowAction (this, \'action=viewTopic&amp;topic='.$info['topic'].'\');">Back to Main Topic</a></div><div class="editing">';
-	
+
 	if ($info['firstReply'] == true) {
 		print '<input id="titleBox" name="title" type="text" value="'.$info['topicTitle'].'" />';
 	}
 	print '<input type="hidden" class="hidden" name="topic" value="'.$info['topic'].'" /><input type="hidden" class="hidden" name="action" value="editedPost" /><input type="hidden" class="hidden" name="postID" value="'.$info['postID'].'" /><textarea name="post">'.$info['post'].'</textarea><input id="save" name="Save" type="submit" value="Save" /></div>';
-	
+
 	print '<div class="nav base"><a href="javascript:void(0);" onclick="windowAction (this, \'action=forum\');">Forum Home</a><a href="javascript:void(0);" onclick="windowAction (this, \'action=viewBoard&amp;board='.$info['board'].'\');">'.$info['boardTitle'].'</a><a href="javascript:void(0);" onclick="windowAction (this, \'action=viewTopic&amp;topic='.$info['topic'].'\');">Back to Main Topic</a></div>';
 
 
@@ -163,7 +165,7 @@ print '<table id="topicAdmin">
 				<td class="Four CB">
 					<input type="radio" name="topicType_'.$ID.'" value="3" />
 				</td>
-				
+
 				<td class="Five CA">
 					<input type="radio" name="topicType_'.$ID.'" value="unchanged" checked="checked" />';
 		} else {
@@ -179,8 +181,8 @@ print '<table id="topicAdmin">
 				<input type="radio" name="topicType_'.$ID.'" value="unchanged" checked="checked" />';
 		}
 
-	}		
-	
+	}
+
 	print '</thead><tbody>';
 	foreach ($topics as $topic) {
 	?><tr class="R<?=$rowItt?>">
@@ -195,7 +197,7 @@ print '<table id="topicAdmin">
 				<input type="checkbox" name="delete_<?=$topic['id']?>" value="true" />
 			</span>
 		</td>
-	</tr><?
+	</tr><?php
 	}
 	
 	print '</tbody>
@@ -230,7 +232,7 @@ foreach ($boards as $board) {
 		<?php if ($board['id'] != 0) { ?><img id="<?=$board['id']?>" name="<?=$board['id']?>" src="static/images/forum/Cross.png" alt="Delete?" onclick="Purge(this, <?=$board['id']?>, 'this board');" /><?php }?>
 		<input type="hidden" class="hidden" name="DelNum<?=$board['id']?>" id="DelNum<?=$board['id']?>" value="Preserve" />
 	</td>
-</tr><?
+</tr><?php
 //*/
 //var_dump($board);
 $X++;
@@ -256,7 +258,7 @@ foreach ($bans as $ban) {
 
 //*
 ?>
-<tr><td><?=getName($ban['user'])?> - <?=$ban['reason']?></td><td><?=date(DATETIME, $ban['time'])?></td><td style="width:1%;"><img id="<?=$ban['ID']?>" name="I<?=$ban['ID']?>" src="static/images/forum/Cross.png" alt="Delete?" onclick="Purge(this, <?=$ban['ID']?>, 'this ban');" /><input type="hidden" class="hidden" name="Existing<?=$ban['ID']?>" value="<?=$ban['ID']?>" /><input type="hidden" class="hidden" name="DelNum<?=$ban['ID']?>" id="DelNum<?=$ban['ID']?>" value="Preserve" /></td></tr><?
+<tr><td><?=getName($ban['user'])?> - <?=$ban['reason']?></td><td><?=date(DATETIME, $ban['time'])?></td><td style="width:1%;"><img id="<?=$ban['ID']?>" name="I<?=$ban['ID']?>" src="static/images/forum/Cross.png" alt="Delete?" onclick="Purge(this, <?=$ban['ID']?>, 'this ban');" /><input type="hidden" class="hidden" name="Existing<?=$ban['ID']?>" value="<?=$ban['ID']?>" /><input type="hidden" class="hidden" name="DelNum<?=$ban['ID']?>" id="DelNum<?=$ban['ID']?>" value="Preserve" /></td></tr><?php
 //*/
 //var_dump($board);
 
