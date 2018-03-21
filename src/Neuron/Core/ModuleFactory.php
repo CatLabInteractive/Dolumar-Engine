@@ -32,8 +32,6 @@ abstract class Neuron_Core_ModuleFactory
      */
     public function __get($sModule)
     {
-        $sModule = 'dynamicModule' . $sModule;
-
         $this->doLoadModule($sModule);
         return $this->oModules[$sModule];
     }
@@ -45,8 +43,6 @@ abstract class Neuron_Core_ModuleFactory
      */
     public function moduleExists($sModule)
     {
-        $sModule = 'dynamicModule' . $sModule;
-
         $this->doLoadModule($sModule);
         if (!isset ($this->oModules[$sModule])) {
             print_r($this);
