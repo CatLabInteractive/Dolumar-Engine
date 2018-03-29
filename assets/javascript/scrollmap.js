@@ -447,15 +447,21 @@ TiledImageViewer.prototype.dblClickAction = function (x, y)
 }
 
 TiledImageViewer.prototype.selectLocationClick = function (x, y)
-{	
+{
+    function isFunction(functionToCheck) {
+        return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+    }
+
 	x = (x - parseInt (this.div.style.left));
 	y = (y - parseInt (this.div.style.top));
 
-	this.selLocAct (x, y);
+	if (this.selLocAct && isFunction(this.selLocAct)) {
+        this.selLocAct(x, y);
+    }
+
 	this.cancelLocationClick (x, y);
-	
 	return false;
-}
+};
 
 TiledImageViewer.prototype.cancelLocationClick = function (x, y)
 {	
