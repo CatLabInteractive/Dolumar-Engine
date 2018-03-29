@@ -76,7 +76,7 @@ class Neuron_GameServer_Windows_Help extends Neuron_GameServer_Windows_Window
 			if (!$html)
 			{
 				$edit = WIKI_EDIT_URL.$page;
-				$html = '<p>404: Not Found (' . $page . ').<br />Click <a href="' . $edit.'" target="wiki">here</a> to edit.</p>';
+				$html = '<p>404: Not Found (' . $page . ').<br />Click <a href="' . htmlentities($edit).'" target="wiki">here</a> to edit.</p>';
 			}
 		}
 		
