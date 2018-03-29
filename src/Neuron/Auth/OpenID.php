@@ -710,9 +710,8 @@ $pape_policy_uris = array
 	PAPE_AUTH_PHISHING_RESISTANT
 );
 
-function &getStore() 
+function &getStore()
 {
-	/*
 	$store_path = CACHE_DIR.'openid';
 
 	if (!file_exists($store_path) && !mkdir($store_path)) 
@@ -724,12 +723,13 @@ function &getStore()
 
 	$obj = new Auth_OpenID_FileStore ($store_path);
 	return $obj;
-	*/
 
+    /*
 	$connection = new Neuron_Auth_MySQLConnection ();
 	$obj = new Auth_OpenID_MySQLStore ($connection);
 	$obj->createTables ();
 	return $obj;
+    */
 }
 
 function &getConsumer() 
