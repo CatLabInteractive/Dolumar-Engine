@@ -30,7 +30,7 @@ class BrowserGamesHub_Statistics extends BBGS_Statistics
 	{
 		parent::__construct ($statistics, $information);
 		
-		$this->setPrivateKey (file_get_contents (CATLAB_BASEPATH . 'php/Neuron/GameServer/certificates/credits_private.cert'));
+		$this->setPrivateKey (CREDITS_PRIVATE_KEY);
 		//$this->setPrivateKey ('bla bla bla');
 	}
 }
