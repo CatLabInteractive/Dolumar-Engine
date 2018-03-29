@@ -111,7 +111,7 @@ if (is_array ($openwindows))
 		catch (Exception $e)
 		{
 			// Send a mail
-			error_log ((string)$e);
+            Neuron_ErrorHandler_Handler::getInstance()->notify($e);
 
 			if (defined ('OUTPUT_DEBUG_DATA') && OUTPUT_DEBUG_DATA)
 			{
@@ -163,7 +163,7 @@ foreach ($updatewindows as $window)
 	catch (Exception $e)
 	{
 		// Send a mail
-		error_log ((string)$e);
+        Neuron_ErrorHandler_Handler::getInstance()->notify($e);
 
 		if (defined ('OUTPUT_DEBUG_DATA') && OUTPUT_DEBUG_DATA)
 		{

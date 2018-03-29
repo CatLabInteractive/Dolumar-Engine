@@ -647,14 +647,14 @@ class Neuron_GameServer_Player
             $this->sendOpenIDNotifications($msg_plaintext, $txtMsgKey, $txtMsgSection, $inputData, $objSender, $isPublic);
         } catch (Exception $e) {
             // Something went wrong, but we can't care about it too much.
-            error_log($e->__toString());
+            Neuron_ErrorHandler_Handler::getInstance()->notify($e);
         }
 
         // Also send email
         try {
             $this->sendNotificationEmail ($msg_plaintext, $txtMsgKey, $txtMsgSection, $inputData, $objSender, $isPublic);
         } catch (Exception $e) {
-            error_log($e->__toString());
+            Neuron_ErrorHandler_Handler::getInstance()->notify($e);
         }
     }
 
