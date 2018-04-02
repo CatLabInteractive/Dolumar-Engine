@@ -78,8 +78,9 @@ class Neuron_Core_Database
 			if ($v === 'NOW()')
 			{
 				$sql .= "$k = NOW(), ";
-			}
-			else
+			} elseif ($v === null) {
+                $sql .= "$k = NULL, ";
+            } else
 			{
 				$sql.= "$k = '".$this->escape ($v)."', ";
 			}
@@ -154,6 +155,11 @@ class Neuron_Core_Database
 			{
 				$sql .= "$k = NOW(), ";
 				$totalSets ++;
+			}
+
+			elseif ($v === null) {
+                $sql .= "$k = NULL, ";
+                $totalSets ++;
 			}
 			
 			elseif (is_numeric ($v))
