@@ -36,7 +36,7 @@
 			?>
 
 			<?php if (isset ($_SESSION['hide_advertisement']) && $_SESSION['hide_advertisement']) { ?>
-				var CONFIG_HIDE_ADVERTISEMENT = true;
+				var CONFIG_HIDE_ADVERTISEMENT = false;
 			<?php } else { ?>
 				var CONFIG_HIDE_ADVERTISEMENT = false;
 			<?php } ?>
