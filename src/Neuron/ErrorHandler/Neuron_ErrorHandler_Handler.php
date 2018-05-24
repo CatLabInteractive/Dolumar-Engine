@@ -28,10 +28,9 @@ class Neuron_ErrorHandler_Handler
      */
     public function notify(Exception $e)
     {
+        error_log ($e->getMessage());
         if (class_exists(\Airbrake\Instance::class) && defined ('AIRBRAKE_TOKEN')) {
             \Airbrake\Instance::notify($e);
-        } else {
-            error_log ($e->getMessage());
         }
     }
 }
