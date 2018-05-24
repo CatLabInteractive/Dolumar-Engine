@@ -67,6 +67,7 @@ class Neuron_NBBC_Parser
                 'after_tag' => "sns",
                 'before_endtag' => "sns",
                 'after_endtag' => "sns",
+                'content' => null,
 			)
 		);
 		
@@ -77,6 +78,7 @@ class Neuron_NBBC_Parser
 				'h'.$i,
 				array
 				(
+					'mode' => BBCODE_MODE_SIMPLE,
 					'simple_start' => "\n<h".$i.">\n",
 					'simple_end' => "\n</h".$i.">\n",
 					'allow_in' => Array('listitem', 'block', 'columns'),
@@ -86,6 +88,7 @@ class Neuron_NBBC_Parser
 					'after_endtag' => "sns",
 					'plain_start' => "\n",
 					'plain_end' => "\n",
+                    'content' => null,
 				)
 			);
 		}
@@ -104,6 +107,7 @@ class Neuron_NBBC_Parser
 				'after_endtag' => "sns",
 				'plain_start' => "\n<b>Quote:</b>\n",
 				'plain_end' => "\n",
+                'content' => null,
 			)
 		);
 		
@@ -121,6 +125,7 @@ class Neuron_NBBC_Parser
 				'after_endtag' => "sns",
 				'plain_start' => "\n<b>Quote:</b>\n",
 				'plain_end' => "\n",
+                'content' => null,
 			)
 		);
 		
