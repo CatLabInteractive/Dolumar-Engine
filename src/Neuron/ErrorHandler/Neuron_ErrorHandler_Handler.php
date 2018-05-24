@@ -24,11 +24,16 @@ class Neuron_ErrorHandler_Handler
 
     /**
      * @param Exception $e
+     * @throws Exception
      */
     public function notify(Exception $e)
     {
         if (class_exists(\Airbrake\Instance::class)) {
-            \Airbrake\Instance::notify($e);
+            try {
+                \Airbrake\Instance::notify($e);
+            } catch (Exception $foo) {
+                throw $e;
+            }
         } else {
             error_log ((string)$e);
         }
