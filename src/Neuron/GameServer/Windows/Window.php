@@ -309,7 +309,7 @@ class Neuron_GameServer_Windows_Window
 				$contentInput = $this->xmlEntities ($contentInput);
 			
 				$fragment = $dom->createDocumentFragment ();
-				if (@$fragment->appendXML ($contentInput))
+				if ($fragment->appendXML ($contentInput))
 				{
 					$content->appendChild ($fragment);
 				}
@@ -545,7 +545,7 @@ class Neuron_GameServer_Windows_Window
 		$data = $this->xmlEntities ($data);
 		
 		$fragment = $dom->createDocumentFragment ();
-		if (@$fragment->appendXML ($data))
+		if ($fragment->appendXML ($data))
 		{
 			$content->appendChild ($fragment);
 		}
@@ -675,7 +675,7 @@ class Neuron_GameServer_Windows_Window
 		$html = $this->xmlEntities ($html);
 		
 		$fragment = $dom->createDocumentFragment ();
-		if (@$fragment->appendXML ($html))
+		if ($fragment->appendXML ($html))
 		{
 			$content->appendChild ($fragment);
 		}
@@ -703,7 +703,7 @@ class Neuron_GameServer_Windows_Window
 		$html = $this->xmlEntities ($html);
 		
 		$fragment = $dom->createDocumentFragment ();
-		if (@$fragment->appendXML ($html))
+		if ($fragment->appendXML ($html))
 		{
 			$content->appendChild ($fragment);
 		}
