@@ -102,7 +102,24 @@ class Neuron_Core_Wiki
 			foreach ($images[1] as $k => $v)
 			{
 				$imgs = WIKI_GUIDE_URL . $params2 . 'Image:'.addslashes ($v);
-				$imgdata = unserialize (file_get_contents ($imgs));				
+				$imgdata = @file_get_contents ($imgs);
+				if (!$imgdata) {
+					continue;
+				}
+
+				$imgdata = unserialize ($imgdata);
+				if (!$imgdata) {
+					continue;
+                }
+
+                if (
+                	!isset($imgdata['query']) ||
+					!isset($imgdata['query']['pages']) ||
+					!is_array($imgdata['query']['pages'])
+				) {
+					continue;
+				}
+
 				$imgdata = Neuron_Core_Tools::getArrayFirstValue ($imgdata['query']['pages']);	
 
 				if (isset ($imgdata[1]['imageinfo']))
