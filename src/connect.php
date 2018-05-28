@@ -310,45 +310,48 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
 */
 function customMail ($target, $subject, $msg)
 {
-	//require_once ('Neuron/Core/PHPMailer.php');
-	$mail = new PHPMailer ();
+    try {
+        $mail = new PHPMailer ();
 
-	if (defined ('EMAIL_SMTP_SERVER')) {
-		$mail->IsSMTP ();                                   // send via SMTP
-		$mail->Host = EMAIL_SMTP_SERVER; // SMTP servers
-		$mail->Port = EMAIL_SMTP_PORT;
+        if (defined ('EMAIL_SMTP_SERVER')) {
+            $mail->IsSMTP ();                                   // send via SMTP
+            $mail->Host = EMAIL_SMTP_SERVER; // SMTP servers
+            $mail->Port = EMAIL_SMTP_PORT;
 
-		if (defined ('EMAIL_SMTP_USERNAME')) {
-			$mail->SMTPAuth = true;     // turn on SMTP authentication
+            if (defined ('EMAIL_SMTP_USERNAME')) {
+                $mail->SMTPAuth = true;     // turn on SMTP authentication
 
-			if (defined ('EMAIL_SMTP_SECURE'))
-				$mail->SMTPSecure = EMAIL_SMTP_SECURE;
+                if (defined ('EMAIL_SMTP_SECURE'))
+                    $mail->SMTPSecure = EMAIL_SMTP_SECURE;
 
-			$mail->Username = EMAIL_SMTP_USERNAME;  // SMTP username
-			$mail->Password = EMAIL_SMTP_PASSWORD; // SMTP password
-		}
-	}
+                $mail->Username = EMAIL_SMTP_USERNAME;  // SMTP username
+                $mail->Password = EMAIL_SMTP_PASSWORD; // SMTP password
+            }
+        }
 
-	$mail->SMTPDebug = false;
+        $mail->SMTPDebug = false;
 
-	$from = EMAIL_FROM;
-	if (empty($from)) {
-		$from = 'support@catlab.be';
-	}
-	$mail->From = $from;
+        $from = EMAIL_FROM;
+        if (empty($from)) {
+            $from = 'support@catlab.be';
+        }
+        $mail->From = $from;
 
-	$mail->FromName = EMAIL_FROM_NAME;
-	$mail->CharSet  = 'utf-8';
-	
-	$mail->isHtml (false);
-	$mail->AddAddress($target); 
-	
-	$mail->Subject  =  $subject;
-	$mail->Body = $msg;
+        $mail->FromName = EMAIL_FROM_NAME;
+        $mail->CharSet  = 'utf-8';
 
-	if(!$mail->send()) {
-		throw new \Exception("Mail could not be send: " . $mail->ErrorInfo);
-	}
+        $mail->isHtml (false);
+        $mail->AddAddress($target);
+
+        $mail->Subject  =  $subject;
+        $mail->Body = $msg;
+
+        if (!$mail->send()) {
+            throw new \Exception("Mail could not be send: " . $mail->ErrorInfo);
+        }
+    } catch (Exception $e) {
+	    error_log($e->getMessage());
+    }
 }
 
 /*

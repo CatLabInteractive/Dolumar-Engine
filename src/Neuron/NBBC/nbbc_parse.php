@@ -2139,5 +2139,3 @@
 			return $result;
 		}
 	}
-
-?>

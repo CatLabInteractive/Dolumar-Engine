@@ -46,6 +46,10 @@ class Neuron_NBBC_Parser
 				'plain_end' => "</a>",
 				'plain_content' => Array('_content', '_default'),
 				'plain_link' => Array('_default', '_content'),
+                'before_tag' => "sns",
+                'after_tag' => "sns",
+                'before_endtag' => "sns",
+                'after_endtag' => "sns",
 			)
 		);
 		
@@ -59,6 +63,11 @@ class Neuron_NBBC_Parser
 				'template' => '<span style="color:{$_default/tw}">{$_content/v}</span>',
 				'class' => 'inline',
 				'allow_in' => Array('listitem', 'block', 'columns', 'inline', 'link'),
+                'before_tag' => "sns",
+                'after_tag' => "sns",
+                'before_endtag' => "sns",
+                'after_endtag' => "sns",
+                'content' => null,
 			)
 		);
 		
@@ -69,6 +78,7 @@ class Neuron_NBBC_Parser
 				'h'.$i,
 				array
 				(
+					'mode' => BBCODE_MODE_SIMPLE,
 					'simple_start' => "\n<h".$i.">\n",
 					'simple_end' => "\n</h".$i.">\n",
 					'allow_in' => Array('listitem', 'block', 'columns'),
@@ -78,6 +88,7 @@ class Neuron_NBBC_Parser
 					'after_endtag' => "sns",
 					'plain_start' => "\n",
 					'plain_end' => "\n",
+                    'content' => null,
 				)
 			);
 		}
@@ -96,6 +107,7 @@ class Neuron_NBBC_Parser
 				'after_endtag' => "sns",
 				'plain_start' => "\n<b>Quote:</b>\n",
 				'plain_end' => "\n",
+                'content' => null,
 			)
 		);
 		
@@ -113,6 +125,7 @@ class Neuron_NBBC_Parser
 				'after_endtag' => "sns",
 				'plain_start' => "\n<b>Quote:</b>\n",
 				'plain_end' => "\n",
+                'content' => null,
 			)
 		);
 		
@@ -142,6 +155,10 @@ class Neuron_NBBC_Parser
 				'plain_end' => "</a>",
 				'plain_content' => Array('_content', '_default'),
 				'plain_link' => Array('_default', '_content'),
+                'before_tag' => "sns",
+                'after_tag' => "sns",
+                'before_endtag' => "sns",
+                'after_endtag' => "sns",
 			)
 		);
 		
@@ -161,7 +178,7 @@ class Neuron_NBBC_Parser
 	//  [quote name="Tom" date="July 4, 1776 3:48 PM" url="http://www.constitution.gov"]...[/quote]
 	//
 	// The URL only allows http, https, mailto, gopher, ftp, and feed protocols for safety.
-	public function DoQuote($bbcode, $action, $name, $default, $params, $content) 
+	public static function DoQuote($bbcode, $action, $name, $default, $params, $content)
 	{
 		if ($action == BBCODE_CHECK) return true;
 		
@@ -209,7 +226,7 @@ class Neuron_NBBC_Parser
 		return $out;
 	}
 	
-	public function DoSpan ($bbcode, $action, $name, $default, $params, $content) 
+	public static function DoSpan ($bbcode, $action, $name, $default, $params, $content)
 	{
 		if ($action == BBCODE_CHECK) return true;
 		
@@ -233,7 +250,7 @@ class Neuron_NBBC_Parser
 		return $out;
 	}
 	
-	public function DoAction($bbcode, $action, $name, $default, $params, $content) 
+	public static function DoAction($bbcode, $action, $name, $default, $params, $content)
 	{
 		if ($action == BBCODE_CHECK) return true;
 		
@@ -247,7 +264,7 @@ class Neuron_NBBC_Parser
 		return $out;
 	}
 	
-	public function DoOpen ($bbcode, $action, $name, $default, $params, $content) 
+	public static function DoOpen ($bbcode, $action, $name, $default, $params, $content)
 	{
 		// We can't check this with BBCODE_CHECK because we may have no URL before the content
 		// has been processed.
