@@ -87,10 +87,10 @@ if (!defined ('SMILEY_PATH'))
 	define ('SMILEY_PATH', IMAGE_PATH.'smileys/blue/');
 
 if (!defined ('PUBLIC_PATH'))
-	define ('PUBLIC_PATH', BASE_PATH.'public/');
+	define ('PUBLIC_PATH', BASE_PATH.'uploads/');
 
 if (!defined ('PUBLIC_URL'))
-	define ('PUBLIC_URL', BASE_URL.'public/');
+	define ('PUBLIC_URL', BASE_URL);
 
 // Paths
 if (!defined ('TEMPLATE_DIR'))
