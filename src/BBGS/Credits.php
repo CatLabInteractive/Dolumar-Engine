@@ -24,8 +24,8 @@
 class BBGS_Credits
 {
 	private $email;
-	private $openids;
-	private $openid_hashed;
+	private $openids = [];
+	private $openid_hashed = [];
 	private $gametoken;
 	private $url;
 
@@ -68,14 +68,14 @@ class BBGS_Credits
 	{
 		if (!isset ($this->openid_hashed))
 		{
-			$this->openids = urlencode ($openid);
-			$this->openid_hashed = md5 ($openid);
+			$this->openids[] = urlencode ($openid);
+			$this->openid_hashed[] = md5 ($openid);
 		}
 
 		else
 		{
-			$this->openids .= ',' . urlencode ($openid);
-			$this->openid_hashed .= '|' . md5 ($openid);
+			$this->openids[] .= ',' . urlencode ($openid);
+			$this->openid_hashed[] .= '|' . md5 ($openid);
 		}
 	}
 
@@ -177,10 +177,10 @@ class BBGS_Credits
 			$data['email'] = $this->email;
 		}
 
-		if (isset ($this->openid_hashed))
+		if (count($this->openid_hashed) > 0)
 		{
-			$data['openidhash'] = $this->openid_hashed;
-			$data['openid'] = $this->openids;
+			$data['openidhash'] = $this->openid_hashed[0];
+			$data['openid'] = $this->openids[0];
 		}
 
 		$data = array_merge
@@ -219,10 +219,10 @@ class BBGS_Credits
 			$data['email'] = $this->email;
 		}
 
-		if (isset ($this->openid_hashed))
+		if (count($this->openid_hashed) > 0)
 		{
-			$data['openidhash'] = $this->openid_hashed;
-			$data['openid'] = $this->openids;
+			$data['openidhash'] = $this->openid_hashed[0];
+			$data['openid'] = $this->openids[0];
 		}
 
 		$data['amount'] = $amount;
@@ -259,10 +259,10 @@ class BBGS_Credits
 			$data['email'] = $this->email;
 		}
 
-		if (isset ($this->openid_hashed))
+		if (count($this->openid_hashed) > 0)
 		{
-			$data['openidhash'] = $this->openid_hashed;
-			$data['openid'] = $this->openids;
+			$data['openidhash'] = $this->openid_hashed[0];
+			$data['openid'] = $this->openids[0];
 		}
 
 		$data['amount'] = intval ($credits);
@@ -302,10 +302,10 @@ class BBGS_Credits
 			$data['email'] = $this->email;
 		}
 
-		if (isset ($this->openid_hashed))
+		if (count($this->openid_hashed) > 0)
 		{
-			$data['openidhash'] = $this->openid_hashed;
-			$data['openid'] = $this->openids;
+			$data['openidhash'] = $this->openid_hashed[0];
+			$data['openid'] = $this->openids[0];
 		}
 
 		$data = array_merge
@@ -349,10 +349,10 @@ class BBGS_Credits
 			$data['email'] = $this->email;
 		}
 
-		if (isset ($this->openid_hashed))
+		if (count($this->openid_hashed) > 0)
 		{
-			$data['openidhash'] = $this->openid_hashed;
-			$data['openid'] = $this->openids;
+			$data['openidhash'] = $this->openid_hashed[0];
+			$data['openid'] = $this->openids[0];
 		}
 
 		$data['amount'] = intval ($credits);
@@ -420,10 +420,10 @@ class BBGS_Credits
 			$data['email'] = $this->email;
 		}
 
-		if (isset ($this->openid_hashed))
+		if (count($this->openid_hashed) > 0)
 		{
-			$data['openidhash'] = $this->openid_hashed;
-			$data['openid'] = $this->openids;
+			$data['openidhash'] = $this->openid_hashed[0];
+			$data['openid'] = $this->openids[0];
 		}
 
 		$url = $this->getSignedURL (self::TRACKER_GATEWAY_URL.'track/', $data);
