@@ -120,7 +120,7 @@ class Neuron_GameServer_Player_Social
 		}
 	}
 
-	private function getSocialStatuses ($iStatus)
+	public function getSocialStatuses ($iStatus)
 	{
 		$this->loadSocialStatuses ();
 		
