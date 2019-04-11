@@ -43,7 +43,7 @@ class Neuron_GameServer_Player_Social
 				FROM
 					n_players_social
 				WHERE
-					ps_plid = {$this->getId()}
+					ps_plid = {$this->objProfile->getId()}
 			");
 			
 			$this->iSocialStatuses = array ();
@@ -68,7 +68,7 @@ class Neuron_GameServer_Player_Social
 			FROM
 				n_players_social
 			WHERE
-				ps_plid = {$this->getId()} 
+				ps_plid = {$this->objProfile->getId()} 
 				AND ps_targetid = {$player->getId ()}
 		");
 		
@@ -79,7 +79,7 @@ class Neuron_GameServer_Player_Social
 				INSERT INTO
 					n_players_social
 				SET
-					ps_plid = {$this->getId()},
+					ps_plid = {$this->objProfile->getId()},
 					ps_targetid = {$player->getId ()},
 					ps_status = '{$status}'
 			");
@@ -94,7 +94,7 @@ class Neuron_GameServer_Player_Social
 					ps_status = '{$status}'
 				WHERE
 					ps_targetid = {$player->getId ()} AND
-					ps_plid = {$this->getId()}
+					ps_plid = {$this->objProfile->getId()}
 			");
 		}
 	}
