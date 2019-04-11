@@ -461,11 +461,15 @@ TiledImageViewer.prototype.cancelLocationClick = function (x, y) {
 
     this.selecting = false;
 
-    if (typeof(this.overlay) !== 'undefined') {
-        this.overlay.removeChild(this.overlay);
+    if (typeof(this.overlay) !== 'undefined' && this.overlay) {
+        try {
+            this.overlay.removeChild(this.overlay);
+        } catch (e) {
+            console.log(e);
+        }
         this.overlay = null;
     }
-}
+};
 
 function TIV_selectLocation(e) {
     if (!e) {

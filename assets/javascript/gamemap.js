@@ -680,6 +680,8 @@ Game.map =
 		{
 			Game.map.parseClickables (imagemap, clickables[i]);
 		}
+
+		div.appendChild (imagemap);
 		
 		// Put a huge image on top of the region
 		var overlay = document.createElement ('img');
@@ -691,8 +693,7 @@ Game.map =
 		overlay.style.top = '0px';
 		overlay.style.zIndex = 10;
 		overlay.useMap = '#'+imagemapid;
-	
-		div.appendChild (imagemap);
+
 		div.appendChild (overlay);
 	},
 	
