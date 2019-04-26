@@ -1,6 +1,34 @@
 html
 {
 	overflow: auto;
+
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.guiwindow {
+	-webkit-touch-callout: text; /* iOS Safari */
+	-webkit-user-select: text; /* Safari */
+	-khtml-user-select: text; /* Konqueror HTML */
+	-moz-user-select: text; /* Firefox */
+	-ms-user-select: text; /* Internet Explorer/Edge */
+	user-select: text; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+#minimap {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 body
@@ -11,10 +39,10 @@ body
 	font-family: 'Verdana', serif;
 }
 
-* 
+*
 {
-	margin: 0px; 
-	padding: 0px; 
+	margin: 0px;
+	padding: 0px;
 	font-size: inherit;
 }
 
@@ -67,8 +95,8 @@ p, h2, h3
 	vertical-align: top;
 }
 
-.dialog table.table_window div.guiwindow table p, 
-.dialog table.table_window div.guiwindow table h2, 
+.dialog table.table_window div.guiwindow table p,
+.dialog table.table_window div.guiwindow table h2,
 .dialog table.table_window div.guiwindow table h3
 {
 	padding: 1px;
@@ -122,7 +150,7 @@ div#map, div#minimap
 	position: absolute;
 	background-image:url(../images/loading.gif);
 	background-repeat: repeat;
-	
+
 }
 
 img.clickable,
@@ -416,7 +444,7 @@ ol.regular
 	overflow: auto;
 }
 
-.chatwindow .send 
+.chatwindow .send
 {
 	background: white;
 }
