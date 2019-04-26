@@ -390,8 +390,10 @@ TiledImageViewer.prototype.drawOverlay = function() {
     // Introduce a giant ass overlay to block all inner events
     this.overlay = document.createElement('div');
 
+    /*
     this.overlay.style.background = 'pink';
     this.overlay.style.opacity = '0.5';
+     */
 
     this.overlay.style.position = 'absolute';
     this.overlay.style.top = '0px';
