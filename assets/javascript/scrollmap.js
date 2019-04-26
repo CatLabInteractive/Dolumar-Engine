@@ -371,18 +371,7 @@ TiledImageViewer.prototype.selectLocation = function (callback, onFinish, image)
         div.style.display = 'block';
     }
 
-    // Introduce a giant ass overlay to block all inner events
-    this.overlay = document.createElement('div');
-
-    //this.overlay.style.background = 'pink';
-
-    this.overlay.style.position = 'absolute';
-    this.overlay.style.top = '0px';
-    this.overlay.style.left = '0px';
-    this.overlay.style.width = '100%';
-    this.overlay.style.height = '100%';
-
-    this.el.appendChild(this.overlay);
+    this.drawOverlay();
 
     /*
         imgCls:
@@ -393,6 +382,36 @@ TiledImageViewer.prototype.selectLocation = function (callback, onFinish, image)
         4 = offsetY
     */
 }
+
+TiledImageViewer.prototype.drawOverlay = function() {
+
+    this.removeOverlay();
+
+    // Introduce a giant ass overlay to block all inner events
+    this.overlay = document.createElement('div');
+
+    //this.overlay.style.background = 'pink';
+
+    this.overlay.style.position = 'absolute';
+    this.overlay.style.top = '0px';
+    this.overlay.style.left = '0px';
+    this.overlay.style.width = '100%';
+    this.overlay.style.height = '100%';
+    this.overlay.style.zIndex = 1000000;
+
+    this.el.appendChild(this.overlay);
+};
+
+TiledImageViewer.prototype.removeOverlay = function() {
+    if (typeof(this.overlay) !== 'undefined' && this.overlay) {
+        try {
+            this.overlay.parentNode.removeChild(this.overlay);
+        } catch (e) {
+            console.log(e);
+        }
+        this.overlay = null;
+    }
+};
 
 TiledImageViewer.prototype.setDblclickLocation = function (act) {
     this.el.ondblclick = TIV_selectLocationDblClick;
@@ -461,14 +480,7 @@ TiledImageViewer.prototype.cancelLocationClick = function (x, y) {
 
     this.selecting = false;
 
-    if (typeof(this.overlay) !== 'undefined' && this.overlay) {
-        try {
-            this.overlay.parentNode.removeChild(this.overlay);
-        } catch (e) {
-            console.log(e);
-        }
-        this.overlay = null;
-    }
+    this.removeOverlay();
 };
 
 function TIV_selectLocation(e) {
@@ -574,6 +586,8 @@ function TIV_touchBegin(e, self) {
     o.dragging = true;
     self.el.addEventListener('touchmove', TIV_touchMove, false);
 
+    o.drawOverlay();
+
     setTimeout(function () {
         TIV_dragUpdate(o);
     }, 50);
@@ -581,6 +595,8 @@ function TIV_touchBegin(e, self) {
 
 function TIV_touchEnd(e) {
     var o = this._TIV_obj;
+
+    o.removeOverlay();
 
     o.dragging = false;
     this.ontouchmove = '';
@@ -615,6 +631,8 @@ function TIV_dragBegin(e, obj) {
     if (!e) {
         e = window.event;
     }
+
+    self.drawOverlay();
 
     mpos = TIV_getMousePos(e);
     o.mx = o.drmx = mpos.x;
@@ -652,6 +670,7 @@ function TIV_dragEnd() {
 
     // Recalculate
     o.drawVisibleImages();
+    o.removeOverlay();
 
     return false;
 }
