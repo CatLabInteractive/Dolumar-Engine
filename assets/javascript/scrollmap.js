@@ -390,10 +390,8 @@ TiledImageViewer.prototype.drawOverlay = function() {
     // Introduce a giant ass overlay to block all inner events
     this.overlay = document.createElement('div');
 
-    /*
     this.overlay.style.background = 'pink';
     this.overlay.style.opacity = '0.5';
-     */
 
     this.overlay.style.position = 'absolute';
     this.overlay.style.top = '0px';
@@ -582,6 +580,8 @@ function TIV_touchBegin(e, self) {
         e = window.event;
     }
 
+    o.touchStart = new Date();
+
     mpos = TIV_getTouchPos(e);
     o.mx = o.drmx = mpos.x;
     o.my = o.drmy = mpos.y;
@@ -608,25 +608,6 @@ function TIV_touchEnd(e) {
     return false;
 }
 
-function TIV_touchMove(e) {
-    var o = this._TIV_obj;
-    var mpos;
-
-    if (!e) {
-        e = window.event;
-    }
-
-    if (!o.overlay) {
-        o.drawOverlay();
-    }
-
-    mpos = TIV_getTouchPos(e);
-    o.mx = mpos.x;
-    o.my = mpos.y;
-
-    return false;
-}
-
 function TIV_dragBegin(e, obj) {
     var self = obj;
 
@@ -638,6 +619,7 @@ function TIV_dragBegin(e, obj) {
     }
 
     mpos = TIV_getMousePos(e);
+    o.dragStart = new Date();
     o.mx = o.drmx = mpos.x;
     o.my = o.drmy = mpos.y;
     o.dragging = true;
@@ -649,6 +631,29 @@ function TIV_dragBegin(e, obj) {
     return false;
 }
 
+function TIV_touchMove(e) {
+    var o = this._TIV_obj;
+    var mpos;
+
+    if (!e) {
+        e = window.event;
+    }
+
+    if (
+        !o.overlay &&
+        o.touchStart &&
+        ((new Date()).getTime() - o.touchStart.getTime()) > 50
+    ) {
+        o.drawOverlay();
+    }
+
+    mpos = TIV_getTouchPos(e);
+    o.mx = mpos.x;
+    o.my = mpos.y;
+
+    return false;
+}
+
 function TIV_dragMouseMove(e) {
     var o = this._TIV_obj;
     var mpos;
@@ -657,7 +662,11 @@ function TIV_dragMouseMove(e) {
         e = window.event;
     }
 
-    if (!o.overlay) {
+    if (
+        !o.overlay &&
+        o.dragStart &&
+        ((new Date()).getTime() - o.dragStart.getTime()) > 50
+    ) {
         o.drawOverlay();
     }
 
