@@ -390,7 +390,8 @@ TiledImageViewer.prototype.drawOverlay = function() {
     // Introduce a giant ass overlay to block all inner events
     this.overlay = document.createElement('div');
 
-    //this.overlay.style.background = 'pink';
+    this.overlay.style.background = 'pink';
+    this.overlay.style.opacity = '0.5';
 
     this.overlay.style.position = 'absolute';
     this.overlay.style.top = '0px';
@@ -586,8 +587,6 @@ function TIV_touchBegin(e, self) {
     o.dragging = true;
     self.el.addEventListener('touchmove', TIV_touchMove, false);
 
-    o.drawOverlay();
-
     setTimeout(function () {
         TIV_dragUpdate(o);
     }, 50);
@@ -615,6 +614,10 @@ function TIV_touchMove(e) {
         e = window.event;
     }
 
+    if (!o.overlay) {
+        o.drawOverlay();
+    }
+
     mpos = TIV_getTouchPos(e);
     o.mx = mpos.x;
     o.my = mpos.y;
@@ -631,8 +634,6 @@ function TIV_dragBegin(e, obj) {
     if (!e) {
         e = window.event;
     }
-
-    self.drawOverlay();
 
     mpos = TIV_getMousePos(e);
     o.mx = o.drmx = mpos.x;
@@ -652,6 +653,10 @@ function TIV_dragMouseMove(e) {
 
     if (!e) {
         e = window.event;
+    }
+
+    if (!o.overlay) {
+        o.drawOverlay();
     }
 
     mpos = TIV_getMousePos(e);
