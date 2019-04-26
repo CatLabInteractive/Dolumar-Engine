@@ -463,7 +463,7 @@ TiledImageViewer.prototype.cancelLocationClick = function (x, y) {
 
     if (typeof(this.overlay) !== 'undefined' && this.overlay) {
         try {
-            this.overlay.removeChild(this.overlay);
+            this.overlay.parentNode.removeChild(this.overlay);
         } catch (e) {
             console.log(e);
         }
@@ -476,34 +476,39 @@ function TIV_selectLocation(e) {
         e = window.event;
     }
 
+    // Prevent the default action (= showing the right-click-menu)
+    if (e.preventDefault) {
+        e.preventDefault();
+    } else {
+        e.returnValue = false;
+    }
+
     var o = this._TIV_obj;
     var mpos = TIV_getMousePos(e);
 
     var button = "LEFT";
 
-    if (e.which == null)
-    /* IE case */
+    if (e.which == null) {
+        /* IE case */
         button = (e.button < 2) ? "LEFT" :
             ((e.button == 4) ? "MIDDLE" : "RIGHT");
-    else
-    /* All others */
+    } else {
+        /* All others */
         button = (e.which < 2) ? "LEFT" :
             ((e.which == 2) ? "MIDDLE" : "RIGHT");
-
-    if (button == "LEFT") {
-        // Only allow the left button to trigger the event.
-        o.selectLocationClick(mpos.x, mpos.y);
-    }
-    else {
-        // Cancel this select
-        o.cancelLocationClick(mpos.x, mpos.y);
     }
 
-    // Prevent the default action (= showing the right-click-menu)
-    if (e.preventDefault)
-        e.preventDefault();
-    else
-        e.returnValue = false;
+    setTimeout(function() {
+        if (button == "LEFT") {
+            // Only allow the left button to trigger the event.
+            o.selectLocationClick(mpos.x, mpos.y);
+        }
+        else {
+            // Cancel this select
+            o.cancelLocationClick(mpos.x, mpos.y);
+        }
+    }, 250)
+
 
     return false;
 }
