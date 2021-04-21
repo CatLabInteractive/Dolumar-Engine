@@ -11,8 +11,10 @@ error_reporting(E_ERROR);
 
 session_name ('dolumar_session');
 
+/*
 ini_set ('session.use_cookies', 0);
 ini_set ('session.use_only_cookies', 0);
+*/
 
 define ('CATLAB_BASEPATH', dirname (dirname (__FILE__)) . '/');
 define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
