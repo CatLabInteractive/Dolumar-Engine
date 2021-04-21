@@ -11,9 +11,6 @@ error_reporting(E_ERROR);
 
 session_name ('dolumar_session');
 
-ini_set ('session.use_cookies', 0);
-ini_set ('session.use_only_cookies', 0);
-
 define ('CATLAB_BASEPATH', dirname (dirname (__FILE__)) . '/');
 define ('CATLAB_LANGUAGE_PATH', CATLAB_BASEPATH . 'languages/');
 define ('PEAR_BASEPATH', (dirname (dirname (__FILE__))) . '/pear/');
@@ -164,29 +161,17 @@ define ('API_DATE_FORMAT', 'Y-m-d\TH:i:s');
 // Set session ID if provided
 if (isset($_GET['sessionId']) && !empty($_GET['sessionId'])) {
     session_id ($_GET['sessionId']);
-    session_start();
-} elseif (isset ($_GET['phpSessionId']) && !empty ($_GET['phpSessionId']))
-{
+} elseif (isset ($_GET['phpSessionId']) && !empty ($_GET['phpSessionId'])) {
 	session_id ($_GET['phpSessionId']);
-	session_start();
-}
-elseif (isset ($_GET['session_id']) && !empty ($_GET['session_id']))
-{
+} elseif (isset ($_GET['session_id']) && !empty ($_GET['session_id'])) {
 	session_id ($_GET['session_id']);
-	session_start();
-}
-
-elseif (isset ($_COOKIE['session_id']) && !empty ($_COOKIE['session_id']))
-{
+} elseif (isset ($_COOKIE['session_id']) && !empty ($_COOKIE['session_id'])) {
 	session_id ($_COOKIE['session_id']);
-	session_start();
 }
 
-else
-{
-	// Make a new session
-	session_start();
-}
+session_start([
+    'use_cookies' => 0
+]);
 
 // Get right language tag
 if (isset ($_GET['language']))
