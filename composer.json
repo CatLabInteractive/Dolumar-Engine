@@ -12,7 +12,7 @@
     "ext-bcmath" : "*",
 
     "silverorange/mdb2": "~2.5.2-b.5",
-    "bondas83/nmdb2_driver_mysqli": "~1.5.3",
+    "bondas83/mdb2_driver_mysqli": "~1.5.3",
     "ivan-novakov/php-openid-connect-client": "^0.2.1"
   },
 
