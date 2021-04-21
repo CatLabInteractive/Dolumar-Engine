@@ -504,6 +504,23 @@ class Neuron_GameServer
 				echo file_get_contents ('./favicon.ico');
 				break;
 
+            case 'oauth2':
+                $path = implode('/', $sInputs);
+                switch ($path) {
+                    case 'oauth2/login':
+
+                        if (!OPENID_CONNECT_AUTHORIZE_URL) {
+                            echo 'No OpenID Connect endpoint set.';
+                            break;
+                        }
+
+                        require_once (self::SCRIPT_PATH.'openid2/redirect.php');
+                        break 2;
+                }
+
+                //require_once (self::SCRIPT_PATH.'openid2/login.php');
+                //return;
+
 			default:
 				//throw new Exception ('Invalid API call: module "'.$sModule.'" not found.');
 				echo '<p>Invalid module: '.$sModule.'</p>';

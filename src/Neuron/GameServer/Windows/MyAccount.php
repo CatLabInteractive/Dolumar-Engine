@@ -182,6 +182,10 @@ class Neuron_GameServer_Windows_MyAccount extends Neuron_GameServer_Windows_Wind
 				. NOLOGIN_REDIRECT . '</a> in order to login.</p>';
 		}
 
+		if (defined('OAUTH2_AUTHORIZE_URL') && OAUTH2_AUTHORIZE_URL) {
+			return '<p>Please click <a href="' . Neuron_URLBuilder::getInstance()->getRawURL('oauth2/login', []) . '">here</a> to login.</p>';
+		}
+
 		$text = Neuron_Core_Text::__getInstance ();
 		$text->setFile ('account');
 		$text->setSection ('login');

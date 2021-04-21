@@ -11,19 +11,15 @@
     "ext-gd": "*",
     "ext-bcmath" : "*",
 
-    "pear-pear.php.net/MDB2_Driver_mysqli": "1.5.0-beta4",
-    "pear-pear.php.net/MDB2":               "2.5.0-beta5 as 2.5.0"
+    "silverorange/mdb2": "~2.5.2-b.5",
+    "bondas83/nmdb2_driver_mysqli": "~1.5.3",
+    "ivan-novakov/php-openid-connect-client": "^0.2.1"
   },
 
   "repositories": [
     {
       "type": "vcs",
       "url":  "git@github.com:CatLabInteractive/php-openid.git"
-    },
-
-    {
-      "type": "pear",
-      "url": "https://pear2.php.net"
     }
   ],
 
