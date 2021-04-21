@@ -79,4 +79,3 @@ class Neuron_GameServer_Windows_Imprint extends Neuron_GameServer_Windows_Help
 		return null;
 	}
 }
-?>

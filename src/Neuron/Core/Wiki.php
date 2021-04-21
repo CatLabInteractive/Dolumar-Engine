@@ -27,6 +27,15 @@ class Neuron_Core_Wiki
 
 	public static function parseHelpFile ($file)
 	{
+		if (
+			!defined('WIKI_GUIDE_URL') ||
+			!WIKI_GUIDE_URL
+		) {
+			return false;
+		}
+
+		return WIKI_GUIDE_URL;
+
 		$objCache = Neuron_Core_Cache::__getInstance ('wiki/');
 		$sKey = str_replace ('/', '|', $file);
 		
