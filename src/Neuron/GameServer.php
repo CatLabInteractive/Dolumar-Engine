@@ -476,14 +476,25 @@ class Neuron_GameServer
 				$_SESSION['tmp'] = null;
 
 				// Now, if we have a NOLOGIN_REDIRECT set, redirect here
-				if (defined ('NOLOGIN_REDIRECT') && !isset ($_GET['DEBUG']))
-				{
+				if (
+                    (
+                        (defined('NOLOGIN_REDIRECT') && NOLOGIN_REDIRECT) ||
+                        (defined('OPENID_CONNECT_AUTHORIZE_URL') && OPENID_CONNECT_AUTHORIZE_URL)
+                    ) && !isset ($_GET['DEBUG'])
+                )  {
 					$player = Neuron_GameServer::getPlayer ();
 
-					if (!$player)
-					{
-						header ("Location: " . NOLOGIN_REDIRECT);
-						echo "Redirecting to " . NOLOGIN_REDIRECT;
+					if (!$player) {
+
+                        if (defined('OPENID_CONNECT_AUTHORIZE_URL') && OPENID_CONNECT_AUTHORIZE_URL) {
+                            $loginUrl = Neuron_URLBuilder::getInstance()->getRawURL('oauth2/login', []);
+                            header ("Location: " . $loginUrl);
+                            echo "Redirecting to " . $loginUrl;
+                        } elseif (defined('OPENID_CONNECT_AUTHORIZE_URL') && OPENID_CONNECT_AUTHORIZE_URL) {
+                            header ("Location: " . NOLOGIN_REDIRECT);
+                            echo "Redirecting to " . NOLOGIN_REDIRECT;
+                        }
+
 					}
 
 					else
@@ -515,6 +526,15 @@ class Neuron_GameServer
                         }
 
                         require_once (self::SCRIPT_PATH.'openid2/redirect.php');
+                        break 2;
+
+                    case 'oauth2/login/next':
+                        if (!OPENID_CONNECT_AUTHORIZE_URL) {
+                            echo 'No OpenID Connect endpoint set.';
+                            break;
+                        }
+
+                        require_once (self::SCRIPT_PATH.'openid2/login.php');
                         break 2;
                 }
 

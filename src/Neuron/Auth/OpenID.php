@@ -416,66 +416,81 @@ class Neuron_Auth_OpenID
 				}
 			}
 
-			// Fetch a fresh user ID
-			$db = Neuron_Core_Database::__getInstance ();
-			$login = Neuron_Core_Login::__getInstance ();
-			
-			// See if there is an account available
-			$acc = $db->select
-			(
-				'n_auth_openid',
-				array ('user_id'),
-				"openid_url = '".$db->escape ($esc_identity)."'"
-			);
-			
-			$_SESSION['neuron_openid_identity'] = $esc_identity;
-			
-			if (count ($acc) == 1 && $acc[0]['user_id'] > 0)
-			{
-				$id = $acc[0]['user_id'];
-				loginAndRedirect ($acc[0]['user_id'], $email);
-			}
-			else
-			{
-				if (count ($acc) == 0)
-				{
-					// Create a new account
-					$db->insert
-					(
-						'n_auth_openid',
-						array
-						(
-							'openid_url' => $esc_identity,
-							'user_id' => 0
-						)
-					);
-				}
-				
-				// Set a session key to make sure
-				// that the server still knows you
-				// when you hit submit.
-				$_SESSION['dolumar_openid_identity'] = $esc_identity;
-				$_SESSION['dolumar_openid_email'] = $email;
-				
-				$url = ABSOLUTE_URL.'dispatch.php?module=openid/register/&session_id='.session_id ();
-
-				header ('Location: ' . $url);
-			}
-			
-			// Update this ID
-			$db->update
-			(
-				'n_auth_openid',
-				array
-				(
-					'notify_url' => $notify_url,
-					'profilebox_url' => $profilebox_url,
-					'userstats_url' => $openid_userstats
-				),
-				"openid_url = '".$db->escape ($esc_identity)."'"
-			);
+			return $this->handleAuthentication($esc_identity, $email, $notify_url, $profilebox_url, $openid_userstats);
 		}
 	}
+
+    /**
+     * @param $esc_identity
+     * @param $email
+     * @throws Neuron_Core_Error
+     */
+	public function handleAuthentication(
+	    $esc_identity,
+        $email,
+        $notify_url = null,
+        $profilebox_url = null,
+        $openid_userstats = null
+    ) {
+        // Fetch a fresh user ID
+        $db = Neuron_Core_Database::__getInstance ();
+        $login = Neuron_Core_Login::__getInstance ();
+
+        // See if there is an account available
+        $acc = $db->select
+        (
+            'n_auth_openid',
+            array ('user_id'),
+            "openid_url = '".$db->escape ($esc_identity)."'"
+        );
+
+        $_SESSION['neuron_openid_identity'] = $esc_identity;
+
+        if (count ($acc) == 1 && $acc[0]['user_id'] > 0)
+        {
+            $id = $acc[0]['user_id'];
+            loginAndRedirect ($acc[0]['user_id'], $email);
+        }
+        else
+        {
+            if (count ($acc) == 0)
+            {
+                // Create a new account
+                $db->insert
+                (
+                    'n_auth_openid',
+                    array
+                    (
+                        'openid_url' => $esc_identity,
+                        'user_id' => 0
+                    )
+                );
+            }
+
+            // Set a session key to make sure
+            // that the server still knows you
+            // when you hit submit.
+            $_SESSION['dolumar_openid_identity'] = $esc_identity;
+            $_SESSION['dolumar_openid_email'] = $email;
+
+            $url = ABSOLUTE_URL.'dispatch.php?module=openid/register/&session_id='.session_id ();
+
+            header ('Location: ' . $url);
+        }
+
+        // Update this ID
+        $db->update
+        (
+            'n_auth_openid',
+            array
+            (
+                'notify_url' => $notify_url,
+                'profilebox_url' => $profilebox_url,
+                'userstats_url' => $openid_userstats
+            ),
+            "openid_url = '".$db->escape ($esc_identity)."'"
+        );
+    }
 
 	private function newAccount ()
 	{
