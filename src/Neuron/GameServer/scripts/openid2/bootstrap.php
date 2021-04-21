@@ -1,5 +1,12 @@
 <?php
 
+ini_set ('session.use_cookies', 1);
+ini_set ('session.use_only_cookies', 1);
+
+session_write_close();
+session_name('dolumar-auth');
+session_start();
+
 function getOpenIDConnectFlow() {
     $returnUrl = Neuron_URLBuilder::getInstance()->getRawURL('oauth2/login/next', []);
 
