@@ -4,9 +4,8 @@ session_write_close();
 
 if (isset($_COOKIE['dolumar-auth'])) {
     session_id($_COOKIE['dolumar-auth']);
-} else {
-    session_regenerate_id();
 }
+
 session_name('dolumar-auth');
 session_start([
     'use_cookies' => 1,
